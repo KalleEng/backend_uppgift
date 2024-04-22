@@ -1,5 +1,6 @@
 package com.example.backend_uppgift.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,8 +18,7 @@ public class Customer {
     private Long id;
     private String name;
     private String email;
-    @OneToMany
-    @JoinTable
+    @OneToMany(mappedBy = "customer")
     private List<Booking> bookingList;
 
     public Customer(String name, String email) {
@@ -31,4 +31,5 @@ public class Customer {
         this.email = email;
         this.bookingList = bookingList;
     }
+
 }

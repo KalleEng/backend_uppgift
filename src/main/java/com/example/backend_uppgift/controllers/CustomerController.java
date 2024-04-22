@@ -38,11 +38,14 @@ public class CustomerController {
         return customerRepo.findAll();
     }
 
-    @PostMapping("/addbooking")
+/*    @PostMapping("/addbooking")
     public String addBooking(@RequestParam LocalDate startDate,
                              @RequestParam LocalDate endDate,
-                             @RequestParam Long id){
-        bookingRepo.save(new Booking(startDate, endDate, roomRepo.findById(id).orElse(null)));
+                             @RequestParam Long roomId,
+                             @RequestParam Long customerId){
+        bookingRepo.save(new Booking(startDate, endDate,
+                roomRepo.findById(roomId).orElse(null),
+                customerRepo.findById(customerId).orElse(null)));
         return "Booking added";
-    }
+    }*/
 }
