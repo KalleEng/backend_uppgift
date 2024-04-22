@@ -31,5 +31,4 @@ public class Customer {
         this.email = email;
         this.bookingList = bookingList;
     }
-
 }
