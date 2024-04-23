@@ -1,41 +1,28 @@
 package com.example.backend_uppgift.controllers;
 
+import com.example.backend_uppgift.DTO.DetailedBookingDTO;
+import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.models.Booking;
-import com.example.backend_uppgift.models.Customer;
-import com.example.backend_uppgift.models.Room;
-import com.example.backend_uppgift.repositories.BookingRepo;
-import com.example.backend_uppgift.repositories.CustomerRepo;
-import com.example.backend_uppgift.repositories.RoomRepo;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.awt.print.Book;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/booking")
 public class BookingController {
-    private final CustomerRepo customerRepo;
-    private final BookingRepo bookingRepo;
-    private final RoomRepo roomRepo;
+    private final BookingService bookingService;
 
-    public BookingController(CustomerRepo customerRepo, BookingRepo bookingRepo, RoomRepo roomRepo) {
-        this.customerRepo = customerRepo;
-        this.bookingRepo = bookingRepo;
-        this.roomRepo = roomRepo;
+    public BookingController(BookingService bookingService) {
+        this.bookingService = bookingService;
     }
 
     @RequestMapping("/get")
-    public List<Booking> getBooking(){
-        return bookingRepo.findAll();
+    public List<DetailedBookingDTO> getBooking(){
+        return bookingService.getAllBookings();
     }
 
-    @PostMapping("/addbooking")
+/*    @PostMapping("/addbooking")
     public ResponseEntity<String> addBooking(@RequestParam LocalDate startDate,
                              @RequestParam LocalDate endDate,
                              @RequestParam Long roomId,
@@ -55,5 +42,5 @@ public class BookingController {
         bookingRepo.save(booking);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Booking added for customer ID: " + customerId);
-    }
+    }*/
 }

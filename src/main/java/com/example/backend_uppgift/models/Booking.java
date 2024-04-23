@@ -21,8 +21,7 @@ public class Booking {
     private LocalDate endDate;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    @JsonIgnore
+    @JoinColumn
     private Customer customer;
 
     @OneToOne
@@ -39,12 +38,5 @@ public class Booking {
     public Booking(LocalDate startDate, LocalDate endDate, Room room) {
     }
 
-    @JsonIgnore
-    public List<Booking> getCustomerBookingList(){
-        return customer != null ? customer.getBookingList() : null;
-    }
-
-    public void setCustomerId() {
-    }
 }
 
