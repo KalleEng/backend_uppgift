@@ -2,12 +2,13 @@ package com.example.backend_uppgift.Services.Impl;
 
 import com.example.backend_uppgift.DTO.CompressedBookingDTO;
 import com.example.backend_uppgift.DTO.CompressedCustomerDTO;
+import com.example.backend_uppgift.DTO.CompressedRoomDTO;
 import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
 import com.example.backend_uppgift.Services.CustomerService;
 import com.example.backend_uppgift.models.Booking;
 import com.example.backend_uppgift.models.Customer;
+import com.example.backend_uppgift.models.Room;
 import com.example.backend_uppgift.repositories.BookingRepo;
-import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.repositories.CustomerRepo;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,12 @@ public class CustomerServiceImpl implements CustomerService {
                 .id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
+                .compRoom(roomToCompRoomDTO(booking.getRoom()))
                 .build();
+    }
+
+    @Override
+    public CompressedRoomDTO roomToCompRoomDTO(Room room){
+        return CompressedRoomDTO.builder().id(room.getId()).build();
     }
 }
