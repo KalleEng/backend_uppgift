@@ -3,13 +3,14 @@ package com.example.backend_uppgift.controllers;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.models.Booking;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.jca.support.LocalConnectionFactoryBean;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/booking")
+@RequestMapping("/bookings")
 public class BookingController {
     private final BookingService bookingService;
 
@@ -20,6 +21,19 @@ public class BookingController {
     @RequestMapping("/get")
     public List<DetailedBookingDTO> getBooking(){
         return bookingService.getAllBookings();
+    }
+
+    @RequestMapping("/delete/{id}")
+    public void deleteBooking(@PathVariable Long id){
+        bookingService.deleteBooking(id);
+    }
+
+    @PostMapping("/create")
+    public void createBooking(@RequestParam LocalDate startDate,
+                              @RequestParam LocalDate endDate,
+                              @RequestParam Long roomId,
+                              @RequestParam Long customerId){
+        bookingService.createBooking(startDate,endDate,roomId,customerId);
     }
 
 /*    @PostMapping("/addbooking")

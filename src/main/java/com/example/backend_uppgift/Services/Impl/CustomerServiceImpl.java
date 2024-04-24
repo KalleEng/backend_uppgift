@@ -35,7 +35,8 @@ public class CustomerServiceImpl implements CustomerService {
                 .name(customer.getName())
                 .email(customer.getEmail())
                 .compBookingDTO(customer.getBookingList().stream()
-                        .map(booking -> bookingToCompBookingDTO(booking)).toList())
+                        .map(booking -> bookingToCompBookingDTO(booking))
+                        .toList())
                 .build();
     }
 

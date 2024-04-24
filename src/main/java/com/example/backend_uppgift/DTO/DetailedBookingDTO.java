@@ -16,4 +16,5 @@ public class DetailedBookingDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private CompressedCustomerDTO compCustomerDTO;
+    private CompressedRoomDTO compRoom;
 }

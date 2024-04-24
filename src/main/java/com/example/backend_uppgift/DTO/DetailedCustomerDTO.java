@@ -16,4 +16,5 @@ public class DetailedCustomerDTO {
     private String name;
     private String email;
     private List<CompressedBookingDTO> compBookingDTO;
+    //private CompressedRoomDTO compRoom;
 }

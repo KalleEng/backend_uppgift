@@ -1,5 +1,6 @@
 package com.example.backend_uppgift.DTO;
 
+import com.example.backend_uppgift.models.Room;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +16,5 @@ public class CompressedBookingDTO {
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
+    private CompressedRoomDTO compRoom;
 }
