@@ -25,16 +25,12 @@ public class BackendUppgiftApplication {
         SpringApplication.run(BackendUppgiftApplication.class, args);
     }
 
-/*    @Bean
+    /*@Bean
     public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo){
         return (args -> {
-            customerRepo.save(new Customer("Kalle Engwall","kalle@example.com"));
-            customerRepo.save(new Customer("Jakob Engwall", "jakob.example.com"));
-            customerRepo.save(new Customer("Hidro Koureks","hidro@example.com"));
+            customerRepo.save(new Customer("Kai Honkonen","kai@example.com"));
 
             roomRepo.save(new Room(true,true,2));
-            roomRepo.save(new Room(true,false,1));
-            roomRepo.save(new Room(true,true,1));
 
             bookingRepo.save(new Booking(LocalDate.of(2024,12,11), LocalDate.of(2024,12,11),roomRepo.findById(1L).orElse(null),customerRepo.findById(1L).orElse(null)));
             bookingRepo.save(new Booking(LocalDate.of(2024,11,1), LocalDate.of(2024,11,11),roomRepo.findById(2L).orElse(null),customerRepo.findById(2L).orElse(null)));
