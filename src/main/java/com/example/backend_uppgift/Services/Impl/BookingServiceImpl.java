@@ -72,7 +72,6 @@ public class BookingServiceImpl implements BookingService {
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
                               @RequestParam Long customerId){
-        Room room = roomRepo.findById(roomId).orElseThrow(() -> new RuntimeException("Room not found"));
         if (!roomService.isAvailable(roomId,startDate,endDate)){
             throw new RuntimeException("Room not available these dates");
         }
