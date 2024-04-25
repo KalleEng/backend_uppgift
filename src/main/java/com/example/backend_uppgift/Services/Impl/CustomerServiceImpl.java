@@ -41,6 +41,17 @@ public class CustomerServiceImpl implements CustomerService {
                 .build();
     }
 
+
+    @Override
+    public void changeCustomerName(String newVal, String oldVal) {
+        customerRepo.changeCustomerName(newVal,oldVal);
+    }
+
+    @Override
+    public void changeCustomerEmail(String newVal, String oldVal){
+        customerRepo.changeCustomerEmail(newVal,oldVal);
+    }
+
     @Override
     public List<DetailedCustomerDTO> getAllCustomers() {
         return customerRepo.findAll().stream().map(c -> customerToDetailedCustomerDTO(c)).toList();
