@@ -72,6 +72,9 @@ public class BookingServiceImpl implements BookingService {
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
                               @RequestParam Long customerId){
+        if (!roomService.isAvailable(roomId,startDate,endDate)){
+            throw new RuntimeException("Room not available these dates");
+        }
         bookingRepo.save(new Booking(
                 startDate,
                 endDate,
