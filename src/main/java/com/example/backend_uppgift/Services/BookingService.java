@@ -4,6 +4,7 @@ import com.example.backend_uppgift.DTO.CompressedBookingDTO;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
 import com.example.backend_uppgift.models.Booking;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface BookingService {
@@ -12,4 +13,7 @@ public interface BookingService {
     public DetailedBookingDTO bookingToDetailedBookingDTO(Booking booking);
 
     List<DetailedBookingDTO> getAllBookings();
+
+
+    boolean roomExists(Long roomId);
 }

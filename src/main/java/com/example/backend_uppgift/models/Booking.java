@@ -24,7 +24,7 @@ public class Booking {
     @JoinColumn
     private Customer customer;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn
     private Room room;
 

@@ -42,6 +42,11 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepo.findAll().stream().map(b -> bookingToDetailedBookingDTO(b)).toList();
     }
 
+    @Override
+    public boolean roomExists(Long roomId) {
+        return false;
+    }
+
     /*public CompressedCustomerDTO customerToCompCustomerDTO(Customer customer){
         return CompressedCustomerDTO.builder().id(customer.getId()).name(customer.getName()).build();
     }*/

@@ -25,6 +25,26 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public void registerCustomer(String name, String email) {
+
+    }
+
+    @Override
+    public void updateCustomer(Long customerId, String name, String email) {
+
+    }
+
+    @Override
+    public boolean hasBookings(Long customerId) {
+        return false;
+    }
+
+    @Override
+    public void deleteCustomer(Long customerId) {
+
+    }
+
+    @Override
     public CompressedCustomerDTO customerToCompCustomerDTO(Customer customer) {
         return CompressedCustomerDTO.builder().id(customer.getId()).name(customer.getName()).build();
     }
