@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="allBookings" th:unless="${#lists.isEmpty(allBookings)}">
+    <table>
+        <h3 th:text="${name}"></h3>
+        <tbody>
+        <tr th:each="booking: ${allBookings}">
+            <td th:text="${booking.startDate}"></td>
+            <td th:text="${booking.endDate}"></td>
+            <td th:text="${booking.compCustomerDTO.name}"></td>
+            <td th:text="${booking.compRoom.id}"></td>
+            <td><a th:href="@{/bookings/delete/{id}(id=${booking.id})}">Delete</a></td>
+            <td><a th:href="@{/bookings/edit/{id}(id=${booking.id})}">Update</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
