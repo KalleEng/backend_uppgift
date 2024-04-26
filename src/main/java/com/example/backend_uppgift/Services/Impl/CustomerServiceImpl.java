@@ -43,16 +43,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public void changeCustomerName(String newVal, String oldVal) {
-        customerRepo.changeCustomerName(newVal,oldVal);
-    }
-
-    @Override
-    public void changeCustomerEmail(String newVal, String oldVal){
-        customerRepo.changeCustomerEmail(newVal,oldVal);
-    }
-
-    @Override
     public List<DetailedCustomerDTO> getAllCustomers() {
         return customerRepo.findAll().stream().map(c -> customerToDetailedCustomerDTO(c)).toList();
     }
@@ -71,4 +61,6 @@ public class CustomerServiceImpl implements CustomerService {
     public CompressedRoomDTO roomToCompRoomDTO(Room room){
         return CompressedRoomDTO.builder().id(room.getId()).build();
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.backend_uppgift.DTO;
 
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +17,5 @@ public class DetailedCustomerDTO {
     private String name;
     private String email;
     private List<CompressedBookingDTO> compBookingDTO;
-    //private CompressedRoomDTO compRoom;
+
 }
