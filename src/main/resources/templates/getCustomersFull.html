@@ -3,6 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 40%;
+        }
+        tr {
+            border-bottom: 1px solid #ddd;
+        }
+        td, th {
+            padding: 4px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 <div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
@@ -12,9 +25,10 @@
         <tr th:each="cus: ${allCustomers}">
             <td th:text="${cus.name}"></td>
             <td th:text="${cus.email}"></td>
-            <td th:text="${cus.compBookingDTO}"></td>
+<!--            <td th:text="${cus.compBookingDTO}"></td>-->
             <td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
             <td><a th:href="@{/customers/edit/{id}(id=${cus.id})}">Update</a></td>
+            <td><a th:href="@{/customers/customerBookings/{id}(id=${cus.id})}">Show bookings</a></td>
         </tr>
         </tbody>
     </table>

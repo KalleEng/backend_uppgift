@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -63,6 +64,15 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public List<DetailedBookingDTO> getBookingsByCustomerId(Long id){
+        return bookingRepo.findAll()
+                .stream()
+                .filter(b -> b.getCustomer().getId() == id)
+                .map(this::bookingToDetailedBookingDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void deleteBooking(Long id) {
         bookingRepo.deleteById(id);
     }
@@ -77,6 +87,11 @@ public class BookingServiceImpl implements BookingService {
                 endDate,
                 roomRepo.findById(roomId).orElse(null),
                 customerRepo.findById(customerId).orElse(null)));
+    }
+
+    @Override
+    public void checkAvailability(LocalDate startDate, LocalDate endDate, Long roomId) {
+
     }
 
     /*public CompressedCustomerDTO customerToCompCustomerDTO(Customer customer){

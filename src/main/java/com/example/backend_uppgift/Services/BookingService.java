@@ -15,8 +15,12 @@ public interface BookingService {
     List<DetailedBookingDTO> getAllBookings();
     void deleteBooking(Long id);
 
+    List<DetailedBookingDTO> getBookingsByCustomerId(Long id);
+
     void createBooking(@RequestParam LocalDate startDate,
                        @RequestParam LocalDate endDate,
                        @RequestParam Long roomId,
                        @RequestParam Long customerId);
+
+    void checkAvailability(LocalDate startDate, LocalDate endDate, Long roomId);
 }

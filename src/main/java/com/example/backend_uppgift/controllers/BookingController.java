@@ -33,6 +33,7 @@ public class BookingController {
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
                               @RequestParam Long customerId){
+        bookingService.checkAvailability(startDate,endDate,roomId);
         bookingService.createBooking(startDate,endDate,roomId,customerId);
     }
 
