@@ -1,9 +1,11 @@
 package com.example.backend_uppgift.controllers;
 
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
+import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.models.Booking;
 import org.springframework.jca.support.LocalConnectionFactoryBean;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -36,6 +38,7 @@ public class BookingController {
         bookingService.checkAvailability(startDate,endDate,roomId);
         bookingService.createBooking(startDate,endDate,roomId,customerId);
     }
+
 
 /*    @PostMapping("/addbooking")
     public ResponseEntity<String> addBooking(@RequestParam LocalDate startDate,
