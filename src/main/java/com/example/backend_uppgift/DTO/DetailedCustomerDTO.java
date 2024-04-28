@@ -18,4 +18,5 @@ public class DetailedCustomerDTO {
     private String email;
     private List<CompressedBookingDTO> compBookingDTO;
 
+
 }

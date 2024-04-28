@@ -40,6 +40,7 @@ public class CustomerController {
         List<DetailedCustomerDTO> customerList = customerService.getAllCustomers();
         model.addAttribute("allCustomers", customerList);
         model.addAttribute("name","Customer name");
+        //model.addAttribute("bookingId",customerList.stream().map(b-> b.getCompBookingId()))
         return "getCustomersFull";
     }
 
