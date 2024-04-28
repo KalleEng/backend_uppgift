@@ -1,23 +1,25 @@
 package com.example.backend_uppgift.controllers;
 
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
-import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
 import com.example.backend_uppgift.Services.BookingService;
-import com.example.backend_uppgift.models.Booking;
-import org.springframework.jca.support.LocalConnectionFactoryBean;
+import com.example.backend_uppgift.Services.RoomService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/bookings")
 public class BookingController {
     private final BookingService bookingService;
+    private final RoomService roomService;
 
-    public BookingController(BookingService bookingService) {
+    public BookingController(BookingService bookingService, RoomService roomService) {
         this.bookingService = bookingService;
+        this.roomService = roomService;
     }
 
     @RequestMapping("/get")
@@ -35,8 +37,19 @@ public class BookingController {
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
                               @RequestParam Long customerId){
-        bookingService.checkAvailability(startDate,endDate,roomId);
-        bookingService.createBooking(startDate,endDate,roomId,customerId);
+        if(roomService.isAvailable(roomId,startDate,endDate)){
+            bookingService.createBooking(startDate,endDate,roomId,customerId);
+        } else{
+            System.out.println("False");
+        }
+    }
+
+    @RequestMapping("/all")
+    public String getBookingsFull(Model model){
+        List<DetailedBookingDTO> bookingList = bookingService.getAllBookings();
+        model.addAttribute("allBookings", bookingList);
+        model.addAttribute("name","Booking name");
+        return "getBookingsFull";
     }
 
 

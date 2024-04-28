@@ -92,12 +92,5 @@ public class BookingServiceImpl implements BookingService {
                 customerRepo.findById(customerId).orElse(null)));
     }
 
-    @Override
-    public void checkAvailability(LocalDate startDate, LocalDate endDate, Long roomId) {
 
-    }
-
-    /*public CompressedCustomerDTO customerToCompCustomerDTO(Customer customer){
-        return CompressedCustomerDTO.builder().id(customer.getId()).name(customer.getName()).build();
-    }*/
 }

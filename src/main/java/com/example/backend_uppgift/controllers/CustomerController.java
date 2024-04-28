@@ -73,4 +73,16 @@ public class CustomerController {
         return "showAllBookings";
     }
 
+    @RequestMapping("/add")
+    public String addCustomer(){
+        return "addNewCustomer";
+    }
+
+    @RequestMapping("/added")
+    public String addedCustomer(@RequestParam String name,
+                                @RequestParam String email){
+        customerRepo.save(new Customer(name,email));
+        return "redirect:/customers/all";
+    }
+
 }

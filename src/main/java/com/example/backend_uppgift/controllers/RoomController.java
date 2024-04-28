@@ -27,7 +27,7 @@ public class RoomController {
                              @RequestParam int numberOfBeds){
         roomRepo.save(new Room(isAvailable,isAvailable,numberOfBeds));
         return "Room created";
-    }*/
+    }
 
     @RequestMapping("/get")
     public List<DetailedRoomDTO> getRooms(){
@@ -40,4 +40,5 @@ public class RoomController {
                                      @RequestParam LocalDate endDate){
         return roomService.isAvailable(roomId, startDate, endDate);
     }
+    */
 }

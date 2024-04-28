@@ -22,5 +22,5 @@ public interface BookingService {
                        @RequestParam Long roomId,
                        @RequestParam Long customerId);
 
-    void checkAvailability(LocalDate startDate, LocalDate endDate, Long roomId);
+
 }
