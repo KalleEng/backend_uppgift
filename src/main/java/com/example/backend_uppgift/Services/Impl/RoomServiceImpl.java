@@ -1,8 +1,10 @@
 package com.example.backend_uppgift.Services.Impl;
 
+import com.example.backend_uppgift.DTO.CompressedBookingDTO;
 import com.example.backend_uppgift.DTO.CompressedRoomDTO;
 import com.example.backend_uppgift.DTO.DetailedRoomDTO;
 import com.example.backend_uppgift.Services.RoomService;
+import com.example.backend_uppgift.models.Booking;
 import com.example.backend_uppgift.models.Room;
 import com.example.backend_uppgift.repositories.BookingRepo;
 import com.example.backend_uppgift.repositories.RoomRepo;
@@ -30,9 +32,17 @@ public class RoomServiceImpl implements RoomService {
     public DetailedRoomDTO roomToDetailedRoomDTO(Room room){
         return DetailedRoomDTO.builder()
                 .id(room.getId())
-                .isDoubleRoom(room.isDoubleRoom())
                 .isAvailable(room.isAvailable())
-                .numberOfBeds(room.getNumberOfBeds())
+                .bedCapacity(room.getBedCapacity())
+                .bookingList(room.getBookingList().stream().map(booking -> bookingToCompBookingDTO(booking)).toList())
+                .build();
+    }
+
+    private CompressedBookingDTO bookingToCompBookingDTO(Booking booking) {
+        return CompressedBookingDTO.builder()
+                .id(booking.getId())
+                .startDate(booking.getStartDate())
+                .endDate(booking.getEndDate())
                 .build();
     }
 
@@ -51,5 +61,15 @@ public class RoomServiceImpl implements RoomService {
         return bookingRepo.findByRoomId(roomId).stream()
                 .noneMatch(booking ->
                         !(endDate.isBefore(booking.getStartDate()) || startDate.isAfter(booking.getEndDate())));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        roomRepo.deleteById(id);
+    }
+
+    @Override
+    public void saveRoom(Room room) {
+        roomRepo.save(room);
     }
 }

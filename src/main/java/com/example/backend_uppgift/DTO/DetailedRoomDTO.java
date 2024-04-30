@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class DetailedRoomDTO {
     private Long id;
     private boolean isAvailable;
-    private boolean isDoubleRoom;
-    private int numberOfBeds;
+    private int bedCapacity;
+    private List<CompressedBookingDTO> bookingList;
 }

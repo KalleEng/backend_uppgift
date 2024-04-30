@@ -82,5 +82,25 @@ public class CustomerServiceImpl implements CustomerService {
         return CompressedRoomDTO.builder().id(room.getId()).build();
     }
 
+    @Override
+    public void saveCustomer(Customer customer) {
+        customerRepo.save(customer);
+    }
+
+    @Override
+    public Customer findById(Long id) {
+        return customerRepo.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        customerRepo.deleteById(id);
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return customerRepo.findAll();
+    }
+
 
 }

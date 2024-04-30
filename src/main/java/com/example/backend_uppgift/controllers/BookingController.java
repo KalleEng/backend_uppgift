@@ -1,63 +1,84 @@
 package com.example.backend_uppgift.controllers;
 
+import com.example.backend_uppgift.DTO.CompressedRoomDTO;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
-import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
+import com.example.backend_uppgift.DTO.DetailedRoomDTO;
 import com.example.backend_uppgift.Services.BookingService;
+import com.example.backend_uppgift.Services.RoomService;
 import com.example.backend_uppgift.models.Booking;
-import org.springframework.jca.support.LocalConnectionFactoryBean;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/bookings")
 public class BookingController {
     private final BookingService bookingService;
+    private final RoomService roomService;
 
-    public BookingController(BookingService bookingService) {
+    public BookingController(BookingService bookingService, RoomService roomService) {
         this.bookingService = bookingService;
-    }
-
-    @RequestMapping("/get")
-    public List<DetailedBookingDTO> getBooking(){
-        return bookingService.getAllBookings();
+        this.roomService = roomService;
     }
 
     @RequestMapping("/delete/{id}")
-    public void deleteBooking(@PathVariable Long id){
+    public String deleteBooking(@PathVariable Long id, Model model){
         bookingService.deleteBooking(id);
+        return getBookingsFull(model);
     }
 
-    @PostMapping("/create")
+    @RequestMapping("/create")
     public void createBooking(@RequestParam LocalDate startDate,
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
                               @RequestParam Long customerId){
-        bookingService.createBooking(startDate,endDate,roomId,customerId);
+        if(roomService.isAvailable(roomId,startDate,endDate)){
+            bookingService.createBooking(startDate,endDate,roomId,customerId);
+        } else{
+            System.out.println("False");
+        }
     }
 
+    @RequestMapping("/search")
+    public String searchDateByRange(@RequestParam LocalDate startDate,
+                                    @RequestParam LocalDate endDate,
+                                    @RequestParam int numberOfPeople,
+                                    Model model){
+        List<CompressedRoomDTO> availableRooms = bookingService.findAvailableRooms(startDate, endDate,numberOfPeople);
+        model.addAttribute("availableRooms", availableRooms);
+        model.addAttribute("searchStart", startDate);
+        model.addAttribute("searchEnd", endDate);
+        model.addAttribute("numberOfPeople",numberOfPeople);
+        return "roomSearch";
+    }
 
-/*    @PostMapping("/addbooking")
-    public ResponseEntity<String> addBooking(@RequestParam LocalDate startDate,
-                             @RequestParam LocalDate endDate,
-                             @RequestParam Long roomId,
-                             @RequestParam Long customerId){
+    @RequestMapping("/all")
+    public String getBookingsFull(Model model){
+        List<DetailedBookingDTO> allBookings = bookingService.getAllBookings();
+        model.addAttribute("allBookings", allBookings);
+        model.addAttribute("bookingId","Booking id:");
+        model.addAttribute("roomId","Room id:");
+        model.addAttribute("from","From:");
+        model.addAttribute("until","Until:");
+        return "getBookingsFull";
+    }
 
-        Room room = roomRepo.findById(roomId).orElse(null);
-        if (room == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room not found");
+    @RequestMapping("/edit/{id}")
+    public String editBooking(@PathVariable Long id, Model model){
+        Booking booking = bookingService.findById(id);
+        model.addAttribute("booking",booking);
+        return "updateBookingForm";
+    }
 
-        Customer customer = customerRepo.findById(customerId).orElse(null);
-        if (customer == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
-
-        Booking booking = new Booking(startDate,endDate, room,customer);
-        //booking.setCustomerId(customerId);
-
-        bookingRepo.save(booking);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Booking added for customer ID: " + customerId);
-    }*/
+    @PostMapping("/update")
+    public String saveEditedBooking(Model model, Booking booking){
+        bookingService.saveBooking(booking);
+        List<Booking> bookingList = bookingService.findAll();
+        model.addAttribute("allBookings", bookingList);
+        return "redirect:/bookings/all";
+    }
 }

@@ -23,18 +23,20 @@
   <td><a th:href="@{/bookings/all}">Bookings</a></td>
   <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
-
-<div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
-  <table>
-    <th th:text="${name}"></th>
-    <tbody>
-    <tr th:each="cus: ${allCustomers}">
-      <td th:text="'Name: ' + ${cus.name}"></td>
-      <td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-
+<table>
+  <h3 th:text="${roomsHeader}"></h3>
+  <tbody>
+  <tr th:each="rooms: ${allRooms}">
+    <td th:text="${roomId}"></td>
+    <td th:text="${rooms.id}"></td>
+    <td th:text="${bedCap}"></td>
+    <td th:text="${rooms.bedCapacity}"></td>
+    <td><a th:href="@{/rooms/delete/{id}(id=${rooms.id})}">Delete</a></td>
+  </tr>
+  </tbody>
+</table>
+<a href="/rooms/create">
+  <input type="submit" value="Create new room">
+</a>
 </body>
 </html>

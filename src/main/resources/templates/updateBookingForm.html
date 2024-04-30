@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 50%;
+    }
+    tr {
+      border-bottom: 1px solid #ddd;
+    }
+    td, th {
+      padding: 4px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+<table>
+  <td><a th:href="@{/customers/all}">Customers</a></td>
+  <td><a th:href="@{/bookings/all}">Bookings</a></td>
+  <td><a th:href="@{/rooms/all}">Rooms</a></td>
+</table>
+<form action="#" th:action="@{/bookings/update}" th:object="${booking}" method="post">
+  <label for="startDate">Start Date:</label><br>
+  <input type="text" id = "startDate" th:field="*{startDate}" value=""><br>
+  <label for="endDate">End Date:</label><br>
+  <input type="text" id="endDate" th:field="*{endDate}" value=""><br><br>
+  <label for="roomId">Start Date:</label><br>
+  <input type="text" id = "roomId" th:field="*{room.id}" value=""><br>
+  <label for="customerId">Customer ID:</label><br>
+  <input type="text" id="customerId" th:field="*{customer.id}" value=""><br>
+  <input type="submit" value="Submit">
+  <input type="hidden" id="id" th:field="*{id}"><br>
+</form>
+</body>
+</html>

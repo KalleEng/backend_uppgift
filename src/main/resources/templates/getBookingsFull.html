@@ -3,22 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+        tr {
+            border-bottom: 1px solid #ddd;
+        }
+        td, th {
+            padding: 4px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
+<table>
+    <td><a th:href="@{/customers/all}">Customers</a></td>
+    <td><a th:href="@{/bookings/all}">Bookings</a></td>
+    <td><a th:href="@{/rooms/all}">Rooms</a></td>
+</table>
 <div class="allBookings" th:unless="${#lists.isEmpty(allBookings)}">
     <table>
         <h3 th:text="${name}"></h3>
         <tbody>
-        <tr th:each="booking: ${allBookings}">
-            <td th:text="${booking.startDate}"></td>
-            <td th:text="${booking.endDate}"></td>
-            <td th:text="${booking.compCustomerDTO.name}"></td>
-            <td th:text="${booking.compRoom.id}"></td>
-            <td><a th:href="@{/bookings/delete/{id}(id=${booking.id})}">Delete</a></td>
-            <td><a th:href="@{/bookings/edit/{id}(id=${booking.id})}">Update</a></td>
+        <tr th:each="book: ${allBookings}">
+            <td th:text="${bookingId}"></td>
+            <td th:text="${book.id}"></td>
+            <td th:text="${from}"></td>
+            <td th:text="${book.startDate}"></td>
+            <td th:text="${until}"></td>
+            <td th:text="${book.endDate}"></td>
+            <td th:text="${roomId}"></td>
+            <td th:text="${book.compRoom.id}"></td>
+            <td><a th:href="@{/bookings/delete/{id}(id=${book.id})}">Delete</a></td>
+            <td><a th:href="@{/bookings/edit/{id}(id=${book.id})}">Update</a></td>
         </tr>
         </tbody>
     </table>
+    <form action="/bookings/search" method="get">
+        <label for="startDate">Start Date:</label><br>
+        <input type="text" id = "startDate" name="startDate" value="startDate"><br>
+        <label for="endDate">End Date:</label><br>
+        <input type="text" id = "endDate" name="endDate" value="endDate"><br>
+        <label for="numberOfPeople">Number of people:</label><br>
+        <input type="text" id = "numberOfPeople" name="numberOfPeople" value="numberOfPeople"><br>
+        <input type="submit" value="Submit">
+    </form>
 </div>
 
 </body>
