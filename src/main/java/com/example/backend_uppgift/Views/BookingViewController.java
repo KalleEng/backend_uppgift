@@ -3,6 +3,7 @@ package com.example.backend_uppgift.Views;
 import com.example.backend_uppgift.DTO.CompressedBookingDTO;
 import com.example.backend_uppgift.DTO.CompressedRoomDTO;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
+import com.example.backend_uppgift.DTO.DetailedRoomDTO;
 import com.example.backend_uppgift.Services.BookingService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -34,8 +35,9 @@ public class BookingViewController {
     @RequestMapping("/search")
     public String searchDateByRange(@RequestParam LocalDate startDate,
                                     @RequestParam LocalDate endDate,
+                                    int numberOfPeople,
                                     Model model){
-        List<CompressedRoomDTO> availableRooms = bookingService.findAvailableRooms(startDate, endDate);
+        List<CompressedRoomDTO> availableRooms = bookingService.findAvailableRooms(startDate, endDate,numberOfPeople);
         model.addAttribute("availableRooms", availableRooms);
         model.addAttribute("searchStart", startDate);
         model.addAttribute("searchEnd", endDate);

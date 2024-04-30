@@ -3,6 +3,7 @@ package com.example.backend_uppgift.Services;
 import com.example.backend_uppgift.DTO.CompressedBookingDTO;
 import com.example.backend_uppgift.DTO.CompressedRoomDTO;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
+import com.example.backend_uppgift.DTO.DetailedRoomDTO;
 import com.example.backend_uppgift.models.Booking;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +18,7 @@ public interface BookingService {
 
     List<DetailedBookingDTO> getAllBookings();
 
-    List<CompressedRoomDTO> findAvailableRooms(LocalDate startDate, LocalDate endDate);
+    List<CompressedRoomDTO> findAvailableRooms(LocalDate startDate, LocalDate endDate, int numberOfPeople);
     void deleteBooking(Long id);
 
     List<DetailedBookingDTO> getBookingsByCustomerId(Long id);

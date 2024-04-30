@@ -23,6 +23,7 @@
     <tbody>
     <tr th:each="rooms: ${availableRooms}">
         <td th:text="${rooms.id}"></td>
+        <td th:text="${rooms.bedCapacity}"></td>
     </tr>
     </tbody>
 </table>

@@ -11,6 +11,6 @@ import java.util.List;
 public interface BookingRepo extends JpaRepository<Booking, Long> {
     List<Booking> findByRoomId(Long roomId);
 
-    @Query("select b from Booking b where b.startDate <= :endDate and b.endDate >= :startDate")
-    List<Booking> findByDateRange(LocalDate startDate, LocalDate endDate);
+    @Query("select b from Booking b where b.startDate <= :endDate and b.endDate >= :startDate and b.room.bedCapacity >= :numberOfPeople")
+    List<Booking> findByDateRange(LocalDate startDate, LocalDate endDate, int numberOfPeople);
 }

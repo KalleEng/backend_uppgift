@@ -1,9 +1,6 @@
 package com.example.backend_uppgift.Services.Impl;
 
-import com.example.backend_uppgift.DTO.CompressedBookingDTO;
-import com.example.backend_uppgift.DTO.CompressedCustomerDTO;
-import com.example.backend_uppgift.DTO.CompressedRoomDTO;
-import com.example.backend_uppgift.DTO.DetailedBookingDTO;
+import com.example.backend_uppgift.DTO.*;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.Services.RoomService;
 import com.example.backend_uppgift.models.Booking;
@@ -40,12 +37,12 @@ public class BookingServiceImpl implements BookingService {
                 .id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
-                .compRoom(new CompressedRoomDTO(booking.getRoom().getId()))
+                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity()))
                 .build();
     }
 
     private CompressedRoomDTO roomToCompRoomDTO(Room room) {
-        return CompressedRoomDTO.builder().id(room.getId()).build();
+        return CompressedRoomDTO.builder().id(room.getId()).bedCapacity(room.getBedCapacity()).build();
     }
 
     @Override
@@ -56,7 +53,7 @@ public class BookingServiceImpl implements BookingService {
                 .endDate(booking.getEndDate())
                 .compCustomerDTO(new CompressedCustomerDTO(booking.getCustomer().getId(),
                         booking.getCustomer().getName()))
-                .compRoom(new CompressedRoomDTO(booking.getRoom().getId()))
+                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity()))
                 .build();
     }
 
@@ -106,15 +103,15 @@ public class BookingServiceImpl implements BookingService {
 
 
     @Override
-    public List<CompressedRoomDTO> findAvailableRooms(LocalDate startDate, LocalDate endDate) {
+    public List<CompressedRoomDTO> findAvailableRooms(LocalDate startDate, LocalDate endDate, int numberOfPeople) {
         List<Room> allRooms = roomRepo.findAll();
-        List<Booking> bookings = bookingRepo.findByDateRange(startDate, endDate);
+        List<Booking> bookings = bookingRepo.findByDateRange(startDate, endDate,numberOfPeople);
         Set<Long> bookRoomId = bookings.stream()
                 .map(booking -> booking.getRoom().getId())
                 .collect(Collectors.toSet());
 
         return allRooms.stream()
-                .filter(room -> !bookRoomId.contains(room.getId()))
+                .filter(room -> !bookRoomId.contains(room.getId()) && room.getBedCapacity()>= numberOfPeople)
                 .map(this::roomToCompRoomDTO)
                 .collect(Collectors.toList());
     }

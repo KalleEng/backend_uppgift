@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CompressedRoomDTO {
     private Long id;
+    private int bedCapacity;
 }
