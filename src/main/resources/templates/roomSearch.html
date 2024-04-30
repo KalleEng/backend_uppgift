@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Room Search</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 40%;
+        }
+        tr {
+            border-bottom: 1px solid #ddd;
+        }
+        td, th {
+            padding: 4px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<h2>Room Search</h2>
+<table>
+    <tbody>
+    <tr th:each="rooms: ${availableRooms}">
+        <td th:text="${rooms.id}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
