@@ -57,10 +57,10 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public boolean isAvailable(Long roomId, LocalDate startDate, LocalDate endDate) {
+    public boolean isAvailable(Long roomId, LocalDate startDate, LocalDate endDate, int numberOfPeople) {
         return bookingRepo.findByRoomId(roomId).stream()
                 .noneMatch(booking ->
-                        !(endDate.isBefore(booking.getStartDate()) || startDate.isAfter(booking.getEndDate())));
+                        !((endDate.isBefore(booking.getStartDate()) || startDate.isAfter(booking.getEndDate())) && booking.getRoom().getBedCapacity()>=numberOfPeople));
     }
 
     @Override

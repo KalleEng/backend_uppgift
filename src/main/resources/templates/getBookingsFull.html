@@ -24,8 +24,8 @@
     <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
 <div class="allBookings" th:unless="${#lists.isEmpty(allBookings)}">
+    <h3>All Bookings</h3>
     <table>
-        <h3 th:text="${name}"></h3>
         <tbody>
         <tr th:each="book: ${allBookings}">
             <td th:text="${bookingId}"></td>
@@ -41,6 +41,8 @@
         </tr>
         </tbody>
     </table>
+</div>
+    <h3>Search Available Rooms</h3>
     <form action="/bookings/search" method="get">
         <label for="startDate">Start Date:</label><br>
         <input type="text" id = "startDate" name="startDate" value="startDate"><br>
@@ -50,7 +52,6 @@
         <input type="text" id = "numberOfPeople" name="numberOfPeople" value="numberOfPeople"><br>
         <input type="submit" value="Submit">
     </form>
-</div>
 
 </body>
 </html>

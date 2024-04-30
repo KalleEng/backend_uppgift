@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,7 +67,7 @@ public class BookingServiceImpl implements BookingService {
     public List<DetailedBookingDTO> getBookingsByCustomerId(Long id){
         return bookingRepo.findAll()
                 .stream()
-                .filter(b -> b.getCustomer().getId() == id)
+                .filter(b -> Objects.equals(b.getCustomer().getId(), id))
                 .map(this::bookingToDetailedBookingDTO)
                 .collect(Collectors.toList());
     }
@@ -80,8 +81,9 @@ public class BookingServiceImpl implements BookingService {
     public void createBooking(@RequestParam LocalDate startDate,
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
-                              @RequestParam Long customerId){
-        if (!roomService.isAvailable(roomId,startDate,endDate)){
+                              @RequestParam Long customerId,
+                              @RequestParam int numberOfPeople){
+        if (!roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
             throw new RuntimeException("Room not available these dates");
         }
         bookingRepo.save(new Booking(
@@ -116,7 +118,4 @@ public class BookingServiceImpl implements BookingService {
                 .collect(Collectors.toList());
     }
 
-    /*public CompressedCustomerDTO customerToCompCustomerDTO(Customer customer){
-        return CompressedCustomerDTO.builder().id(customer.getId()).name(customer.getName()).build();
-    }*/
 }

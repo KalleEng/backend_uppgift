@@ -26,7 +26,8 @@ public interface BookingService {
     void createBooking(@RequestParam LocalDate startDate,
                        @RequestParam LocalDate endDate,
                        @RequestParam Long roomId,
-                       @RequestParam Long customerId);
+                       @RequestParam Long customerId,
+                       @RequestParam int numberOfPeople);
 
     Booking findById(Long id);
     List<Booking> findAll();

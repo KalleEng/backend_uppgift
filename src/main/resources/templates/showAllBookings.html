@@ -23,10 +23,15 @@
   <td><a th:href="@{/bookings/all}">Bookings</a></td>
   <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
-<div class="allBookings" th:unless="${#lists.isEmpty(allBookings)}">
+
+    <h3 th:text="${bookingsHeader}"></h3>
   <table>
-    <h3 th:text="${bookingsHeader + customerName}"></h3>
-    <tbody>
+    <th:block th:if="${not #lists.isEmpty(error)}">
+      <tr>
+        <td colspan="4" th:text="${error}"></td>
+      </tr>
+    </th:block>
+    <th:block th:if="${#lists.isEmpty(error)}">
     <tr th:each="book: ${allBookings}">
       <td th:text="${bookingId}"></td>
       <td th:text="${book.id}"></td>
@@ -36,14 +41,9 @@
       <td th:text="${book.endDate}"></td>
       <td th:text="${roomId}"></td>
       <td th:text="${book.compRoom.id}"></td>
-      <!--            <td th:text="${cus.compBookingDTO}"></td>-->
-      <!--<td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
-      <td><a th:href="@{/customers/edit/{id}(id=${cus.id})}">Update</a></td>
-      <td><a th:href="@{/customers/customerBookings/{id}(id=${cus.id})}">Show bookings</a></td>-->
     </tr>
-    </tbody>
+    </th:block>
   </table>
-</div>
 
 </body>
 </html>

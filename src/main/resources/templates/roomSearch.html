@@ -18,14 +18,27 @@
     </style>
 </head>
 <body>
+<table>
+    <td><a th:href="@{/customers/all}">Customers</a></td>
+    <td><a th:href="@{/bookings/all}">Bookings</a></td>
+    <td><a th:href="@{/rooms/all}">Rooms</a></td>
+</table>
 <h2>Room Search</h2>
 <table>
-    <tbody>
-    <tr th:each="rooms: ${availableRooms}">
-        <td th:text="${rooms.id}"></td>
-        <td th:text="${rooms.bedCapacity}"></td>
-    </tr>
-    </tbody>
+    <th:block th:if="${#lists.isEmpty(availableRooms)}">
+        <tr>
+            <td colspan="4" th:text="${error}"></td>
+        </tr>
+    </th:block>
+    <th:block th:if="${not #lists.isEmpty(availableRooms)}">
+        <tr th:each="rooms: ${availableRooms}">
+            <td th:text="${roomId}"></td>
+            <td th:text="${rooms.id}"></td>
+            <td th:text="${bedCap}"></td>
+            <td th:text="${rooms.bedCapacity}"></td>
+        </tr>
+    </th:block>
 </table>
+
 </body>
 </html>

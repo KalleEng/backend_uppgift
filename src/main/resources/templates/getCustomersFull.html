@@ -23,14 +23,16 @@
     <td><a th:href="@{/bookings/all}">Bookings</a></td>
     <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
+<h3>All Customers</h3>
+<div th:unless="${#lists.isEmpty(errorList)}">
+    <p th:text="${errorList}"></p>
+</div>
 <div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
     <table>
-        <h3 th:text="${name}"></h3>
         <tbody>
         <tr th:each="cus: ${allCustomers}">
             <td th:text="${cus.name}"></td>
             <td th:text="${cus.email}"></td>
-<!--            <td th:text="${cus.compBookingDTO}"></td>-->
             <td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
             <td><a th:href="@{/customers/edit/{id}(id=${cus.id})}">Update</a></td>
             <td><a th:href="@{/customers/customerBookings/{id}(id=${cus.id})}">Show bookings</a></td>
@@ -38,10 +40,10 @@
         </tr>
         </tbody>
     </table>
-    <a href="/customers/add">
-        <input type="submit" value="Add new customer">
-    </a>
 </div>
+<a href="/customers/add">
+    <input type="submit" value="Add new customer">
+</a>
 
 </body>
 </html>

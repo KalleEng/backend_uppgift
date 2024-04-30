@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -35,9 +36,10 @@ public class BookingController {
     public void createBooking(@RequestParam LocalDate startDate,
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
-                              @RequestParam Long customerId){
-        if(roomService.isAvailable(roomId,startDate,endDate)){
-            bookingService.createBooking(startDate,endDate,roomId,customerId);
+                              @RequestParam Long customerId,
+                              @RequestParam int numberOfPeople){
+        if(roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
+            bookingService.createBooking(startDate,endDate,roomId,customerId,numberOfPeople);
         } else{
             System.out.println("False");
         }
@@ -49,10 +51,17 @@ public class BookingController {
                                     @RequestParam int numberOfPeople,
                                     Model model){
         List<CompressedRoomDTO> availableRooms = bookingService.findAvailableRooms(startDate, endDate,numberOfPeople);
+        List<String> errorList = new ArrayList<>();
+        if (availableRooms.isEmpty()){
+            errorList.add("No rooms are available");
+        }
         model.addAttribute("availableRooms", availableRooms);
         model.addAttribute("searchStart", startDate);
         model.addAttribute("searchEnd", endDate);
         model.addAttribute("numberOfPeople",numberOfPeople);
+        model.addAttribute("error", errorList);
+        model.addAttribute("roomId","Room ID:");
+        model.addAttribute("bedCap","Bed Capacity:");
         return "roomSearch";
     }
 

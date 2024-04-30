@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,7 +31,13 @@ public class CustomerController {
 
     @RequestMapping("/delete/{id}")
     public String deleteCustomer(@PathVariable Long id, Model model){
-        customerService.deleteById(id);
+        List<String> errorList = new ArrayList<>();
+        if(!customerService.findById(id).getBookingList().isEmpty()){
+            errorList.add("Unable to delete customer due to active bookings");
+        }else{
+            customerService.deleteById(id);
+        }
+        model.addAttribute("errorList", errorList);
         return getCustomersFull(model);
     }
 
@@ -39,7 +46,6 @@ public class CustomerController {
         List<DetailedCustomerDTO> customerList = customerService.getAllCustomers();
         model.addAttribute("allCustomers", customerList);
         model.addAttribute("name","Customer name");
-        //model.addAttribute("bookingId",customerList.stream().map(b-> b.getCompBookingId()))
         return "getCustomersFull";
     }
 
@@ -63,15 +69,17 @@ public class CustomerController {
     @RequestMapping("/customerBookings/{id}")
     public String showCustomerBookings(@PathVariable Long id, Model model){
         List<DetailedBookingDTO> allBookings = bookingService.getBookingsByCustomerId(id);
+        List<String> errorList = new ArrayList<>();
+        if (allBookings.isEmpty()){
+            errorList.add("No Bookings Found");
+        }
         model.addAttribute("allBookings", allBookings);
-        model.addAttribute("bookingsHeader","Bookings by customer: ");
-        model.addAttribute("bookingId","Booking id:");
-        model.addAttribute("roomId","Room id:");
+        model.addAttribute("bookingsHeader","Bookings by customer");
+        model.addAttribute("bookingId","Booking ID:");
+        model.addAttribute("roomId","Room ID:");
         model.addAttribute("from","From:");
         model.addAttribute("until","Until:");
-        model.addAttribute("customerName", allBookings.stream()
-                .map(c -> c.getCompCustomerDTO().getName())
-                .findFirst().orElse(null));
+        model.addAttribute("error", errorList);
         return "showAllBookings";
     }
 
@@ -99,9 +107,10 @@ public class CustomerController {
     public String confirmBooking(@RequestParam LocalDate startDate,
                                  @RequestParam LocalDate endDate,
                                  @RequestParam Long roomId,
-                                 @RequestParam Long customerId){
-        if(roomService.isAvailable(roomId,startDate,endDate)){
-            bookingService.createBooking(startDate,endDate,roomId,customerId);
+                                 @RequestParam Long customerId,
+                                 @RequestParam int numberOfPeople){
+        if(roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
+            bookingService.createBooking(startDate,endDate,roomId,customerId,numberOfPeople);
         } else{
             System.out.println("False");
         }
