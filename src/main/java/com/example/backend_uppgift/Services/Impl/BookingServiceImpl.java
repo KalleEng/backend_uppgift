@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -62,6 +64,8 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepo.findAll().stream().map(b -> bookingToDetailedBookingDTO(b)).toList();
     }
 
+
+
     @Override
     public void deleteBooking(Long id) {
         bookingRepo.deleteById(id);
@@ -80,6 +84,20 @@ public class BookingServiceImpl implements BookingService {
                 endDate,
                 roomRepo.findById(roomId).orElse(null),
                 customerRepo.findById(customerId).orElse(null)));
+    }
+
+    @Override
+    public List<CompressedRoomDTO> findAvailableRooms(LocalDate startDate, LocalDate endDate) {
+        List<Room> allRooms = roomRepo.findAll();
+        List<Booking> bookings = bookingRepo.findByDateRange(startDate, endDate);
+        Set<Long> bookRoomId = bookings.stream()
+                .map(booking -> booking.getRoom().getId())
+                .collect(Collectors.toSet());
+
+        return allRooms.stream()
+                .filter(room -> !bookRoomId.contains(room.getId()))
+                .map(this::roomToCompRoomDTO)
+                .collect(Collectors.toList());
     }
 
     /*public CompressedCustomerDTO customerToCompCustomerDTO(Customer customer){

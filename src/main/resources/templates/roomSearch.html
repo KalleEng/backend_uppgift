@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Show Bookings</title>
+    <title>Room Search</title>
     <style>
         table {
             border-collapse: collapse;
@@ -18,20 +18,13 @@
     </style>
 </head>
 <body>
-<div class="allBookings" th:unless="${#lists.isEmpty(allBookings)}">
-    <table>
-        <th th:text="${name}"></th>
-        <tbody>
-        <tr>
-            <th>Start Date</th>
-            <th>End date</th>
-            <th>Customer</th>
-            <th>Room Id</th>
-            <th>Actions</th>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
+<h2>Room Search</h2>
+<table>
+    <tbody>
+    <tr th:each="rooms: ${availableRooms}">
+        <td th:text="${rooms.id}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
