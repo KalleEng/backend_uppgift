@@ -14,4 +14,6 @@ public interface RoomService {
     public List<DetailedRoomDTO> getAllRooms();
     public DetailedRoomDTO getRoomById(Long id);
     public boolean isAvailable(Long roomId, LocalDate startDate, LocalDate endDate);
+    void deleteById(Long id);
+    void saveRoom(Room room);
 }

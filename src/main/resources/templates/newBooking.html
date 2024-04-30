@@ -23,11 +23,14 @@
     <td><a th:href="@{/bookings/all}">Bookings</a></td>
     <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
-<form action="/customers/added" method="post">
-    <label for="name">Name:</label><br>
-    <input type="text" id = "name" name="name" value="Name"><br>
-    <label for="email"> E-mail:</label><br>
-    <input type="text" id="email" name="email" value=""><br><br>
+<form th:action="@{/customers/confirmBooking}" method="post">
+    <label for="startDate">Start date:</label><br>
+    <input type="text" id="startDate" name="startDate"><br>
+    <label for="endDate">End date:</label><br>
+    <input type="text" id="endDate" name="endDate"><br><br>
+    <label for="roomId">Room ID:</label><br>
+    <input type="text" id="roomId" name="roomId"><br><br>
+    <input type="hidden" id="customerId" name="customerId" th:value="${customer.id}">
     <input type="submit" value="Submit">
 </form>
 

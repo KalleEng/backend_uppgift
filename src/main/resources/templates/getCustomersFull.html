@@ -6,7 +6,7 @@
     <style>
         table {
             border-collapse: collapse;
-            width: 40%;
+            width: 50%;
         }
         tr {
             border-bottom: 1px solid #ddd;
@@ -18,6 +18,11 @@
     </style>
 </head>
 <body>
+<table>
+    <td><a th:href="@{/customers/all}">Customers</a></td>
+    <td><a th:href="@{/bookings/all}">Bookings</a></td>
+    <td><a th:href="@{/rooms/all}">Rooms</a></td>
+</table>
 <div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
     <table>
         <h3 th:text="${name}"></h3>
@@ -29,6 +34,7 @@
             <td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
             <td><a th:href="@{/customers/edit/{id}(id=${cus.id})}">Update</a></td>
             <td><a th:href="@{/customers/customerBookings/{id}(id=${cus.id})}">Show bookings</a></td>
+            <td><a th:href="@{/customers/createBooking/{id}(id=${cus.id})}">Create new booking</a></td>
         </tr>
         </tbody>
     </table>

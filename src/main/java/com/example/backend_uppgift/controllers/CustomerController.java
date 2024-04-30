@@ -4,31 +4,33 @@ import com.example.backend_uppgift.DTO.DetailedBookingDTO;
 import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.Services.CustomerService;
+import com.example.backend_uppgift.Services.RoomService;
 import com.example.backend_uppgift.models.Customer;
 import com.example.backend_uppgift.repositories.CustomerRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/customers")
 public class CustomerController {
     private final CustomerService customerService;
     private final BookingService bookingService;
-    private final CustomerRepo customerRepo;
 
-    public CustomerController(CustomerService customerService, BookingService bookingService, CustomerRepo customerRepo) {
+    private final RoomService roomService;
+
+    public CustomerController(CustomerService customerService, BookingService bookingService, RoomService roomService) {
         this.customerService = customerService;
         this.bookingService = bookingService;
-        this.customerRepo = customerRepo;
+        this.roomService = roomService;
     }
 
     @RequestMapping("/delete/{id}")
     public String deleteCustomer(@PathVariable Long id, Model model){
-        customerRepo.deleteById(id);
+        customerService.deleteById(id);
         return getCustomersFull(model);
     }
 
@@ -42,17 +44,17 @@ public class CustomerController {
     }
 
     @RequestMapping("/edit/{id}")
-    public String createCustomer(@PathVariable Long id,Model model){
-        Customer customer = customerRepo.findById(id).get();
-        model.addAttribute("customer",customer);
+    public String editCustomer(@PathVariable Long id,Model model){
+        Customer customer = customerService.findById(id);
+        model.addAttribute("customer", customer);
         model.addAttribute("name","customerName");
         return "updateCustomerForm";
     }
 
     @PostMapping("/update")
-    public String addCustomer(Model model, Customer customer){
-        customerRepo.save(customer);
-        List<Customer> customerList = customerRepo.findAll();
+    public String saveEditedCustomer(Model model, Customer customer){
+        customerService.saveCustomer(customer);
+        List<Customer> customerList = customerService.findAll();
         model.addAttribute("allCustomers",customerList);
         model.addAttribute("name","Customer name");
         return "getCustomersFull";
@@ -81,7 +83,28 @@ public class CustomerController {
     @RequestMapping("/added")
     public String addedCustomer(@RequestParam String name,
                                 @RequestParam String email){
-        customerRepo.save(new Customer(name,email));
+        customerService.saveCustomer(new Customer(name,email));
+        return "redirect:/customers/all";
+    }
+
+    @RequestMapping("/createBooking/{id}")
+    public String createBooking(@PathVariable Long id, Model model){
+        Customer customer = customerService.findById(id);
+        model.addAttribute("customer", customer);
+        model.addAttribute("name","customerName");
+        return "newBooking";
+    }
+
+    @PostMapping("/confirmBooking")
+    public String confirmBooking(@RequestParam LocalDate startDate,
+                                 @RequestParam LocalDate endDate,
+                                 @RequestParam Long roomId,
+                                 @RequestParam Long customerId){
+        if(roomService.isAvailable(roomId,startDate,endDate)){
+            bookingService.createBooking(startDate,endDate,roomId,customerId);
+        } else{
+            System.out.println("False");
+        }
         return "redirect:/customers/all";
     }
 

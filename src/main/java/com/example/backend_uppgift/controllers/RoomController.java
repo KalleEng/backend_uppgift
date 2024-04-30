@@ -2,17 +2,18 @@ package com.example.backend_uppgift.controllers;
 
 import com.example.backend_uppgift.DTO.DetailedRoomDTO;
 import com.example.backend_uppgift.Services.RoomService;
+import com.example.backend_uppgift.models.Customer;
 import com.example.backend_uppgift.models.Room;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.PostMapping;
+import com.example.backend_uppgift.repositories.RoomRepo;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/rooms")
 public class RoomController {
     private final RoomService roomService;
@@ -21,24 +22,31 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-/*    @PostMapping("/create")
-    public String createRoom(@RequestParam boolean isAvailable,
-                             @RequestParam boolean isDoubleRoom,
-                             @RequestParam int numberOfBeds){
-        roomRepo.save(new Room(isAvailable,isAvailable,numberOfBeds));
-        return "Room created";
+    @RequestMapping("/all")
+    public String showAllRooms(Model model){
+        List<DetailedRoomDTO> allRooms = roomService.getAllRooms();
+        model.addAttribute("allRooms", allRooms);
+        model.addAttribute("roomsHeader", "All Rooms");
+        model.addAttribute("roomId", "Room ID:");
+        model.addAttribute("bedCap", "Bed Capacity:");
+        return "getRooms";
     }
 
-    @RequestMapping("/get")
-    public List<DetailedRoomDTO> getRooms(){
-        return roomService.getAllRooms();
+    @RequestMapping("/delete/{id}")
+    public String deleteCustomer(@PathVariable Long id, Model model){
+        roomService.deleteById(id);
+        return showAllRooms(model);
     }
 
-    @RequestMapping("/available")
-    public Boolean checkAvailability(@RequestParam Long roomId,
-                                     @RequestParam LocalDate startDate,
-                                     @RequestParam LocalDate endDate){
-        return roomService.isAvailable(roomId, startDate, endDate);
+    @RequestMapping("/create")
+    public String createRoom(){
+        return "createRoom";
     }
-    */
+
+    @RequestMapping("/created")
+    public String createdRoom(@RequestParam int bedCapacity){
+        roomService.saveRoom(new Room(bedCapacity));
+        return "redirect:/rooms/all";
+    }
+
 }

@@ -23,12 +23,10 @@
     <td><a th:href="@{/bookings/all}">Bookings</a></td>
     <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
-<form action="/customers/added" method="post">
-    <label for="name">Name:</label><br>
-    <input type="text" id = "name" name="name" value="Name"><br>
-    <label for="email"> E-mail:</label><br>
-    <input type="text" id="email" name="email" value=""><br><br>
-    <input type="submit" value="Submit">
+<form action="/rooms/created" method="post">
+  <label for="bedCapacity">Bed Capacity:</label><br>
+  <input type="text" id = "bedCapacity" name="bedCapacity" value="bedCapacity"><br>
+  <input type="submit" value="Submit">
 </form>
 
 </body>

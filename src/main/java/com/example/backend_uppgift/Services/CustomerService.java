@@ -18,6 +18,10 @@ public interface CustomerService {
     public List<DetailedCustomerDTO> getAllCustomers();
 
     CompressedRoomDTO roomToCompRoomDTO(Room room);
+    void saveCustomer(Customer customer);
+    Customer findById(Long id);
+    void deleteById(Long id);
+    List<Customer> findAll();
 
 
 }

@@ -32,7 +32,7 @@ public class BookingController {
         bookingService.deleteBooking(id);
     }
 
-    @PostMapping("/create")
+    @RequestMapping("/create")
     public void createBooking(@RequestParam LocalDate startDate,
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
@@ -46,32 +46,12 @@ public class BookingController {
 
     @RequestMapping("/all")
     public String getBookingsFull(Model model){
-        List<DetailedBookingDTO> bookingList = bookingService.getAllBookings();
-        model.addAttribute("allBookings", bookingList);
-        model.addAttribute("name","Booking name");
+        List<DetailedBookingDTO> allBookings = bookingService.getAllBookings();
+        model.addAttribute("allBookings", allBookings);
+        model.addAttribute("bookingId","Booking id:");
+        model.addAttribute("roomId","Room id:");
+        model.addAttribute("from","From:");
+        model.addAttribute("until","Until:");
         return "getBookingsFull";
     }
-
-
-/*    @PostMapping("/addbooking")
-    public ResponseEntity<String> addBooking(@RequestParam LocalDate startDate,
-                             @RequestParam LocalDate endDate,
-                             @RequestParam Long roomId,
-                             @RequestParam Long customerId){
-
-        Room room = roomRepo.findById(roomId).orElse(null);
-        if (room == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room not found");
-
-        Customer customer = customerRepo.findById(customerId).orElse(null);
-        if (customer == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
-
-        Booking booking = new Booking(startDate,endDate, room,customer);
-        //booking.setCustomerId(customerId);
-
-        bookingRepo.save(booking);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Booking added for customer ID: " + customerId);
-    }*/
 }
