@@ -92,5 +92,15 @@ public class BookingServiceImpl implements BookingService {
                 customerRepo.findById(customerId).orElse(null)));
     }
 
+    @Override
+    public Booking findById(Long id) {
+        return bookingRepo.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Booking> findAll(){return bookingRepo.findAll();}
+    @Override
+    public void saveBooking(Booking booking){bookingRepo.save(booking);}
+
 
 }

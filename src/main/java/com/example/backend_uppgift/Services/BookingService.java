@@ -22,5 +22,9 @@ public interface BookingService {
                        @RequestParam Long roomId,
                        @RequestParam Long customerId);
 
+    Booking findById(Long id);
+    List<Booking> findAll();
+    void saveBooking(Booking booking);
+
 
 }

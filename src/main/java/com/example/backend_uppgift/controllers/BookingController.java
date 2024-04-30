@@ -3,6 +3,7 @@ package com.example.backend_uppgift.controllers;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.Services.RoomService;
+import com.example.backend_uppgift.models.Booking;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,14 +23,10 @@ public class BookingController {
         this.roomService = roomService;
     }
 
-    @RequestMapping("/get")
-    public List<DetailedBookingDTO> getBooking(){
-        return bookingService.getAllBookings();
-    }
-
     @RequestMapping("/delete/{id}")
-    public void deleteBooking(@PathVariable Long id){
+    public String deleteBooking(@PathVariable Long id, Model model){
         bookingService.deleteBooking(id);
+        return getBookingsFull(model);
     }
 
     @RequestMapping("/create")
@@ -44,6 +41,8 @@ public class BookingController {
         }
     }
 
+
+
     @RequestMapping("/all")
     public String getBookingsFull(Model model){
         List<DetailedBookingDTO> allBookings = bookingService.getAllBookings();
@@ -53,5 +52,20 @@ public class BookingController {
         model.addAttribute("from","From:");
         model.addAttribute("until","Until:");
         return "getBookingsFull";
+    }
+
+    @RequestMapping("/edit/{id}")
+    public String editBooking(@PathVariable Long id, Model model){
+        Booking booking = bookingService.findById(id);
+        model.addAttribute("booking",booking);
+        return "updateBookingForm";
+    }
+
+    @PostMapping("/update")
+    public String saveEditedBooking(Model model, Booking booking){
+        bookingService.saveBooking(booking);
+        List<Booking> bookingList = bookingService.findAll();
+        model.addAttribute("allBookings", bookingList);
+        return "redirect:/bookings/all";
     }
 }
