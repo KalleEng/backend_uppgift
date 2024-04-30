@@ -1,5 +1,6 @@
 package com.example.backend_uppgift.models;
 
+import com.example.backend_uppgift.DTO.CompressedRoomDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,9 +35,5 @@ public class Booking {
         this.room = room;
         this.customer = customer;
     }
-
-    public Booking(LocalDate startDate, LocalDate endDate, Room room) {
-    }
-
 }
 

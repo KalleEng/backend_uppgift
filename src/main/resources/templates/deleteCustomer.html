@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
+  <table>
+    <th th:text="${name}"></th>
+    <tbody>
+    <tr th:each="cus: ${allCustomers}">
+      <td th:text="'Name: ' + ${cus.name}"></td>
+      <td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

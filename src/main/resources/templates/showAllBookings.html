@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Bookings</title>
+</head>
+<body>
+<div class="allBookings" th:unless="${#lists.isEmpty(allBookings)}">
+    <table>
+        <th th:text="${name}"></th>
+        <tbody>
+        <tr>
+            <th>Start Date</th>
+            <th>End date</th>
+            <th>Customer</th>
+            <th>Room Id</th>
+            <th>Actions</th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

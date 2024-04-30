@@ -3,45 +3,61 @@ package com.example.backend_uppgift.controllers;
 import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
 import com.example.backend_uppgift.Services.CustomerService;
 import com.example.backend_uppgift.models.Customer;
+import com.example.backend_uppgift.repositories.CustomerRepo;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/customer")
+@Controller
+@RequestMapping("/customers")
 public class CustomerController {
     private final CustomerService customerService;
+    private final CustomerRepo customerRepo;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, CustomerRepo customerRepo) {
         this.customerService = customerService;
+        this.customerRepo = customerRepo;
     }
 
-    @PostMapping("/register")
-    public String registerCustomer(@RequestParam String name, @RequestParam String email){
-        customerService.registerCustomer(name, email);
-        return "Customer registered successfully";
+    @RequestMapping("/allWithDelete")
+    public String getAllWithDelete(Model model){
+        List<DetailedCustomerDTO> customerList = customerService.getAllCustomers();
+        model.addAttribute("allCustomers", customerList);
+        model.addAttribute("name", "Customer name");
+        return "deleteCustomer";
     }
 
-    @PutMapping("/update/{customerId}")
-    public String updateCustomer(@PathVariable Long customerId,
-                                 @RequestParam String name,
-                                 @RequestParam String email) {
-        customerService.updateCustomer(customerId, name, email);
-        return "Customer details updated successfully";
+    @RequestMapping("/delete/{id}")
+    public String deleteCustomer(@PathVariable Long id, Model model){
+        customerRepo.deleteById(id);
+        return getCustomersFull(model);
     }
 
-    @DeleteMapping("/delete/{customerId}")
-    public String deleteCustomer(@PathVariable Long customerId) {
-        if (customerService.hasBookings(customerId)) {
-            return "Cannot delete customer. Bookings are associated with this customer.";
-        } else {
-            customerService.deleteCustomer(customerId);
-            return "Customer deleted successfully";
-        }
+    @RequestMapping("/all")
+    public String getCustomersFull(Model model){
+        List<DetailedCustomerDTO> customerList = customerService.getAllCustomers();
+        model.addAttribute("allCustomers", customerList);
+        model.addAttribute("name","Customer name");
+        return "getCustomersFull";
     }
 
-    @RequestMapping("/get")
-    public List<DetailedCustomerDTO> getCustomers() {
-        return customerService.getAllCustomers();
+    @RequestMapping("/edit/{id}")
+    public String createCustomer(@PathVariable Long id,Model model){
+        Customer customer = customerRepo.findById(id).get();
+        model.addAttribute("customer",customer);
+        model.addAttribute("name","customerName");
+        return "updateCustomerForm";
     }
+
+    @PostMapping("/update")
+    public String addCustomer(Model model, Customer customer){
+        customerRepo.save(customer);
+        List<Customer> customerList = customerRepo.findAll();
+        model.addAttribute("allCustomers",customerList);
+        model.addAttribute("name","Customer name");
+        return "getCustomersFull";
+    }
+
 }
