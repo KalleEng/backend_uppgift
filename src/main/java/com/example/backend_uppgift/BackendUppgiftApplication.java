@@ -19,32 +19,29 @@ public class BackendUppgiftApplication {
     }
 
 
-/*
 
-   @Bean
+  /* @Bean
     public CommandLineRunner demo(BookingRepo bookingRepo, CustomerRepo customerRepo, RoomRepo roomRepo){
         return (args -> {
-            customerRepo.save(new Customer("Kai Honkonen","kai@example.com"));
+
             customerRepo.save(new Customer("Kalle Engwall","kalle@example.com"));
             customerRepo.save(new Customer("Jakob Engwall", "jakob.example.com"));
             customerRepo.save(new Customer("Hidro Koureks","hidro@example.com"));
 
-          roomRepo.save(new Room(1));
+          *//*roomRepo.save(new Room(1));
           roomRepo.save(new Room(2));
           roomRepo.save(new Room(3));
           roomRepo.save(new Room(4));
 
 
-*/
-/*bookingRepo.save(new Booking(LocalDate.of(2024,12,11), LocalDate.of(2024,12,11),roomRepo.findById(1L).orElse(null),customerRepo.findById(1L).orElse(null)));
+bookingRepo.save(new Booking(LocalDate.of(2024,12,11), LocalDate.of(2024,12,11),roomRepo.findById(1L).orElse(null),customerRepo.findById(1L).orElse(null)));
             bookingRepo.save(new Booking(LocalDate.of(2024,11,1), LocalDate.of(2024,11,11),roomRepo.findById(2L).orElse(null),customerRepo.findById(2L).orElse(null)));
-            bookingRepo.save(new Booking(LocalDate.of(2024,10,12), LocalDate.of(2024,10,13),roomRepo.findById(3L).orElse(null),customerRepo.findById(3L).orElse(null)));*//*
+            bookingRepo.save(new Booking(LocalDate.of(2024,10,12), LocalDate.of(2024,10,13),roomRepo.findById(3L).orElse(null),customerRepo.findById(3L).orElse(null)));
 
-
+*//*
 
         });
-    }
-*/
+    }*/
 
 
 

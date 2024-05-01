@@ -19,6 +19,13 @@
 </head>
 <body>
 <h2>Room Search</h2>
+<div th:if="${not #lists.isEmpty(errors)}">
+    <div style="color: red;">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error}"></li>
+        </ul>
+    </div>
+</div>
 <table>
     <tbody>
     <tr th:each="rooms: ${availableRooms}">

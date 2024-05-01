@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -32,14 +34,19 @@ public class BookingController {
     }
 
     @RequestMapping("/create")
-    public void createBooking(@RequestParam LocalDate startDate,
+    public String createBooking(@RequestParam LocalDate startDate,
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
-                              @RequestParam Long customerId){
+                              @RequestParam Long customerId,
+                                Model model){
+        List<String> errorList = new ArrayList<>();
         if(roomService.isAvailable(roomId,startDate,endDate)){
             bookingService.createBooking(startDate,endDate,roomId,customerId);
+            return "getCustomersFull";
         } else{
-            System.out.println("False");
+            errorList.add("Booking not available");
+            model.addAttribute("error", errorList);
+            return "getCustomersFull";
         }
     }
 
@@ -48,11 +55,28 @@ public class BookingController {
                                     @RequestParam LocalDate endDate,
                                     @RequestParam int numberOfPeople,
                                     Model model){
-        List<CompressedRoomDTO> availableRooms = bookingService.findAvailableRooms(startDate, endDate,numberOfPeople);
-        model.addAttribute("availableRooms", availableRooms);
+        List<String> errorList = new ArrayList<>();
+        if (endDate.isBefore(startDate)){
+            errorList.add("End Date can't be before Start Date");
+        }
+        if (numberOfPeople <= 0){
+            errorList.add("Number of people can't be 0 or below");
+        }
+        if (!errorList.isEmpty()) {
+            model.addAttribute("errors", errorList);
+            model.addAttribute("availableRooms", Collections.emptyList());
+        } else {
+            List<CompressedRoomDTO> availableRooms = bookingService.findAvailableRooms(startDate, endDate, numberOfPeople);
+            if (availableRooms.isEmpty()) {
+                model.addAttribute("errors", List.of("No available rooms found for the given dates and number of people."));
+            }
+            model.addAttribute("availableRooms", availableRooms);
+        }
+
         model.addAttribute("searchStart", startDate);
         model.addAttribute("searchEnd", endDate);
-        model.addAttribute("numberOfPeople",numberOfPeople);
+        model.addAttribute("numberOfPeople", numberOfPeople);
+
         return "roomSearch";
     }
 

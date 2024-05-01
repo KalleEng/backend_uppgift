@@ -23,6 +23,13 @@
     <td><a th:href="@{/bookings/all}">Bookings</a></td>
     <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
+<div th:if="${not #lists.isEmpty(errors)}">
+    <div style="color: red;">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error}"></li>
+        </ul>
+    </div>
+</div>
 <div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
     <table>
         <h3 th:text="${name}"></h3>
@@ -38,10 +45,10 @@
         </tr>
         </tbody>
     </table>
-    <a href="/customers/add">
-        <input type="submit" value="Add new customer">
-    </a>
-</div>
 
+</div>
+<a href="/customers/add">
+    <input type="submit" value="Add new customer">
+</a>
 </body>
 </html>

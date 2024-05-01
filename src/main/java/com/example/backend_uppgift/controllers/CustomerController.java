@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -99,11 +100,20 @@ public class CustomerController {
     public String confirmBooking(@RequestParam LocalDate startDate,
                                  @RequestParam LocalDate endDate,
                                  @RequestParam Long roomId,
-                                 @RequestParam Long customerId){
+                                 @RequestParam Long customerId,
+                                 Model model){
+        List<String> errorList = new ArrayList<>();
         if(roomService.isAvailable(roomId,startDate,endDate)){
             bookingService.createBooking(startDate,endDate,roomId,customerId);
-        } else{
-            System.out.println("False");
+        }
+        if (roomService.getRoomById(roomId) == null){
+            errorList.add("Room doesn't exist");
+            model.addAttribute("errors", errorList);
+            return "error";
+        }if (!roomService.isAvailable(roomId,startDate,endDate)){
+            errorList.add("Booking not available");
+            model.addAttribute("errors", errorList);
+            return "error";
         }
         return "redirect:/customers/all";
     }
