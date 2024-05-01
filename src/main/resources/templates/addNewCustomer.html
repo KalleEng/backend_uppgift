@@ -23,6 +23,14 @@
     <td><a th:href="@{/bookings/all}">Bookings</a></td>
     <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
+<div th:if="${not #lists.isEmpty(errorList)}">
+    <div style="color: red;">
+        <ul>
+            <li th:each="error : ${errorList}" th:text="${error}"></li>
+        </ul>
+    </div>
+</div>
+
 <form action="/customers/added" method="post">
     <label for="name">Name:</label><br>
     <input type="text" id = "name" name="name" value=""><br>
@@ -30,6 +38,7 @@
     <input type="text" id="email" name="email" value=""><br><br>
     <input type="submit" value="Submit">
 </form>
+
 
 </body>
 </html>
