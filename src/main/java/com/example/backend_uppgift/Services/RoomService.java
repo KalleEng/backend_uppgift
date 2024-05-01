@@ -16,4 +16,5 @@ public interface RoomService {
     public boolean isAvailable(Long roomId, LocalDate startDate, LocalDate endDate, int numberOfPeople);
     void deleteById(Long id);
     void saveRoom(Room room);
+    Room findById(Long id);
 }

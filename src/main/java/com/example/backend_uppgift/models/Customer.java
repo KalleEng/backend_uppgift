@@ -2,6 +2,7 @@ package com.example.backend_uppgift.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,10 +18,10 @@ public class Customer {
     @Id
     @GeneratedValue
     private Long id;
-
     @NotEmpty(message = "Name is mandatory")
     private String name;
     @NotEmpty
+    @Email
     private String email;
     @OneToMany(mappedBy = "customer")
     private List<Booking> bookingList;

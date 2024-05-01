@@ -21,6 +21,7 @@ public class BackendUppgiftApplication {
 
 
 
+
 /*
 
    @Bean
@@ -28,7 +29,7 @@ public class BackendUppgiftApplication {
         return (args -> {
             customerRepo.save(new Customer("Kai Honkonen","kai@example.com"));
             customerRepo.save(new Customer("Kalle Engwall","kalle@example.com"));
-            customerRepo.save(new Customer("Jakob Engwall", "jakob.example.com"));
+            customerRepo.save(new Customer("Jakob Engwall", "jakob@example.com"));
             customerRepo.save(new Customer("Hidro Koureks","hidro@example.com"));
 
           roomRepo.save(new Room(1));
@@ -39,6 +40,7 @@ public class BackendUppgiftApplication {
         });
     }
 */
+
 
 }
 

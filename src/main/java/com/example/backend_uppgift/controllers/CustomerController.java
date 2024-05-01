@@ -127,11 +127,9 @@ public class CustomerController {
         } else {
             if (endDate.isBefore(startDate)){
                 errorList.add("End Date can't be before Start Date");
-            }
-            if (roomService.getRoomById(roomId) == null) {
+            } else if (roomService.getRoomById(roomId) == null) {
                 errorList.add("Room doesn't exist");
-            }
-            if (numberOfPeople > roomService.getRoomById(roomId).getBedCapacity()) {
+            } else if (numberOfPeople > roomService.getRoomById(roomId).getBedCapacity()) {
                 errorList.add("Room is too small. Choose one with bigger capacity");
             } else {
                 if (roomService.isAvailable(roomId, startDate, endDate, numberOfPeople)) {

@@ -46,6 +46,13 @@
   <td><a th:href="@{/bookings/all}">Bookings</a></td>
   <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
+<div th:if="${not #lists.isEmpty(errorList)}">
+  <div style="color: red;">
+    <ul>
+      <li th:each="error : ${errorList}" th:text="${error}"></li>
+    </ul>
+  </div>
+</div>
 <table>
   <h3 th:text="${roomsHeader}"></h3>
   <tbody>

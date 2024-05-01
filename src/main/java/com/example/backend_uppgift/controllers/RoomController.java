@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -34,7 +35,13 @@ public class RoomController {
 
     @RequestMapping("/delete/{id}")
     public String deleteCustomer(@PathVariable Long id, Model model){
-        roomService.deleteById(id);
+        List<String> errorList = new ArrayList<>();
+        if (!roomService.getRoomById(id).getBookingList().isEmpty()) {
+            errorList.add("Unable to delete room due to active bookings");
+        } else {
+            roomService.deleteById(id);
+        }
+        model.addAttribute("errorList", errorList);
         return showAllRooms(model);
     }
 

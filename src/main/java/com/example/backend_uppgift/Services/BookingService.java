@@ -5,8 +5,10 @@ import com.example.backend_uppgift.DTO.CompressedRoomDTO;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
 import com.example.backend_uppgift.DTO.DetailedRoomDTO;
 import com.example.backend_uppgift.models.Booking;
+import com.example.backend_uppgift.models.Room;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -25,7 +27,7 @@ public interface BookingService {
 
     void createBooking(@RequestParam LocalDate startDate,
                        @RequestParam LocalDate endDate,
-                       @RequestParam Long roomId,
+                       @RequestBody Long roomId,
                        @RequestParam Long customerId,
                        @RequestParam int numberOfPeople);
 
