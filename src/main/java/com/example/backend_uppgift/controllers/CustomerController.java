@@ -70,10 +70,6 @@ public class CustomerController {
     @RequestMapping("/customerBookings/{id}")
     public String showCustomerBookings(@PathVariable Long id, Model model){
         List<DetailedBookingDTO> allBookings = bookingService.getBookingsByCustomerId(id);
-        List<String> errorList = new ArrayList<>();
-        if (allBookings.isEmpty()){
-            errorList.add("No Bookings Found");
-        }
         model.addAttribute("allBookings", allBookings);
         model.addAttribute("bookingsHeader","Bookings by customer");
         model.addAttribute("bookingId","Booking ID:");
@@ -109,12 +105,20 @@ public class CustomerController {
                                  @RequestParam LocalDate endDate,
                                  @RequestParam Long roomId,
                                  @RequestParam Long customerId,
-                                 @RequestParam int numberOfPeople){
+                                 @RequestParam int numberOfPeople,
+                                 Model model){
+        List<String> errorList = new ArrayList<>();
         if(roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
             bookingService.createBooking(startDate,endDate,roomId,customerId,numberOfPeople);
         }
-        else{
-            System.out.println("False");
+        if (roomService.getRoomById(roomId) == null){
+            errorList.add("Room doesn't exist");
+            model.addAttribute("errors", errorList);
+            return "error";
+        }if (!roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
+            errorList.add("Booking not available");
+            model.addAttribute("errors", errorList);
+            return "error";
         }
         return "redirect:/customers/all";
     }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 @Controller
 @RequestMapping("/bookings")
@@ -50,16 +51,24 @@ public class BookingController {
                                     @RequestParam LocalDate endDate,
                                     @RequestParam int numberOfPeople,
                                     Model model){
-        List<CompressedRoomDTO> availableRooms = bookingService.findAvailableRooms(startDate, endDate,numberOfPeople);
         List<String> errorList = new ArrayList<>();
-        if (availableRooms.isEmpty()){
-            errorList.add("No rooms are available");
+        if (endDate.isBefore(startDate)){
+            errorList.add("End Date can't be before Start Date");
         }
-        model.addAttribute("availableRooms", availableRooms);
+        if (numberOfPeople <= 0){
+            errorList.add("Number of people can't be 0 or below");
+        } else {
+            List<CompressedRoomDTO> availableRooms = bookingService.findAvailableRooms(startDate, endDate, numberOfPeople);
+            if (availableRooms.isEmpty()){
+                errorList.add("No rooms are available");
+            }
+            model.addAttribute("availableRooms", availableRooms);
+        }
+
         model.addAttribute("searchStart", startDate);
         model.addAttribute("searchEnd", endDate);
+        model.addAttribute("errors", errorList);
         model.addAttribute("numberOfPeople",numberOfPeople);
-        model.addAttribute("error", errorList);
         model.addAttribute("roomId","Room ID:");
         model.addAttribute("bedCap","Bed Capacity:");
         return "roomSearch";

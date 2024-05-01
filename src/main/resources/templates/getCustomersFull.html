@@ -43,8 +43,12 @@
     <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
 <h3>All Customers</h3>
-<div th:unless="${#lists.isEmpty(errorList)}">
-    <p th:text="${errorList}"></p>
+<div th:if="${not #lists.isEmpty(errors)}">
+    <div style="color: red;">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error}"></li>
+        </ul>
+    </div>
 </div>
 <div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
     <table>
