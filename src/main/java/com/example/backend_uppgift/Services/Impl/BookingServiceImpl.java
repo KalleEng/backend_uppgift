@@ -67,7 +67,7 @@ public class BookingServiceImpl implements BookingService {
     public List<DetailedBookingDTO> getBookingsByCustomerId(Long id){
         return bookingRepo.findAll()
                 .stream()
-                .filter(b -> Objects.equals(b.getCustomer().getId(), id))
+                .filter(b -> b.getCustomer().getId() == id)
                 .map(this::bookingToDetailedBookingDTO)
                 .collect(Collectors.toList());
     }

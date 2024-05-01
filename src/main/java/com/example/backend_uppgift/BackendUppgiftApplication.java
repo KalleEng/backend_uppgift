@@ -19,6 +19,8 @@ public class BackendUppgiftApplication {
     }
 
 
+
+
 /*
 
    @Bean
@@ -34,19 +36,9 @@ public class BackendUppgiftApplication {
           roomRepo.save(new Room(3));
           roomRepo.save(new Room(4));
 
-
-*/
-/*bookingRepo.save(new Booking(LocalDate.of(2024,12,11), LocalDate.of(2024,12,11),roomRepo.findById(1L).orElse(null),customerRepo.findById(1L).orElse(null)));
-            bookingRepo.save(new Booking(LocalDate.of(2024,11,1), LocalDate.of(2024,11,11),roomRepo.findById(2L).orElse(null),customerRepo.findById(2L).orElse(null)));
-            bookingRepo.save(new Booking(LocalDate.of(2024,10,12), LocalDate.of(2024,10,13),roomRepo.findById(3L).orElse(null),customerRepo.findById(3L).orElse(null)));*//*
-
-
-
         });
     }
 */
-
-
 
 }
 

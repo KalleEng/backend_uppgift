@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/customers")
@@ -111,7 +112,8 @@ public class CustomerController {
                                  @RequestParam int numberOfPeople){
         if(roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
             bookingService.createBooking(startDate,endDate,roomId,customerId,numberOfPeople);
-        } else{
+        }
+        else{
             System.out.println("False");
         }
         return "redirect:/customers/all";
