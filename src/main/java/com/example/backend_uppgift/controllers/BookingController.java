@@ -2,19 +2,16 @@ package com.example.backend_uppgift.controllers;
 
 import com.example.backend_uppgift.DTO.CompressedRoomDTO;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
-import com.example.backend_uppgift.DTO.DetailedRoomDTO;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.Services.RoomService;
 import com.example.backend_uppgift.models.Booking;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
+
 
 @Controller
 @RequestMapping("/bookings")
