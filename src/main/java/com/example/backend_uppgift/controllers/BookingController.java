@@ -61,7 +61,6 @@ public class BookingController {
             }
             model.addAttribute("availableRooms", availableRooms);
         }
-
         model.addAttribute("searchStart", startDate);
         model.addAttribute("searchEnd", endDate);
         model.addAttribute("errors", errorList);
