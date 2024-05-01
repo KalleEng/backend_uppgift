@@ -43,10 +43,10 @@
     <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
 <h3>All Customers</h3>
-<div th:if="${not #lists.isEmpty(errors)}">
+<div th:if="${not #lists.isEmpty(errorList)}">
     <div style="color: red;">
         <ul>
-            <li th:each="error : ${errors}" th:text="${error}"></li>
+            <li th:each="error : ${errorList}" th:text="${error}"></li>
         </ul>
     </div>
 </div>

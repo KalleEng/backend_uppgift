@@ -70,6 +70,10 @@ public class CustomerController {
     @RequestMapping("/customerBookings/{id}")
     public String showCustomerBookings(@PathVariable Long id, Model model){
         List<DetailedBookingDTO> allBookings = bookingService.getBookingsByCustomerId(id);
+        List<String> errorList = new ArrayList<>();
+        if (allBookings.isEmpty()){
+            errorList.add("No bookings for customer found.");
+        }
         model.addAttribute("allBookings", allBookings);
         model.addAttribute("bookingsHeader","Bookings by customer");
         model.addAttribute("bookingId","Booking ID:");

@@ -32,12 +32,7 @@
     </div>
 </div>
 <table>
-    <th:block th:if="${#lists.isEmpty(availableRooms)}">
-        <tr>
-            <td colspan="4" th:text="${error}"></td>
-        </tr>
-    </th:block>
-    <th:block th:if="${not #lists.isEmpty(availableRooms)}">
+    <th:block th:if="${#lists.isEmpty(errors)}">
         <tr th:each="rooms: ${availableRooms}">
             <td th:text="${roomId}"></td>
             <td th:text="${rooms.id}"></td>
