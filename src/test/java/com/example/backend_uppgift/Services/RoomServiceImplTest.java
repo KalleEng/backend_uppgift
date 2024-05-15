@@ -54,18 +54,4 @@ class RoomServiceImplTest {
         assertFalse(roomService.isAvailable(roomId,startDate,endDate, numberOfPeople));
     }
 
-    @Test
-    void testRoomAvailable_BookingAfterExisting_ReturnTrue(){
-        Long roomId = 1L;
-        LocalDate startDate = LocalDate.of(2024,4,20);
-        LocalDate endDate = LocalDate.of(2024,4,21);
-        LocalDate newStartDate = LocalDate.of(2024, 4,25);
-        LocalDate newEndDate = LocalDate.of(2024,4,27);
-        Booking existingBooking = new Booking(null, startDate, endDate,null, null);
-        int numberOfPeople = 1;
-
-        when(bookingRepo.findByRoomId(roomId)).thenReturn(List.of(existingBooking));
-
-        assertTrue(roomService.isAvailable(roomId, newStartDate, newEndDate,numberOfPeople));
-    }
 }

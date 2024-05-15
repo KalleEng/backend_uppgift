@@ -1,5 +1,4 @@
 package com.example.backend_uppgift.controllers;
-
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
 import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
 import com.example.backend_uppgift.Services.BookingService;
@@ -9,7 +8,6 @@ import com.example.backend_uppgift.models.Customer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,17 +66,19 @@ public class CustomerController {
     @RequestMapping("/customerBookings/{id}")
     public String showCustomerBookings(@PathVariable Long id, Model model) {
         List<DetailedBookingDTO> allBookings = bookingService.getBookingsByCustomerId(id);
+        String customerName = customerService.findById(id).getName();
         List<String> errorList = new ArrayList<>();
         if (allBookings.isEmpty()) {
             errorList.add("No bookings for customer found.");
         }
         model.addAttribute("allBookings", allBookings);
-        model.addAttribute("bookingsHeader", "Bookings by customer");
+        model.addAttribute("bookingsHeader", "Bookings by ");
         model.addAttribute("bookingId", "Booking ID:");
         model.addAttribute("roomId", "Room ID:");
         model.addAttribute("from", "From:");
         model.addAttribute("until", "Until:");
         model.addAttribute("error", errorList);
+        model.addAttribute("customerName", customerName);
         return "showAllBookings";
     }
 
@@ -116,25 +116,26 @@ public class CustomerController {
                                  @RequestParam Long customerId,
                                  @RequestParam(required = false, defaultValue = "1") int numberOfPeople,
                                  Model model) {
+
         List<String> errorList = new ArrayList<>();
         if (startDate == null || endDate == null || roomId == null) {
             errorList.add("Fields can't be empty.");
             model.addAttribute("errorList", errorList);
             return getCustomersFull(model);
         } else {
+            if (endDate.isBefore(startDate)){
+                errorList.add("End Date can't be before Start Date");
+            }
             if (roomService.getRoomById(roomId) == null) {
                 errorList.add("Room doesn't exist");
-                System.out.println(errorList);
+            }
+            if (numberOfPeople > roomService.getRoomById(roomId).getBedCapacity()) {
+                errorList.add("Room is too small. Choose one with bigger capacity");
             } else {
                 if (roomService.isAvailable(roomId, startDate, endDate, numberOfPeople)) {
                     bookingService.createBooking(startDate, endDate, roomId, customerId, numberOfPeople);
                 } else {
-                    if (numberOfPeople > roomService.getRoomById(roomId).getBedCapacity()) {
-                        errorList.add("Room is too small. Choose one with bigger capacity");
-                    } else {
-                        errorList.add("Room not available for selected dates");
-                    }
-
+                    errorList.add("Room not available for selected dates");
                 }
             }
         }
