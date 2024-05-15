@@ -7,15 +7,23 @@ import com.example.backend_uppgift.repositories.CustomerRepo;
 import com.example.backend_uppgift.repositories.RoomRepo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @SpringBootApplication
 public class BackendUppgiftApplication {
     public static void main(String[] args) {
-        SpringApplication.run(BackendUppgiftApplication.class, args);
+        if (args.length == 0){
+            SpringApplication.run(BackendUppgiftApplication.class, args);
+        } else if (Objects.equals(args[0],"fetchContractCustomers")) {
+            SpringApplication application = new SpringApplication(FetchContractCustomers.class);
+            application.setWebApplicationType(WebApplicationType.NONE);
+            application.run(args);
+        }
     }
 
 

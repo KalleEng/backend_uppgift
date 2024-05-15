@@ -31,6 +31,9 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.0.5")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.0")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    implementation ("com.fasterxml.jackson.core:jackson-databind:2.13.4.1")
 }
 
 tasks.withType<Test> {

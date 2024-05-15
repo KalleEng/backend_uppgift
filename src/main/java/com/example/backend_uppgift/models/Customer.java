@@ -17,7 +17,6 @@ public class Customer {
     @Id
     @GeneratedValue
     private Long id;
-
     @NotEmpty(message = "Name is mandatory")
     private String name;
     @NotEmpty
