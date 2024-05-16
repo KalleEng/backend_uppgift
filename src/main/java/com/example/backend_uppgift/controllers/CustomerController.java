@@ -1,6 +1,7 @@
 package com.example.backend_uppgift.controllers;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
 import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
+import com.example.backend_uppgift.Services.BlacklistService;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.Services.CustomerService;
 import com.example.backend_uppgift.Services.RoomService;
@@ -18,11 +19,13 @@ public class CustomerController {
     private final CustomerService customerService;
     private final BookingService bookingService;
 
+    private final BlacklistService blacklistService;
     private final RoomService roomService;
 
-    public CustomerController(CustomerService customerService, BookingService bookingService, RoomService roomService) {
+    public CustomerController(CustomerService customerService, BookingService bookingService, BlacklistService blacklistService, RoomService roomService) {
         this.customerService = customerService;
         this.bookingService = bookingService;
+        this.blacklistService = blacklistService;
         this.roomService = roomService;
     }
 
@@ -117,6 +120,7 @@ public class CustomerController {
                                  @RequestParam(required = false, defaultValue = "1") int numberOfPeople,
                                  Model model) {
 
+
         List<String> errorList = new ArrayList<>();
         if (startDate == null || endDate == null || roomId == null) {
             errorList.add("Fields can't be empty.");
@@ -133,7 +137,11 @@ public class CustomerController {
                 errorList.add("Room is too small. Choose one with bigger capacity");
             } else {
                 if (roomService.isAvailable(roomId, startDate, endDate, numberOfPeople)) {
-                    bookingService.createBooking(startDate, endDate, roomId, customerId, numberOfPeople);
+                    if (blacklistService.checkUserIfBlacklisted(customerService.findById(customerId).getEmail())){
+                        bookingService.createBooking(startDate, endDate, roomId, customerId, numberOfPeople);
+                    }else {
+                        errorList.add("User is blacklisted");
+                    }
                 } else {
                     errorList.add("Room not available for selected dates");
                 }

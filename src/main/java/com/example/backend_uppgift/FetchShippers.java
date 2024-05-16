@@ -14,7 +14,7 @@ import java.util.List;
 
 @ComponentScan
 public class FetchShippers implements CommandLineRunner {
-    ShipperService shipperService;
+    private final ShipperService shipperService;
 
     public FetchShippers(ShipperService shipperService) {
         this.shipperService = shipperService;

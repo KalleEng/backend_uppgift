@@ -9,4 +9,6 @@ public interface ContractCustomerService {
     void saveCustomer(ContractCustomer contractCustomer);
 
     List<ContractCustomer> getAllCustomers();
+
+    ContractCustomer findById(Long id);
 }
