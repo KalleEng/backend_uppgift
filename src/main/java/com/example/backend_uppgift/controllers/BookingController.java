@@ -36,6 +36,7 @@ public class BookingController {
                               @RequestParam Long roomId,
                               @RequestParam Long customerId,
                               @RequestParam int numberOfPeople){
+        //if(!blackListed) {} else {}
         if(roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
             bookingService.createBooking(startDate,endDate,roomId,customerId,numberOfPeople);
         } else{
