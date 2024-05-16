@@ -5,6 +5,8 @@ import com.example.backend_uppgift.models.ContractCustomer;
 import com.example.backend_uppgift.repositories.ContractCustomerRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContractCustomerServiceImpl implements ContractCustomerService {
     private final ContractCustomerRepo customerRepo;
@@ -14,4 +16,9 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
     }
     @Override
     public void saveCustomer(ContractCustomer contractCustomer){customerRepo.save(contractCustomer);}
+
+    @Override
+    public List<ContractCustomer> getAllCustomers() {
+        return customerRepo.findAll();
+    }
 }
