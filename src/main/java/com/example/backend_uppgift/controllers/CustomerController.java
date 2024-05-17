@@ -1,14 +1,16 @@
 package com.example.backend_uppgift.controllers;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
 import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
-import com.example.backend_uppgift.Services.BlacklistService;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.Services.CustomerService;
 import com.example.backend_uppgift.Services.RoomService;
+import com.example.backend_uppgift.Utils.Blacklist;
 import com.example.backend_uppgift.models.Customer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +20,13 @@ import java.util.List;
 public class CustomerController {
     private final CustomerService customerService;
     private final BookingService bookingService;
-
-    private final BlacklistService blacklistService;
+    private final Blacklist blacklistCheck;
     private final RoomService roomService;
 
-    public CustomerController(CustomerService customerService, BookingService bookingService, BlacklistService blacklistService, RoomService roomService) {
+    public CustomerController(CustomerService customerService, BookingService bookingService, Blacklist blacklistCheck, RoomService roomService) {
         this.customerService = customerService;
         this.bookingService = bookingService;
-        this.blacklistService = blacklistService;
+        this.blacklistCheck = blacklistCheck;
         this.roomService = roomService;
     }
 
@@ -109,6 +110,7 @@ public class CustomerController {
         Customer customer = customerService.findById(id);
         model.addAttribute("customer", customer);
         model.addAttribute("name", "customerName");
+
         return "newBooking";
     }
 
@@ -118,8 +120,7 @@ public class CustomerController {
                                  @RequestParam(required = false) Long roomId,
                                  @RequestParam Long customerId,
                                  @RequestParam(required = false, defaultValue = "1") int numberOfPeople,
-                                 Model model) {
-
+                                 Model model) throws IOException, InterruptedException {
 
         List<String> errorList = new ArrayList<>();
         if (startDate == null || endDate == null || roomId == null) {
@@ -137,7 +138,7 @@ public class CustomerController {
                 errorList.add("Room is too small. Choose one with bigger capacity");
             } else {
                 if (roomService.isAvailable(roomId, startDate, endDate, numberOfPeople)) {
-                    if (blacklistService.checkUserIfBlacklisted(customerService.findById(customerId).getEmail())){
+                    if (blacklistCheck.isOk(customerService.findById(customerId).getEmail())){
                         bookingService.createBooking(startDate, endDate, roomId, customerId, numberOfPeople);
                     }else {
                         errorList.add("User is blacklisted");
