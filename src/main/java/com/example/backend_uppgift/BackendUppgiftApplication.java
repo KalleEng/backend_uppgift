@@ -27,6 +27,10 @@ public class BackendUppgiftApplication {
             SpringApplication application = new SpringApplication(FetchShippers.class);
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
+        } else if (Objects.equals(args[0],"seedToDatabase")) {
+            SpringApplication application = new SpringApplication(SeedToDatabase.class);
+            application.setWebApplicationType(WebApplicationType.NONE);
+            application.run(args);
         }
     }
 
