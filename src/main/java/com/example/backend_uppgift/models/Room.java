@@ -21,11 +21,18 @@ public class Room {
     private Long id;
     private boolean isAvailable;
     private int bedCapacity;
+    private double price;
     @OneToMany
     private List<Booking> bookingList;
 
     public Room(int bedCapacity) {
         this.isAvailable = true;
         this.bedCapacity = bedCapacity;
+    }
+
+    public Room(int bedCapacity, double price) {
+        this.isAvailable = true;
+        this.bedCapacity = bedCapacity;
+        this.price = price;
     }
 }

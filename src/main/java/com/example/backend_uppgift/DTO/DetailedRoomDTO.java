@@ -15,5 +15,6 @@ public class DetailedRoomDTO {
     private Long id;
     private boolean isAvailable;
     private int bedCapacity;
+    private double price;
     private List<CompressedBookingDTO> bookingList;
 }

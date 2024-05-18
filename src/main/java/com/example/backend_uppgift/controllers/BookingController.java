@@ -44,7 +44,7 @@ public class BookingController {
         }
     }
 
-    @RequestMapping("/search")
+    @GetMapping("/search")
     public String searchDateByRange(@RequestParam LocalDate startDate,
                                     @RequestParam LocalDate endDate,
                                     @RequestParam int numberOfPeople,
@@ -68,6 +68,7 @@ public class BookingController {
         model.addAttribute("numberOfPeople",numberOfPeople);
         model.addAttribute("roomId","Room ID:");
         model.addAttribute("bedCap","Bed Capacity:");
+        model.addAttribute("price", "Price: ");
         return "roomSearch";
     }
 

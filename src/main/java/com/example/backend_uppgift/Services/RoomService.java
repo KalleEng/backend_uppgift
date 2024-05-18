@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface RoomService {
     public CompressedRoomDTO roomToCompRoomDTO(Room room);
-
     public DetailedRoomDTO roomToDetailedRoomDTO(Room room);
     public List<DetailedRoomDTO> getAllRooms();
     public DetailedRoomDTO getRoomById(Long id);

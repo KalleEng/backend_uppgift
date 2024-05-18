@@ -38,12 +38,12 @@ public class BookingServiceImpl implements BookingService {
                 .id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
-                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity()))
+                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity(), booking.getRoom().getPrice()))
                 .build();
     }
 
     private CompressedRoomDTO roomToCompRoomDTO(Room room) {
-        return CompressedRoomDTO.builder().id(room.getId()).bedCapacity(room.getBedCapacity()).build();
+        return CompressedRoomDTO.builder().id(room.getId()).bedCapacity(room.getBedCapacity()).price(room.getPrice()).build();
     }
 
     @Override
@@ -54,7 +54,8 @@ public class BookingServiceImpl implements BookingService {
                 .endDate(booking.getEndDate())
                 .compCustomerDTO(new CompressedCustomerDTO(booking.getCustomer().getId(),
                         booking.getCustomer().getName()))
-                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity()))
+                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity(),
+                        booking.getRoom().getPrice()))
                 .build();
     }
 

@@ -34,6 +34,7 @@ public class RoomServiceImpl implements RoomService {
                 .id(room.getId())
                 .isAvailable(room.isAvailable())
                 .bedCapacity(room.getBedCapacity())
+                .price(room.getPrice())
                 .bookingList(room.getBookingList().stream().map(booking -> bookingToCompBookingDTO(booking)).toList())
                 .build();
     }

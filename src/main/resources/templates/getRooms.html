@@ -54,6 +54,9 @@
     <td th:text="${rooms.id}"></td>
     <td th:text="${bedCap}"></td>
     <td th:text="${rooms.bedCapacity}"></td>
+    <td th:text="${price}"></td>
+    <td th:text="${rooms.price}"></td>
+
     <td><a th:href="@{/rooms/delete/{id}(id=${rooms.id})}">Delete</a></td>
   </tr>
   </tbody>
