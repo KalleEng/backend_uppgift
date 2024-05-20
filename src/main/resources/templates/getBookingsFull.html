@@ -59,6 +59,8 @@
             <td th:text="${book.endDate}"></td>
             <td th:text="${roomId}"></td>
             <td th:text="${book.compRoom.id}"></td>
+            <td th:text="${total}"></td>
+            <td th:text="${book.total} + ${sek}"></td>
             <td>Customer:</td>
             <td th:text="${book.compCustomerDTO.name}"></td>
             <td><a th:href="@{/bookings/delete/{id}(id=${book.id})}">Delete</a></td>

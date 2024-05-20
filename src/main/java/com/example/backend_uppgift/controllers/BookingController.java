@@ -30,6 +30,7 @@ public class BookingController {
         return getBookingsFull(model);
     }
 
+/*
     @RequestMapping("/create")
     public void createBooking(@RequestParam LocalDate startDate,
                               @RequestParam LocalDate endDate,
@@ -43,6 +44,7 @@ public class BookingController {
             System.out.println("False");
         }
     }
+*/
 
     @GetMapping("/search")
     public String searchDateByRange(@RequestParam LocalDate startDate,
@@ -80,6 +82,8 @@ public class BookingController {
         model.addAttribute("roomId","Room id:");
         model.addAttribute("from","From:");
         model.addAttribute("until","Until:");
+        model.addAttribute("total","Total:");
+        model.addAttribute("sek"," SEK");
         return "getBookingsFull";
     }
 

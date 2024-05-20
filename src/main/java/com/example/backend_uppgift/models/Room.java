@@ -19,15 +19,14 @@ public class Room {
     @Id
     @GeneratedValue
     private Long id;
-    private boolean isAvailable;
     private int bedCapacity;
     private double price;
     @OneToMany
     private List<Booking> bookingList;
 
-    public Room(int bedCapacity) {
-        this.isAvailable = true;
+    public Room(int bedCapacity, double price) {
         this.bedCapacity = bedCapacity;
+        this.price = price;
     }
 
     public Room(int bedCapacity, double price) {

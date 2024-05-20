@@ -56,7 +56,6 @@
     <td th:text="${rooms.bedCapacity}"></td>
     <td th:text="${price}"></td>
     <td th:text="${rooms.price}"></td>
-
     <td><a th:href="@{/rooms/delete/{id}(id=${rooms.id})}">Delete</a></td>
   </tr>
   </tbody>
@@ -64,11 +63,5 @@
 <a href="/rooms/create">
   <input type="submit" value="Create new room">
 </a>
-<h3>View Room Events</h3>
-<form th:action="@{/events/eventByRoomId}" method="get">
-  <label for="roomId">Room ID:</label>
-  <input type="text" id="roomId" name="roomId" required>
-  <button type="submit">View Events</button>
-</form>
 </body>
 </html>

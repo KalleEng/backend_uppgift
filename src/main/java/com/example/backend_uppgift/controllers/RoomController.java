@@ -8,7 +8,6 @@ import com.example.backend_uppgift.repositories.RoomRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,7 +29,7 @@ public class RoomController {
         model.addAttribute("roomsHeader", "All Rooms");
         model.addAttribute("roomId", "Room ID:");
         model.addAttribute("bedCap", "Bed Capacity:");
-        model.addAttribute("price", "Price:");
+        model.addAttribute("price", "Price Per Night:");
         return "getRooms";
     }
 
@@ -45,9 +44,10 @@ public class RoomController {
         return "createRoom";
     }
 
-    @PostMapping("/created")
-    public String createdRoom(@RequestParam int bedCapacity, @RequestParam double price){
-        roomService.saveRoom(new Room(bedCapacity, price));
+    @RequestMapping("/created")
+    public String createdRoom(@RequestParam int bedCapacity,
+                              @RequestParam double price){
+        roomService.saveRoom(new Room(bedCapacity,price));
         return "redirect:/rooms/all";
     }
 

@@ -2,6 +2,7 @@ package com.example.backend_uppgift.Services.Impl;
 
 import com.example.backend_uppgift.Services.ContractCustomerService;
 import com.example.backend_uppgift.models.ContractCustomer;
+import com.example.backend_uppgift.models.Customer;
 import com.example.backend_uppgift.repositories.ContractCustomerRepo;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,10 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
     @Override
     public List<ContractCustomer> getAllCustomers() {
         return customerRepo.findAll();
+    }
+
+    @Override
+    public ContractCustomer findById(Long id) {
+        return customerRepo.findById(id).orElse(null);
     }
 }
