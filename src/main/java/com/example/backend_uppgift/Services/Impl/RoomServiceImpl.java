@@ -25,15 +25,15 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public CompressedRoomDTO roomToCompRoomDTO(Room room){
-        return CompressedRoomDTO.builder().id(room.getId()).build();
+        return CompressedRoomDTO.builder().id(room.getId()).price(room.getPrice()).build();
     }
 
     @Override
     public DetailedRoomDTO roomToDetailedRoomDTO(Room room){
         return DetailedRoomDTO.builder()
                 .id(room.getId())
-                .isAvailable(room.isAvailable())
                 .bedCapacity(room.getBedCapacity())
+                .price(room.getPrice())
                 .bookingList(room.getBookingList().stream().map(booking -> bookingToCompBookingDTO(booking)).toList())
                 .build();
     }
@@ -52,16 +52,25 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public DetailedRoomDTO getRoomById(Long id){
+        return roomRepo.getRoomById(id).map(r->roomToDetailedRoomDTO(r)).orElse(null);
+    }
+    /*@Override
     public DetailedRoomDTO getRoomById(Long id) {
         return roomRepo.findById(id).map(r-> roomToDetailedRoomDTO(r)).orElse(null);
-    }
+    }*/
 
     @Override
+    public boolean isAvailable(Long roomId, LocalDate startDate, LocalDate endDate, int numberOfPeople){
+        return bookingRepo.isAvailable(roomId,startDate,endDate,numberOfPeople);
+    }
+
+    /*@Override
     public boolean isAvailable(Long roomId, LocalDate startDate, LocalDate endDate, int numberOfPeople) {
         return bookingRepo.findByRoomId(roomId).stream()
                 .noneMatch(booking ->
                         !((endDate.isBefore(booking.getStartDate()) || startDate.isAfter(booking.getEndDate())) && booking.getRoom().getBedCapacity()>=numberOfPeople));
-    }
+    }*/
 
     @Override
     public void deleteById(Long id) {
@@ -73,3 +82,4 @@ public class RoomServiceImpl implements RoomService {
         roomRepo.save(room);
     }
 }
+

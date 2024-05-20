@@ -3,12 +3,19 @@ import com.example.backend_uppgift.DTO.DetailedBookingDTO;
 import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.Services.CustomerService;
+import com.example.backend_uppgift.Services.DiscountService;
 import com.example.backend_uppgift.Services.RoomService;
+import com.example.backend_uppgift.Utils.Blacklist;
 import com.example.backend_uppgift.models.Customer;
+import com.example.backend_uppgift.repositories.CustomerRepo;
+import com.example.backend_uppgift.repositories.ShipperRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +24,16 @@ import java.util.List;
 public class CustomerController {
     private final CustomerService customerService;
     private final BookingService bookingService;
-
+    private final Blacklist blacklistCheck;
     private final RoomService roomService;
+    private final DiscountService discountService;
 
-    public CustomerController(CustomerService customerService, BookingService bookingService, RoomService roomService) {
+    public CustomerController(CustomerService customerService, BookingService bookingService, Blacklist blacklistCheck, RoomService roomService, CustomerRepo customerRepo, ShipperRepo shipperRepo, DiscountService discountService) {
         this.customerService = customerService;
         this.bookingService = bookingService;
+        this.blacklistCheck = blacklistCheck;
         this.roomService = roomService;
+        this.discountService = discountService;
     }
 
     @RequestMapping("/delete/{id}")
@@ -106,6 +116,7 @@ public class CustomerController {
         Customer customer = customerService.findById(id);
         model.addAttribute("customer", customer);
         model.addAttribute("name", "customerName");
+
         return "newBooking";
     }
 
@@ -115,7 +126,12 @@ public class CustomerController {
                                  @RequestParam(required = false) Long roomId,
                                  @RequestParam Long customerId,
                                  @RequestParam(required = false, defaultValue = "1") int numberOfPeople,
-                                 Model model) {
+                                 Model model) throws IOException, InterruptedException {
+
+
+
+        double total = discountService.calculateTotal(startDate,endDate,roomService.getRoomById(roomId).getPrice());
+
 
         List<String> errorList = new ArrayList<>();
         if (startDate == null || endDate == null || roomId == null) {
@@ -123,19 +139,25 @@ public class CustomerController {
             model.addAttribute("errorList", errorList);
             return getCustomersFull(model);
         } else {
-            if (endDate.isBefore(startDate)){
+            if (endDate.isBefore(startDate)) {
                 errorList.add("End Date can't be before Start Date");
             }
             if (roomService.getRoomById(roomId) == null) {
                 errorList.add("Room doesn't exist");
-            }
-            if (numberOfPeople > roomService.getRoomById(roomId).getBedCapacity()) {
-                errorList.add("Room is too small. Choose one with bigger capacity");
             } else {
-                if (roomService.isAvailable(roomId, startDate, endDate, numberOfPeople)) {
-                    bookingService.createBooking(startDate, endDate, roomId, customerId, numberOfPeople);
+
+                if (numberOfPeople > roomService.getRoomById(roomId).getBedCapacity()) {
+                    errorList.add("Room is too small. Choose one with bigger capacity");
                 } else {
-                    errorList.add("Room not available for selected dates");
+                    if (roomService.isAvailable(roomId, startDate, endDate, numberOfPeople)) {
+                        if (blacklistCheck.isOk(customerService.findById(customerId).getEmail())) {
+                            bookingService.createBooking(startDate, endDate, roomId, customerId, numberOfPeople, total);
+                        } else {
+                            errorList.add("User is blacklisted");
+                        }
+                    } else {
+                        errorList.add("Room not available for selected dates");
+                    }
                 }
             }
         }

@@ -18,29 +18,22 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Booking {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     private Long id;
-
     private LocalDate startDate;
-
     private LocalDate endDate;
-
-    @ManyToOne
-    @JoinColumn
-    @NotNull
+    @ManyToOne @JoinColumn @NotNull
     private Customer customer;
-
-    @ManyToOne
-    @JoinColumn
-    @NotNull
+    @ManyToOne @JoinColumn @NotNull
     private Room room;
+    private double total;
 
-    public Booking(LocalDate startDate, LocalDate endDate, Room room, Customer customer) {
+    public Booking(LocalDate startDate, LocalDate endDate, Room room, Customer customer, double total) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.room = room;
         this.customer = customer;
+        this.total = total;
     }
 }
 
