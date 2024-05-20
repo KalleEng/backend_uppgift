@@ -28,4 +28,10 @@ public class Room {
         this.bedCapacity = bedCapacity;
         this.price = price;
     }
+
+    public Room(int bedCapacity, double price) {
+        this.isAvailable = true;
+        this.bedCapacity = bedCapacity;
+        this.price = price;
+    }
 }
