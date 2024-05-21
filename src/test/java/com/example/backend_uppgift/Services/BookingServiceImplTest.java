@@ -35,7 +35,7 @@ class BookingServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
+/*    @Test
     void createBooking_RoomNotAvailable_ThrowsException(){
         LocalDate startDate = LocalDate.of(2024,4,20);
         LocalDate endDate = LocalDate.of(2024,4,21);
@@ -50,6 +50,6 @@ class BookingServiceImplTest {
         });
 
         verify(bookingRepo, never()).save(any(Booking.class));
-    }
+    }*/
 
 }

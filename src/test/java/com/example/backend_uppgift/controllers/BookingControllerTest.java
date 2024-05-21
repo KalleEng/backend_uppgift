@@ -50,7 +50,6 @@ public class BookingControllerTest {
 
         Room mockRoom = mock(Room.class);
         when(mockRoom.getId()).thenReturn(1L);
-        when(mockRoom.isAvailable()).thenReturn(true);
         when(mockRoom.getBedCapacity()).thenReturn(2);
         when(mockRoom.getBookingList()).thenReturn(new ArrayList<>());
 
