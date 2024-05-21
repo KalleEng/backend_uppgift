@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Room Event</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        td, th {
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+            padding: 4px 8px;
+            border: 1px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        a:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<h1>Events for Room <span th:text="${roomId}"></span></h1>
+<table>
+    <thead>
+    <tr>
+        <th>Event</th>
+        <th>Timestamp</th>
+        <th>Personnel Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="event : ${events}">
+        <td th:text="${event.event}"></td>
+        <td th:text="${event.timeStamp}"></td>
+        <td th:text="${event.personelName}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div>
+    <a th:href="@{/customers/all}">Customers</a>
+    <a th:href="@{/bookings/all}">Bookings</a>
+    <a th:href="@{/rooms/all}">Rooms</a>
+</div>
+</body>
+</html>

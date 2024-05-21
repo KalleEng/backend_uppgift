@@ -63,5 +63,11 @@
 <a href="/rooms/create">
   <input type="submit" value="Create new room">
 </a>
+<h3>View Room Events</h3>
+<form th:action="@{/events/eventByRoomId}" method="get">
+  <label for="roomId">Room ID:</label>
+  <input type="text" id="roomId" name="roomId" required>
+  <button type="submit">View Events</button>
+</form>
 </body>
 </html>
