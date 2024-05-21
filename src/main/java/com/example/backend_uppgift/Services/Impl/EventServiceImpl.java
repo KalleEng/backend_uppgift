@@ -4,12 +4,13 @@ import com.example.backend_uppgift.Services.EventService;
 import com.example.backend_uppgift.models.Event;
 import com.example.backend_uppgift.repositories.EventRepo;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class EventServiceImpl implements EventService {
-    private EventRepo eventRepo;
+    private final EventRepo eventRepo;
 
     public EventServiceImpl(EventRepo eventRepo) {
         this.eventRepo = eventRepo;
