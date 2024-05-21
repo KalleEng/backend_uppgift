@@ -8,6 +8,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -22,14 +24,16 @@ public class FetchShippers implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception{
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
 
-        Shipper[] shippers = objectMapper.readValue(new URL("https://javaintegration.systementor.se/shippers"), Shipper[].class);
-        List<Shipper> shippersList = Arrays.asList(shippers);
+        List<Shipper> shippersList = getShippers();
         for (Shipper s: shippersList) {
             shipperService.saveShipper(new Shipper(s.id,s.companyName, s.phone));
         }
 
+    }
+    public List<Shipper> getShippers() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return Arrays.asList(objectMapper.readValue(new URL("https://javaintegration.systementor.se/shippers"), Shipper[].class));
     }
 }
