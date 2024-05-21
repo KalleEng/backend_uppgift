@@ -13,7 +13,7 @@ public interface RoomService {
     public DetailedRoomDTO roomToDetailedRoomDTO(Room room);
     public List<DetailedRoomDTO> getAllRooms();
     public DetailedRoomDTO getRoomById(Long id);
-    public boolean isAvailable(Long roomId, LocalDate startDate, LocalDate endDate);
+    public boolean isAvailable(Long roomId, LocalDate startDate, LocalDate endDate, int numberOfPeople);
     void deleteById(Long id);
     void saveRoom(Room room);
 }

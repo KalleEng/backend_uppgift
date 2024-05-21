@@ -18,13 +18,10 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;
-    private final BookingRepo bookingRepo;
 
-    public CustomerServiceImpl(CustomerRepo customerRepo, BookingRepo bookingRepo) {
+    public CustomerServiceImpl(CustomerRepo customerRepo) {
         this.customerRepo = customerRepo;
-        this.bookingRepo = bookingRepo;
     }
-
     @Override
     public void registerCustomer(String name, String email) {
 
@@ -68,7 +65,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
-    private CompressedBookingDTO bookingToCompBookingDTO(Booking booking) {
+    public CompressedBookingDTO bookingToCompBookingDTO(Booking booking) {
         return CompressedBookingDTO.builder()
                 .id(booking.getId())
                 .startDate(booking.getStartDate())

@@ -2,17 +2,16 @@ package com.example.backend_uppgift.controllers;
 
 import com.example.backend_uppgift.DTO.CompressedRoomDTO;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
-import com.example.backend_uppgift.DTO.DetailedRoomDTO;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.Services.RoomService;
 import com.example.backend_uppgift.models.Booking;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/bookings")
@@ -31,28 +30,46 @@ public class BookingController {
         return getBookingsFull(model);
     }
 
+/*
     @RequestMapping("/create")
     public void createBooking(@RequestParam LocalDate startDate,
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
-                              @RequestParam Long customerId){
-        if(roomService.isAvailable(roomId,startDate,endDate)){
-            bookingService.createBooking(startDate,endDate,roomId,customerId);
+                              @RequestParam Long customerId,
+                              @RequestParam int numberOfPeople){
+        //if(!blackListed) {} else {}
+        if(roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
+            bookingService.createBooking(startDate,endDate,roomId,customerId,numberOfPeople);
         } else{
             System.out.println("False");
         }
     }
+*/
 
     @RequestMapping("/search")
     public String searchDateByRange(@RequestParam LocalDate startDate,
                                     @RequestParam LocalDate endDate,
                                     @RequestParam int numberOfPeople,
                                     Model model){
-        List<CompressedRoomDTO> availableRooms = bookingService.findAvailableRooms(startDate, endDate,numberOfPeople);
-        model.addAttribute("availableRooms", availableRooms);
+        List<String> errorList = new ArrayList<>();
+        if (endDate.isBefore(startDate)){
+            errorList.add("End Date can't be before Start Date");
+        }
+        if (numberOfPeople <= 0){
+            errorList.add("Number of people can't be 0 or below");
+        } else {
+            List<CompressedRoomDTO> availableRooms = bookingService.findAvailableRooms(startDate, endDate, numberOfPeople);
+            if (availableRooms.isEmpty()){
+                errorList.add("No rooms are available");
+            }
+            model.addAttribute("availableRooms", availableRooms);
+        }
         model.addAttribute("searchStart", startDate);
         model.addAttribute("searchEnd", endDate);
+        model.addAttribute("errors", errorList);
         model.addAttribute("numberOfPeople",numberOfPeople);
+        model.addAttribute("roomId","Room ID:");
+        model.addAttribute("bedCap","Bed Capacity:");
         return "roomSearch";
     }
 
@@ -64,6 +81,8 @@ public class BookingController {
         model.addAttribute("roomId","Room id:");
         model.addAttribute("from","From:");
         model.addAttribute("until","Until:");
+        model.addAttribute("total","Total:");
+        model.addAttribute("sek"," SEK");
         return "getBookingsFull";
     }
 

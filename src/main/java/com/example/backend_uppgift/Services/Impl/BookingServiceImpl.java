@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,7 +38,8 @@ public class BookingServiceImpl implements BookingService {
                 .id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
-                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity()))
+                .total(booking.getTotal())
+                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity(),booking.getRoom().getPrice()))
                 .build();
     }
 
@@ -51,9 +53,10 @@ public class BookingServiceImpl implements BookingService {
                 .id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
+                .total(booking.getTotal())
                 .compCustomerDTO(new CompressedCustomerDTO(booking.getCustomer().getId(),
                         booking.getCustomer().getName()))
-                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity()))
+                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity(),booking.getRoom().getPrice()))
                 .build();
     }
 
@@ -80,15 +83,19 @@ public class BookingServiceImpl implements BookingService {
     public void createBooking(@RequestParam LocalDate startDate,
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
-                              @RequestParam Long customerId){
-        if (!roomService.isAvailable(roomId,startDate,endDate)){
+                              @RequestParam Long customerId,
+                              @RequestParam int numberOfPeople,
+                              @RequestParam double total){
+        if (!roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
             throw new RuntimeException("Room not available these dates");
         }
         bookingRepo.save(new Booking(
                 startDate,
                 endDate,
                 roomRepo.findById(roomId).orElse(null),
-                customerRepo.findById(customerId).orElse(null)));
+                customerRepo.findById(customerId).orElse(null),
+                total)
+        );
     }
 
     @Override
@@ -116,7 +123,4 @@ public class BookingServiceImpl implements BookingService {
                 .collect(Collectors.toList());
     }
 
-    /*public CompressedCustomerDTO customerToCompCustomerDTO(Customer customer){
-        return CompressedCustomerDTO.builder().id(customer.getId()).name(customer.getName()).build();
-    }*/
 }

@@ -41,11 +41,12 @@ class BookingServiceImplTest {
         LocalDate endDate = LocalDate.of(2024,4,21);
         Long roomId = 1L;
         Long customerId = 1L;
+        int numberOfPeople = 1;
 
-        when(roomService.isAvailable(roomId,startDate,endDate)).thenReturn(false);
+        when(roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)).thenReturn(false);
 
         assertThrows(RuntimeException.class, () -> {
-            bookingService.createBooking(startDate,endDate,roomId,customerId);
+            bookingService.createBooking(startDate,endDate,roomId,customerId,numberOfPeople);
         });
 
         verify(bookingRepo, never()).save(any(Booking.class));

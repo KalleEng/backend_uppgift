@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class CompressedRoomDTO {
     private Long id;
     private int bedCapacity;
+    private double price;
 }

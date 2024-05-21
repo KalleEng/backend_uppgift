@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Room Search</title>
+    <title>All Customers</title>
     <style>
         table {
             border-collapse: collapse;
@@ -46,24 +46,24 @@
     <td><a th:href="@{/bookings/all}">Bookings</a></td>
     <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
-<h2>Room Search</h2>
-<div th:if="${not #lists.isEmpty(errors)}">
-    <div style="color: red;">
-        <ul>
-            <li th:each="error : ${errors}" th:text="${error}"></li>
-        </ul>
-    </div>
-</div>
-<table>
-    <th:block th:if="${#lists.isEmpty(errors)}">
-        <tr th:each="rooms: ${availableRooms}">
-            <td th:text="${roomId}"></td>
-            <td th:text="${rooms.id}"></td>
-            <td th:text="${bedCap}"></td>
-            <td th:text="${rooms.bedCapacity}"></td>
+<h3>All Customers</h3>
+<div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
+    <table>
+        <tbody>
+        <tr th:each="cus: ${allCustomers}">
+            <td th:text="${cus.companyName}"></td>
+            <td th:text="${cus.contactName}"></td>
+            <td th:text="${cus.country}"></td>
+            <!--<td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
+            <td><a th:href="@{/customers/edit/{id}(id=${cus.id})}">Update</a></td>
+            <td><a th:href="@{/customers/customerBookings/{id}(id=${cus.id})}">Show bookings</a></td>
+            <td><a th:href="@{/contract-customers/check-blacklist/{id}(id=${cus.id})}">Create new booking</a></td>-->
         </tr>
-    </th:block>
-</table>
-
+        </tbody>
+    </table>
+</div>
+<a href="/customers/add">
+    <input type="submit" value="Add new customer">
+</a>
 </body>
 </html>
