@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>All Customers</title>
     <style>
         table {
             border-collapse: collapse;
@@ -46,14 +46,24 @@
     <td><a th:href="@{/bookings/all}">Bookings</a></td>
     <td><a th:href="@{/rooms/all}">Rooms</a></td>
 </table>
-<h3>Create New Room</h3>
-<form action="/rooms/created" method="post">
-  <label for="bedCapacity">Bed Capacity:</label><br>
-  <input type="text" id = "bedCapacity" name="bedCapacity" value=""><br>
-    <label for="price">Price:</label><br>
-    <input type="text" id = "price" name="price" value=""><br>
-  <input type="submit" value="Submit">
-</form>
-
+<h3>All Customers</h3>
+<div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
+    <table>
+        <tbody>
+        <tr th:each="cus: ${allCustomers}">
+            <td th:text="${cus.companyName}"></td>
+            <td th:text="${cus.contactName}"></td>
+            <td th:text="${cus.country}"></td>
+            <!--<td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
+            <td><a th:href="@{/customers/edit/{id}(id=${cus.id})}">Update</a></td>
+            <td><a th:href="@{/customers/customerBookings/{id}(id=${cus.id})}">Show bookings</a></td>
+            <td><a th:href="@{/contract-customers/check-blacklist/{id}(id=${cus.id})}">Create new booking</a></td>-->
+        </tr>
+        </tbody>
+    </table>
+</div>
+<a href="/customers/add">
+    <input type="submit" value="Add new customer">
+</a>
 </body>
 </html>

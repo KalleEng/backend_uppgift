@@ -38,7 +38,8 @@ public class BookingServiceImpl implements BookingService {
                 .id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
-                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity()))
+                .total(booking.getTotal())
+                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity(),booking.getRoom().getPrice()))
                 .build();
     }
 
@@ -52,9 +53,10 @@ public class BookingServiceImpl implements BookingService {
                 .id(booking.getId())
                 .startDate(booking.getStartDate())
                 .endDate(booking.getEndDate())
+                .total(booking.getTotal())
                 .compCustomerDTO(new CompressedCustomerDTO(booking.getCustomer().getId(),
                         booking.getCustomer().getName()))
-                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity()))
+                .compRoom(new CompressedRoomDTO(booking.getRoom().getId(),booking.getRoom().getBedCapacity(),booking.getRoom().getPrice()))
                 .build();
     }
 
@@ -82,7 +84,8 @@ public class BookingServiceImpl implements BookingService {
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
                               @RequestParam Long customerId,
-                              @RequestParam int numberOfPeople){
+                              @RequestParam int numberOfPeople,
+                              @RequestParam double total){
         if (!roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
             throw new RuntimeException("Room not available these dates");
         }
@@ -90,7 +93,9 @@ public class BookingServiceImpl implements BookingService {
                 startDate,
                 endDate,
                 roomRepo.findById(roomId).orElse(null),
-                customerRepo.findById(customerId).orElse(null)));
+                customerRepo.findById(customerId).orElse(null),
+                total)
+        );
     }
 
     @Override

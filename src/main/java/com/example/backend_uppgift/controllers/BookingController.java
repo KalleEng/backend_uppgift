@@ -30,18 +30,21 @@ public class BookingController {
         return getBookingsFull(model);
     }
 
+/*
     @RequestMapping("/create")
     public void createBooking(@RequestParam LocalDate startDate,
                               @RequestParam LocalDate endDate,
                               @RequestParam Long roomId,
                               @RequestParam Long customerId,
                               @RequestParam int numberOfPeople){
+        //if(!blackListed) {} else {}
         if(roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
             bookingService.createBooking(startDate,endDate,roomId,customerId,numberOfPeople);
         } else{
             System.out.println("False");
         }
     }
+*/
 
     @RequestMapping("/search")
     public String searchDateByRange(@RequestParam LocalDate startDate,
@@ -78,6 +81,8 @@ public class BookingController {
         model.addAttribute("roomId","Room id:");
         model.addAttribute("from","From:");
         model.addAttribute("until","Until:");
+        model.addAttribute("total","Total:");
+        model.addAttribute("sek"," SEK");
         return "getBookingsFull";
     }
 

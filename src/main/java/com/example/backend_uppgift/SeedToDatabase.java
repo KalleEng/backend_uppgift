@@ -12,13 +12,15 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-@Component
+@ComponentScan
 public class SeedToDatabase implements CommandLineRunner {
 
     private static final Logger logger = Logger.getLogger(SeedToDatabase.class.getName());
+
+
     private EventService eventService;
 
-    @Autowired
+
     public SeedToDatabase(EventService eventService) {
         this.eventService = eventService;
     }
