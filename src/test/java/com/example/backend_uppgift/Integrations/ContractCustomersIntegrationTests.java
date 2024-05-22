@@ -1,5 +1,6 @@
-package com.example.backend_uppgift;
+package com.example.backend_uppgift.Integrations;
 
+import com.example.backend_uppgift.FetchContractCustomers;
 import com.example.backend_uppgift.Services.ContractCustomerService;
 import com.example.backend_uppgift.Utils.StreamProvider;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class ContractCustomersIntegrationTests {
     @Test
     void getContractCustomersWillFetch() throws IOException {
         sut = new FetchContractCustomers(contractCustomerService,streamProvider);
-        Scanner s = new Scanner(sut.xmlStreamProvider.getDataStreamContractCustomers()).useDelimiter("\\A");
+        Scanner s = new Scanner(sut.streamProvider.getDataStreamContractCustomers()).useDelimiter("\\A");
         String result = s.hasNext() ? s.next() : "";
 
         assertTrue( result.contains("<allcustomers>"));

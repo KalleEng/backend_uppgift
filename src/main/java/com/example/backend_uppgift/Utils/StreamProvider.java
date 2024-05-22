@@ -11,4 +11,9 @@ public class StreamProvider {
         URL url = new URL("https://javaintegration.systementor.se/customers");
         return url.openStream();
     }
+
+    public InputStream getDataStreamShippers()throws IOException{
+        URL url = new URL("https://javaintegration.systementor.se/shippers");
+        return url.openStream();
+    }
 }

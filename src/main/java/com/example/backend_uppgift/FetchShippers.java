@@ -1,6 +1,7 @@
 package com.example.backend_uppgift;
 
 import com.example.backend_uppgift.Services.ShipperService;
+import com.example.backend_uppgift.Utils.StreamProvider;
 import com.example.backend_uppgift.models.Shipper;
 import com.example.backend_uppgift.repositories.ShipperRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,10 +17,12 @@ import java.util.List;
 
 @ComponentScan
 public class FetchShippers implements CommandLineRunner {
-    private final ShipperService shipperService;
+    ShipperService shipperService;
+    public final StreamProvider streamProvider;
 
-    public FetchShippers(ShipperService shipperService) {
+    public FetchShippers(ShipperService shipperService, StreamProvider streamProvider) {
         this.shipperService = shipperService;
+        this.streamProvider = streamProvider;
     }
 
     @Override
@@ -34,6 +37,6 @@ public class FetchShippers implements CommandLineRunner {
     public List<Shipper> getShippers() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
-        return Arrays.asList(objectMapper.readValue(new URL("https://javaintegration.systementor.se/shippers"), Shipper[].class));
+        return Arrays.asList(objectMapper.readValue(streamProvider.getDataStreamShippers(), Shipper[].class));
     }
 }

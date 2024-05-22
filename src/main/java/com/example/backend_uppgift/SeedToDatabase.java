@@ -1,6 +1,7 @@
 package com.example.backend_uppgift;
 
 import com.example.backend_uppgift.Services.EventService;
+import com.example.backend_uppgift.Utils.StreamProvider;
 import com.example.backend_uppgift.models.Event;
 import com.example.backend_uppgift.repositories.EventRepo;
 import org.springframework.beans.factory.annotation.Autowired;
