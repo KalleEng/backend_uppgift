@@ -13,4 +13,5 @@ import org.springframework.context.annotation.Configuration;
 public class IntegrationProperties {
     private ContractCustomerProperties contractCustomerProperties;
     private ShipperProperties shipperProperties;
+    private BlacklistProperties blacklistProperties;
 }

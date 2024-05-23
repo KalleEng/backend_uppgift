@@ -10,10 +10,15 @@ import java.net.http.HttpResponse;
 
 @Component
 public class Blacklist {
+    public final StreamProvider streamProvider;
+
+    public Blacklist(StreamProvider streamProvider) {
+        this.streamProvider = streamProvider;
+    }
 
     public boolean isOk(String email) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://javabl.systementor.se/api/stefan/blacklistcheck/"
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(streamProvider.getDataStreamBlacklist()
                 + email))
                 .GET()
                 .build();

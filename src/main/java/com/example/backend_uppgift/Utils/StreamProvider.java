@@ -21,8 +21,12 @@ public class StreamProvider {
     }
 
     public InputStream getDataStreamShippers()throws IOException{
-
         URL url = new URL(properties.getShipperProperties().getUrl());
+        return url.openStream();
+    }
+
+    public InputStream getDataStreamBlacklist() throws IOException{
+        URL url = new URL(properties.getBlacklistProperties().getUrl());
         return url.openStream();
     }
 }
