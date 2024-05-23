@@ -1,5 +1,6 @@
-package com.example.backend_uppgift;
+package com.example.backend_uppgift.Integrations;
 
+import com.example.backend_uppgift.FetchContractCustomers;
 import com.example.backend_uppgift.Services.ContractCustomerService;
 import com.example.backend_uppgift.Utils.StreamProvider;
 import com.example.backend_uppgift.models.ContractCustomer;

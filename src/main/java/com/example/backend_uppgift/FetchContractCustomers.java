@@ -16,11 +16,11 @@ import java.util.List;
 @ComponentScan
 public class FetchContractCustomers implements CommandLineRunner {
     ContractCustomerService customerService;
-    final StreamProvider xmlStreamProvider;
+    public final StreamProvider streamProvider;
 
-    public FetchContractCustomers(ContractCustomerService customerService, StreamProvider xmlStreamProvider) {
+    public FetchContractCustomers(ContractCustomerService customerService, StreamProvider streamProvider) {
         this.customerService = customerService;
-        this.xmlStreamProvider = xmlStreamProvider;
+        this.streamProvider = streamProvider;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class FetchContractCustomers implements CommandLineRunner {
         JacksonXmlModule module = new JacksonXmlModule();
         module.setDefaultUseWrapper(false);
         XmlMapper mapper = new XmlMapper(module);
-        InputStream stream = xmlStreamProvider.getDataStreamContractCustomers();
+        InputStream stream = streamProvider.getDataStreamContractCustomers();
         AllCustomers customers = mapper.readValue(stream, AllCustomers.class);
         return customers.customers;
     }
