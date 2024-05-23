@@ -32,12 +32,15 @@ public class WebSecurityConfig {
         return authenticationProvider;
     }
 
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
         http
                 .authorizeHttpRequests((requests)-> requests
-                        .requestMatchers("/","/js/**","/css/**","/images/**","/login/**","/logout/","/queues/**").permitAll()
+                        .requestMatchers("/","/rooms/all","/js/**","/css/**","/images/**","/login/**","/logout/","/queues/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .formLogin((form)-> form
+                        .permitAll())
                 .logout((logout)-> {
                     logout.permitAll();
                     logout.logoutSuccessUrl("/");

@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class SecTestController {
+public class SecTestController extends BaseController{
 
     @GetMapping(path = "/admin")
     @PreAuthorize("hasAuthority('Admin')")
@@ -16,10 +16,11 @@ public class SecTestController {
         return "security/admin";
     }
 
-    @GetMapping(path = "/customer")
+    /*@GetMapping(path = "/customer")
     @PreAuthorize("hasAuthority('Customer')")
     public String mew(Model model){
-        model.addAttribute()
-    }
+        model.addAttribute("")
+        model.addAttribute("username")
+    }*/
 }
 

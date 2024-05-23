@@ -23,6 +23,9 @@ public class User {
     private String username;
     private String password;
     private boolean enabled;
+    private boolean accountNonExpired;
+    private boolean credentialsNonExpired;
+    private boolean accountNonLocked;
     @OneToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles;
 }

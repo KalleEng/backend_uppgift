@@ -5,6 +5,8 @@ import com.example.backend_uppgift.models.Room;
 import com.example.backend_uppgift.repositories.BookingRepo;
 import com.example.backend_uppgift.repositories.CustomerRepo;
 import com.example.backend_uppgift.repositories.RoomRepo;
+import com.example.backend_uppgift.security.UserDataSeeder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -16,6 +18,8 @@ import java.util.Objects;
 
 @SpringBootApplication
 public class BackendUppgiftApplication {
+    @Autowired
+    private UserDataSeeder userDataSeeder;
     public static void main(String[] args) {
         if (args.length == 0){
             SpringApplication.run(BackendUppgiftApplication.class, args);
@@ -32,6 +36,12 @@ public class BackendUppgiftApplication {
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
         }
+    }
+    @Bean
+    CommandLineRunner commandLineRunner() {
+        return args -> {
+            userDataSeeder.seed();
+        };
     }
 
 
