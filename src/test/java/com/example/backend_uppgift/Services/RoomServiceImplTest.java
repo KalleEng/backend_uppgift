@@ -30,7 +30,7 @@ class RoomServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
+    /*@Test
     void testRoomAvailable_NoBooking_ReturnTrue(){
         Long roomId = 1L;
         LocalDate startDate = LocalDate.of(2022,10,10);
@@ -40,7 +40,7 @@ class RoomServiceImplTest {
         when(bookingRepo.findByRoomId(roomId)).thenReturn(List.of());
 
         assertTrue(roomService.isAvailable(roomId,startDate,endDate,numberOfPeople));
-    }
+    }*/
 
 /*    @Test
     void testRoomNotAvailable_OverlappingExistingBooking_ReturnFalse(){

@@ -24,7 +24,7 @@ public class DiscountServiceImpl implements DiscountService {
                 total += price;
             }
         }
-        long amountOfBookedDays = startDate.until(endDate, ChronoUnit.DAYS) +1;
+        long amountOfBookedDays = startDate.until(endDate, ChronoUnit.DAYS);
 
         if (amountOfBookedDays>=2){
             total = total * (1 - 0.005);
