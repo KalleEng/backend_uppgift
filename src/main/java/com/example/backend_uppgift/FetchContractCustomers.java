@@ -29,7 +29,6 @@ public class FetchContractCustomers implements CommandLineRunner {
         AllCustomers customers = mapper.readValue(new URL("https://javaintegration.systementor.se/customers"),
                 AllCustomers.class);
 
-
         for (ContractCustomer c:
              customers.customers) {
             customerService.saveCustomer(new ContractCustomer(c.id,
