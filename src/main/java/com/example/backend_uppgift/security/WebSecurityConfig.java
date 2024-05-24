@@ -39,12 +39,20 @@ public class WebSecurityConfig {
                         .requestMatchers("/","/rooms/all","/js/**","/css/**","/images/**","/login/**","/logout/","/queues/**").permitAll()
                         .anyRequest().authenticated()
                 )
+
                 .formLogin((form)-> form
+                        .permitAll()
+                        .defaultSuccessUrl("/",true)
+                        .failureUrl("/login?error=true")
                         .permitAll())
+
                 .logout((logout)-> {
                     logout.permitAll();
                     logout.logoutSuccessUrl("/");
-                });
+                })
+                .exceptionHandling((exceptions) -> exceptions
+                        .accessDeniedPage("/access-denied")
+                );;
         return http.build();
     }
 

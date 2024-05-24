@@ -5,78 +5,46 @@
 <head>
     <meta charset="UTF-8">
     <title>All Customers</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        tr {
-            border-bottom: 1px solid #ddd;
-        }
-
-        td, th {
-            padding: 8px;
-            text-align: left;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:nth-child(odd) {
-            background-color: #ffffff;
-        }
-
-        a {
-            color: black;
-            text-decoration: none;
-            padding: 4px 8px;
-            border: 1px;
-            border-radius: 4px;
-            background-color: #f9f9f9;
-        }
-
-        a:hover {
-            background-color: #ddd;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<table>
-    <td><a th:href="@{/customers/all}">Customers</a></td>
-    <td><a th:href="@{/bookings/all}">Bookings</a></td>
-    <td><a th:href="@{/rooms/all}">Rooms</a></td>
-</table>
-<h3>All Customers</h3>
-<div th:if="${not #lists.isEmpty(errorList)}">
-    <div style="color: red;">
-        <ul>
-            <li th:each="error : ${errorList}" th:text="${error}"></li>
-        </ul>
+<div class="header">
+    <button onclick="location.href='/'">Home</button>
+    <button onclick="location.href='/customers/all'">Customers</button>
+    <button onclick="location.href='/bookings/all'">Bookings</button>
+    <button onclick="location.href='/rooms/all'">Rooms</button>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
     </div>
 </div>
-<div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
-    <table>
-        <tbody>
-        <tr th:each="cus: ${allCustomers}">
-            <td th:text="${cus.name}"></td>
-            <td th:text="${cus.email}"></td>
-            <td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
-            <td><a th:href="@{/customers/edit/{id}(id=${cus.id})}">Update</a></td>
-            <td><a th:href="@{/customers/customerBookings/{id}(id=${cus.id})}">Show bookings</a></td>
-            <td><a th:href="@{/customers/createBooking/{id}(id=${cus.id})}">Create new booking</a></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<a href="/customers/add">
-    <input type="submit" value="Add new customer">
-</a>
-<div sec:authorize="isAuthenticated()">
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
-    </form>
+<div class="content">
+    <h3>All Customers</h3>
+    <div th:if="${not #lists.isEmpty(errorList)}">
+        <div style="color: red;">
+            <ul>
+                <li th:each="error : ${errorList}" th:text="${error}"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
+        <table>
+            <tbody>
+            <tr th:each="cus: ${allCustomers}">
+                <td th:text="${cus.name}"></td>
+                <td th:text="${cus.email}"></td>
+                <td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
+                <td><a th:href="@{/customers/edit/{id}(id=${cus.id})}">Update</a></td>
+                <td><a th:href="@{/customers/customerBookings/{id}(id=${cus.id})}">Show bookings</a></td>
+                <td><a th:href="@{/customers/createBooking/{id}(id=${cus.id})}">New booking</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/customers/add">
+        <input type="submit" value="Add new customer">
+    </a>
 </div>
 </body>
 </html>

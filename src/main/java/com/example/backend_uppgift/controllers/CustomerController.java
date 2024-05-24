@@ -23,6 +23,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/customers")
 @PreAuthorize("hasAuthority('Admin')")
+
 public class CustomerController {
     private final CustomerService customerService;
     private final BookingService bookingService;

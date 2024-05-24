@@ -35,5 +35,6 @@ public class Booking {
         this.customer = customer;
         this.total = total;
     }
+
 }
 

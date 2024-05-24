@@ -1,51 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        tr {
-            border-bottom: 1px solid #ddd;
-        }
-
-        td, th {
-            padding: 8px;
-            text-align: left;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:nth-child(odd) {
-            background-color: #ffffff;
-        }
-
-        a {
-            color: black;
-            text-decoration: none;
-            padding: 4px 8px;
-            border: 1px;
-            border-radius: 4px;
-            background-color: #f9f9f9;
-        }
-
-        a:hover {
-            background-color: #ddd;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<table>
-    <td><a th:href="@{/customers/all}">Customers</a></td>
-    <td><a th:href="@{/bookings/all}">Bookings</a></td>
-    <td><a th:href="@{/rooms/all}">Rooms</a></td>
-</table>
+<div class="header">
+    <button onclick="location.href='/customers/all'">Customers</button>
+    <button onclick="location.href='/bookings/all'">Bookings</button>
+    <button onclick="location.href='/rooms/all'">Rooms</button>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</div>
 <div th:if="${not #lists.isEmpty(errorList)}">
     <div style="color: red;">
         <ul>

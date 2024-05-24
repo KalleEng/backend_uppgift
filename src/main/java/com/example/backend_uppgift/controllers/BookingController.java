@@ -3,6 +3,7 @@ package com.example.backend_uppgift.controllers;
 import com.example.backend_uppgift.DTO.CompressedRoomDTO;
 import com.example.backend_uppgift.DTO.DetailedBookingDTO;
 import com.example.backend_uppgift.Services.BookingService;
+import com.example.backend_uppgift.Services.DiscountService;
 import com.example.backend_uppgift.Services.RoomService;
 import com.example.backend_uppgift.models.Booking;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,12 @@ import java.util.List;
 @RequestMapping("/bookings")
 public class BookingController {
     private final BookingService bookingService;
+    private final DiscountService discountService;
     private final RoomService roomService;
 
-    public BookingController(BookingService bookingService, RoomService roomService) {
+    public BookingController(BookingService bookingService, DiscountService discountService, RoomService roomService) {
         this.bookingService = bookingService;
+        this.discountService = discountService;
         this.roomService = roomService;
     }
 
@@ -95,6 +98,11 @@ public class BookingController {
 
     @PostMapping("/update")
     public String saveEditedBooking(Model model, Booking booking){
+
+        booking.setTotal(discountService.calculateTotal(booking.getStartDate(),
+                booking.getEndDate(),
+                roomService.getRoomById(booking.getRoom().getId()).getId()));
+        System.out.println(booking.getTotal());
         bookingService.saveBooking(booking);
         List<Booking> bookingList = bookingService.findAll();
         model.addAttribute("allBookings", bookingList);
