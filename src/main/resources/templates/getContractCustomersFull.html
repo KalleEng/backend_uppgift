@@ -59,6 +59,9 @@
                         <i class="fa-solid fa-arrow-down-z-a"></i>
                     </a>
                 </th>
+                <th>
+                    <b>(Button)</b>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -66,6 +69,7 @@
                 <td th:text="${cus.companyName}"></td>
                 <td th:text="${cus.contactName}"></td>
                 <td th:text="${cus.country}"></td>
+                <td><a th:href="@{/contract-customers/{id}(id=${cus.id})}">View Details</a></td>
             </tr>
             </tbody>
         </table>

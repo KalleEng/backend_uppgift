@@ -37,6 +37,7 @@ public class BackendUppgiftApplication {
             application.run(args);
         }
     }
+
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {

@@ -37,6 +37,13 @@ public class ContractCustomerController {
         this.customerService = customerService;
     }
 
+    @GetMapping("/{id}")
+    public String getContractCustomerDetails(@PathVariable Long id, Model model) {
+        ContractCustomer customer = customerService.findById(id);
+        model.addAttribute("contractCustomerDetails", customer);
+        return "getDetailsAboutContractCustomer";
+    }
+
     /*
     @RequestMapping("/all")
     public String getCustomersFull(Model model) {
@@ -54,8 +61,6 @@ public class ContractCustomerController {
                  @RequestParam(defaultValue = "asc") String sortOrder,
                  @RequestParam(defaultValue = "") String q) {
 
-        //model.addAttribute("activeFunction", "home");
-
         q = q.trim();
 
         model.addAttribute("q", q);
@@ -65,7 +70,6 @@ public class ContractCustomerController {
         Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortCol);
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         if (!q.isEmpty()) {
-            //model.addAttribute("customers", customerService.findAllByCompanyNameContains(q, sort));
             List<ContractCustomer> customerList = customerService.findAllByCompanyNameContains(q, sort);
             model.addAttribute("allCustomers", customerList);
             model.addAttribute("totalPages", 1);

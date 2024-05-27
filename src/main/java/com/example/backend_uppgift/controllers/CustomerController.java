@@ -100,7 +100,7 @@ public class CustomerController {
         return "addNewCustomer";
     }
 
-    @RequestMapping("/added")
+    @RequestMapping(value = "/added")
     public String addedCustomer(@RequestParam String name,
                                 @RequestParam String email, Model model) {
         List<String> errorList = new ArrayList<>();

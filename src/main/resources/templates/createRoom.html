@@ -20,7 +20,7 @@
     </div>
 </div>
 <h3>Create New Room</h3>
-<form action="/rooms/created" method="post">
+<form th:action="@{/rooms/created}" method="post">
   <label for="bedCapacity">Bed Capacity:</label><br>
   <input type="text" id = "bedCapacity" name="bedCapacity" value=""><br>
     <label for="price">Price:</label><br>

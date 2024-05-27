@@ -17,6 +17,7 @@ public class ContractCustomerServiceImpl implements ContractCustomerService {
     public ContractCustomerServiceImpl(ContractCustomerRepo customerRepo) {
         this.customerRepo = customerRepo;
     }
+
     @Override
     public void saveCustomer(ContractCustomer contractCustomer) {
         customerRepo.save(contractCustomer);

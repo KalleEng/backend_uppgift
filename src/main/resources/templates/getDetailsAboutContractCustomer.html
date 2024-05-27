@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="header">
+    <button onclick="location.href='/'">Home</button>
+    <button onclick="location.href='/customers/all'">Customers</button>
+    <button onclick="location.href='/bookings/all'">Bookings</button>
+    <button onclick="location.href='/rooms/all'">Rooms</button>
+    <button onclick="location.href='/contract-customers/all'">Contract Customers</button>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+<div class="content">
+    <div class="contractCustomerDetails" th:if="${contractCustomerDetails != null}">
+        <h3>Contract Customer Details</h3>
+        <table>
+            <tbody>
+            <tr>
+                <td><b>Company Name:</b></td>
+                <td th:text="${contractCustomerDetails.companyName}"></td>
+            </tr>
+            <tr>
+                <td><b>Contact Name:</b></td>
+                <td th:text="${contractCustomerDetails.contactName}"></td>
+            </tr>
+            <tr>
+                <td><b>Contact title:</b></td>
+                <td th:text="${contractCustomerDetails.contactTitle}"></td>
+            </tr>
+            <tr>
+                <td><b>Street address:</b></td>
+                <td th:text="${contractCustomerDetails.streetAddress}"></td>
+            </tr>
+            <tr>
+                <td><b>City:</b></td>
+                <td th:text="${contractCustomerDetails.city}"></td>
+            </tr>
+            <tr>
+                <td><b>Postal code:</b></td>
+                <td th:text="${contractCustomerDetails.postalCode}"></td>
+            </tr>
+            <tr>
+                <td><b>Country:</b></td>
+                <td th:text="${contractCustomerDetails.country}"></td>
+            </tr>
+            <tr>
+                <td><b>Phone:</b></td>
+                <td th:text="${contractCustomerDetails.phone}"></td>
+            </tr>
+            <tr>
+                <td><b>Fax:</b></td>
+                <td th:text="${contractCustomerDetails.fax}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
