@@ -14,4 +14,5 @@ public class IntegrationProperties {
     private ContractCustomerProperties contractCustomerProperties;
     private ShipperProperties shipperProperties;
     private BlacklistProperties blacklistProperties;
+    private RabbitMQProperties rabbitMQProperties;
 }

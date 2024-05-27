@@ -29,4 +29,20 @@ public class StreamProvider {
         URL url = new URL(properties.getBlacklistProperties().getUrl());
         return url.openStream();
     }
+
+    public String getRabbitHost(){
+        return properties.getRabbitMQProperties().getHost();
+    }
+
+    public String getRabbitUsername(){
+        return properties.getRabbitMQProperties().getUsername();
+    }
+
+    public String getRabbitPassword(){
+        return properties.getRabbitMQProperties().getPassword();
+    }
+
+    public String getRabbitQueueName(){
+        return properties.getRabbitMQProperties().getQueueName();
+    }
 }

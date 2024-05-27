@@ -34,7 +34,7 @@
     <tr th:each="event : ${events}">
         <td th:text="${event.event}"></td>
         <td th:text="${event.timeStamp}"></td>
-        <td th:text="${event.personelName}"></td>
+        <td th:text="${event.getPersonnelName}"></td>
     </tr>
     </tbody>
 </table>

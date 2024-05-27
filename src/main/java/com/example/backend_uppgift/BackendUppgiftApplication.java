@@ -35,6 +35,10 @@ public class BackendUppgiftApplication {
             SpringApplication application = new SpringApplication(SeedToDatabase.class);
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
+        } else if (Objects.equals(args[0],"messageConsumer")) {
+            SpringApplication application = new SpringApplication(SeedToDatabase.class);
+            application.setWebApplicationType(WebApplicationType.NONE);
+            application.run(args);
         }
     }
 

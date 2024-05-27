@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -22,12 +21,12 @@ public class Event {
     private int roomId;
     private String event;
     private LocalDateTime timeStamp;
-    private String personelName;
+    private String personnelName;
 
-    public Event(int roomId, String event, LocalDateTime timeStamp, String personelName) {
+    public Event(int roomId, String event, LocalDateTime timeStamp, String personnelName) {
         this.roomId = roomId;
         this.event = event;
         this.timeStamp = timeStamp;
-        this.personelName = personelName;
+        this.personnelName = personnelName;
     }
 }
