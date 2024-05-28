@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class BackendUppgiftApplication {
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
         } else if (Objects.equals(args[0],"messageConsumer")) {
-            SpringApplication application = new SpringApplication(SeedToDatabase.class);
+            SpringApplication application = new SpringApplication(MessageConsumer.class);
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
         }

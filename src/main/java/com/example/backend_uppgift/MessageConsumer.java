@@ -1,23 +1,31 @@
 package com.example.backend_uppgift;
 
-import com.example.backend_uppgift.Configurations.IntegrationProperties;
 import com.example.backend_uppgift.Utils.StreamProvider;
+import com.example.backend_uppgift.models.Event;
+import com.example.backend_uppgift.repositories.EventRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rabbitmq.client.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.r2dbc.ConnectionFactoryBuilder;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@ComponentScan
 public class MessageConsumer implements CommandLineRunner {
 
-    @Autowired
+
     private StreamProvider streamProvider;
 
+    private EventRepo eventRepo;
+
+    public MessageConsumer(StreamProvider streamProvider, EventRepo eventRepo) {
+        this.streamProvider = streamProvider;
+        this.eventRepo = eventRepo;
+    }
+
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(streamProvider.getRabbitHost());
@@ -36,6 +44,8 @@ public class MessageConsumer implements CommandLineRunner {
         DeliverCallback deliverCallback = ((consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println("[*] Received '" + message +"'" );
+            Event event = objectMapper.readValue(message, Event.class);
+            eventRepo.save(event);
         });
         channel.basicConsume(queueName,true, deliverCallback,consumerTag ->  {});
     }
