@@ -52,4 +52,3 @@ public class FetchContractCustomers implements CommandLineRunner {
         return customers.customers;
     }
 }
-

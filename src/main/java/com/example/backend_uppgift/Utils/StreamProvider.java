@@ -28,4 +28,20 @@ public class StreamProvider {
     public String getDataStreamBlacklist() throws IOException{
         return properties.getBlacklistProperties().getUrl();
     }
+
+    public String getRabbitHost(){
+        return properties.getRabbitMQProperties().getHost();
+    }
+
+    public String getRabbitUsername(){
+        return properties.getRabbitMQProperties().getUsername();
+    }
+
+    public String getRabbitPassword(){
+        return properties.getRabbitMQProperties().getPassword();
+    }
+
+    public String getRabbitQueueName(){
+        return properties.getRabbitMQProperties().getQueueName();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.backend_uppgift.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -8,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -19,15 +19,18 @@ public class Event {
     @Id
     @GeneratedValue
     private Long id;
+    @JsonProperty("RoomNo")
     private int roomId;
-    private String event;
+    private String type;
+    @JsonProperty("TimeStamp")
     private LocalDateTime timeStamp;
-    private String personelName;
+    @JsonProperty("CleaningByUser")
+    private String personnelName;
 
-    public Event(int roomId, String event, LocalDateTime timeStamp, String personelName) {
+    public Event(int roomId, String type, LocalDateTime timeStamp, String personnelName) {
         this.roomId = roomId;
-        this.event = event;
+        this.type = type;
         this.timeStamp = timeStamp;
-        this.personelName = personelName;
+        this.personnelName = personnelName;
     }
 }
