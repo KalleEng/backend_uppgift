@@ -53,7 +53,6 @@ public class DiscountServiceImpl implements DiscountService {
     public boolean discountForMoreThanTenNights(LocalDate startDate, LocalDate endDate, Long customerId) {
         List<Booking> bookingList = customerService.findById(customerId).getBookingList();
 
-
         LocalDate startOfPreviousYear = startDate.minusYears(1);
         LocalDate endOfPreviousYear = startDate.minusYears(1).plusDays(364);
 
@@ -68,6 +67,5 @@ public class DiscountServiceImpl implements DiscountService {
 
         return totalNights > 10;
     }
-
 
 }
