@@ -20,26 +20,28 @@
         </form>
     </div>
 </div>
-<h2>Room Search</h2>
-<div th:if="${not #lists.isEmpty(errors)}">
-    <div style="color: red;">
-        <ul>
-            <li th:each="error : ${errors}" th:text="${error}"></li>
-        </ul>
+<div class="content">
+    <h2>Room Search</h2>
+    <div th:if="${not #lists.isEmpty(errors)}">
+        <div style="color: red;">
+            <ul>
+                <li th:each="error : ${errors}" th:text="${error}"></li>
+            </ul>
+        </div>
     </div>
+    <table>
+        <th:block th:if="${#lists.isEmpty(errors)}">
+            <tr th:each="rooms: ${availableRooms}">
+                <td th:text="${roomId}"></td>
+                <td th:text="${rooms.id}"></td>
+                <td th:text="${bedCap}"></td>
+                <td th:text="${rooms.bedCapacity}"></td>
+                <td th:text="${price}"></td>
+                <td th:text="${rooms.price}"></td>
+            </tr>
+        </th:block>
+    </table>
 </div>
-<table>
-    <th:block th:if="${#lists.isEmpty(errors)}">
-        <tr th:each="rooms: ${availableRooms}">
-            <td th:text="${roomId}"></td>
-            <td th:text="${rooms.id}"></td>
-            <td th:text="${bedCap}"></td>
-            <td th:text="${rooms.bedCapacity}"></td>
-            <td th:text="${price}"></td>
-            <td th:text="${rooms.price}"></td>
-        </tr>
-    </th:block>
-</table>
-
 </body>
 </html>
+

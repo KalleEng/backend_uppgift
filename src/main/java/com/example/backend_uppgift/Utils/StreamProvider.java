@@ -25,8 +25,7 @@ public class StreamProvider {
         return url.openStream();
     }
 
-    public InputStream getDataStreamBlacklist() throws IOException{
-        URL url = new URL(properties.getBlacklistProperties().getUrl());
-        return url.openStream();
+    public String getDataStreamBlacklist() throws IOException{
+        return properties.getBlacklistProperties().getUrl();
     }
 }

@@ -19,22 +19,22 @@
         </form>
     </div>
 </div>
-<div th:if="${not #lists.isEmpty(errorList)}">
-    <div style="color: red;">
-        <ul>
-            <li th:each="error : ${errorList}" th:text="${error}"></li>
-        </ul>
+<div class="content">
+    <div th:if="${not #lists.isEmpty(errorList)}">
+        <div style="color: red;">
+            <ul>
+                <li th:each="error : ${errorList}" th:text="${error}"></li>
+            </ul>
+        </div>
     </div>
+
+    <form action="/customers/added" method="post">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" value=""><br>
+        <label for="email"> E-mail:</label><br>
+        <input type="text" id="email" name="email" value=""><br><br>
+        <input type="submit" value="Submit">
+    </form>
 </div>
-
-<form action="/customers/added" method="post">
-    <label for="name">Name:</label><br>
-    <input type="text" id = "name" name="name" value=""><br>
-    <label for="email"> E-mail:</label><br>
-    <input type="text" id="email" name="email" value=""><br><br>
-    <input type="submit" value="Submit">
-</form>
-
-
 </body>
 </html>

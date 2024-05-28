@@ -18,8 +18,7 @@ public class Blacklist {
 
     public boolean isOk(String email) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(streamProvider.getDataStreamBlacklist()
-                + email))
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(streamProvider.getDataStreamBlacklist() + email))
                 .GET()
                 .build();
         HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());

@@ -22,7 +22,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/customers")
-@PreAuthorize("hasAuthority('Admin')")
+@PreAuthorize("isAuthenticated()")
 
 public class CustomerController {
     private final CustomerService customerService;
@@ -39,7 +39,14 @@ public class CustomerController {
         this.discountService = discountService;
     }
 
+    @RequestMapping("/test")
+    public String test(){
+        System.out.println("Test");
+        return "test";
+    }
+
     @RequestMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('Admin')")
     public String deleteCustomer(@PathVariable Long id, Model model) {
         List<String> errorList = new ArrayList<>();
         if (!customerService.findById(id).getBookingList().isEmpty()) {
@@ -59,7 +66,9 @@ public class CustomerController {
         return "getCustomersFull";
     }
 
+
     @RequestMapping("/edit/{id}")
+    @PreAuthorize("hasAuthority('Admin')")
     public String editCustomer(@PathVariable Long id, Model model) {
         Customer customer = customerService.findById(id);
         model.addAttribute("customer", customer);
@@ -68,6 +77,7 @@ public class CustomerController {
     }
 
     @PostMapping("/update")
+    @PreAuthorize("hasAuthority('Admin')")
     public String saveEditedCustomer(Model model, Customer customer) {
         customerService.saveCustomer(customer);
         List<Customer> customerList = customerService.findAll();
@@ -96,11 +106,13 @@ public class CustomerController {
     }
 
     @RequestMapping("/add")
+    @PreAuthorize("hasAuthority('Admin')")
     public String addCustomer(Model model) {
         return "addNewCustomer";
     }
 
     @RequestMapping("/added")
+    @PreAuthorize("hasAuthority('Admin')")
     public String addedCustomer(@RequestParam String name,
                                 @RequestParam String email, Model model) {
         List<String> errorList = new ArrayList<>();
@@ -133,7 +145,7 @@ public class CustomerController {
 
 
 
-        double total = discountService.calculateTotal(startDate,endDate,roomService.getRoomById(roomId).getPrice());
+        double total = discountService.calculateTotal(startDate,endDate,roomService.getRoomById(roomId).getPrice(),customerId);
 
 
         List<String> errorList = new ArrayList<>();

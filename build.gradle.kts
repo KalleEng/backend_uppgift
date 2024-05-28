@@ -1,3 +1,5 @@
+import java.util.regex.Pattern.compile
+
 plugins {
     java
     id("org.springframework.boot") version "3.2.5"
@@ -44,6 +46,11 @@ dependencies {
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
     implementation("org.modelmapper:modelmapper:3.0.0")
     implementation ("org.springframework.boot:spring-boot-starter-webflux")
+    implementation ("org.springframework.boot:spring-boot-starter-mail:3.1.5")
+
+
+
+
 
 }
 

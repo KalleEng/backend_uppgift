@@ -35,8 +35,8 @@
             <tr th:each="cus: ${allCustomers}">
                 <td th:text="${cus.name}"></td>
                 <td th:text="${cus.email}"></td>
-                <td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
-                <td><a th:href="@{/customers/edit/{id}(id=${cus.id})}">Update</a></td>
+                <td sec:authorize="hasAuthority('Admin')"><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
+                <td sec:authorize="hasAuthority('Admin')"><a th:href="@{/customers/edit/{id}(id=${cus.id})}">Update</a></td>
                 <td><a th:href="@{/customers/customerBookings/{id}(id=${cus.id})}">Show bookings</a></td>
                 <td><a th:href="@{/customers/createBooking/{id}(id=${cus.id})}">New booking</a></td>
             </tr>

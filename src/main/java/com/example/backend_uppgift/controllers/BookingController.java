@@ -6,6 +6,7 @@ import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.Services.DiscountService;
 import com.example.backend_uppgift.Services.RoomService;
 import com.example.backend_uppgift.models.Booking;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/bookings")
+@PreAuthorize("isAuthenticated()")
 public class BookingController {
     private final BookingService bookingService;
     private final DiscountService discountService;
@@ -32,22 +34,6 @@ public class BookingController {
         bookingService.deleteBooking(id);
         return getBookingsFull(model);
     }
-
-/*
-    @RequestMapping("/create")
-    public void createBooking(@RequestParam LocalDate startDate,
-                              @RequestParam LocalDate endDate,
-                              @RequestParam Long roomId,
-                              @RequestParam Long customerId,
-                              @RequestParam int numberOfPeople){
-        //if(!blackListed) {} else {}
-        if(roomService.isAvailable(roomId,startDate,endDate,numberOfPeople)){
-            bookingService.createBooking(startDate,endDate,roomId,customerId,numberOfPeople);
-        } else{
-            System.out.println("False");
-        }
-    }
-*/
 
     @GetMapping("/search")
     public String searchDateByRange(@RequestParam LocalDate startDate,
@@ -102,7 +88,7 @@ public class BookingController {
 
         booking.setTotal(discountService.calculateTotal(booking.getStartDate(),
                 booking.getEndDate(),
-                roomService.getRoomById(booking.getRoom().getId()).getId()));
+                roomService.getRoomById(booking.getRoom().getId()).getId(), booking.getCustomer().getId()));
         System.out.println(booking.getTotal());
         bookingService.saveBooking(booking);
         List<Booking> bookingList = bookingService.findAll();
