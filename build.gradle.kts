@@ -37,6 +37,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito:mockito-core:4.2.0")
     testImplementation("org.mockito:mockito-junit-jupiter:4.2.0")
+    testImplementation("com.h2database:h2")
 
     implementation("org.springframework.boot:spring-boot-starter-validation:3.0.5")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")

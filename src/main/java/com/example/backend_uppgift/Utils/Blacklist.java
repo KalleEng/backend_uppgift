@@ -21,11 +21,14 @@ public class Blacklist {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(streamProvider.getDataStreamBlacklist() + email))
                 .GET()
                 .build();
+        System.out.println(request);
         HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
         System.out.println(response.statusCode());
         if (response.body().contains(":true")){
+            System.out.println("true");
             return true;
         }
+        System.out.println("false");
         return false;
     }
 }

@@ -41,6 +41,11 @@ public class BackendUppgiftApplication {
             application.setWebApplicationType(WebApplicationType.NONE);
             application.run(args);
         }
+        else if (Objects.equals(args[0],"seedEmailTemplate")) {
+            SpringApplication application = new SpringApplication(SeedEmailTemplateToDatabase.class);
+            application.setWebApplicationType(WebApplicationType.NONE);
+            application.run(args);
+        }
     }
 
     @Bean

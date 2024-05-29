@@ -53,11 +53,14 @@ public class DiscountServiceImpl implements DiscountService {
     public boolean discountForMoreThanTenNights(LocalDate startDate, LocalDate endDate, Long customerId) {
         List<Booking> bookingList = customerService.findById(customerId).getBookingList();
 
+        long bookedDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+
         LocalDate startOfPreviousYear = startDate.minusYears(1);
-        LocalDate endOfPreviousYear = startDate.minusYears(1).plusDays(364);
+        LocalDate endOfPreviousYear = startDate.minusYears(1).plusDays(365);
 
         long totalNights = bookingList.stream()
-                .filter(booking -> !booking.getEndDate().isBefore(startOfPreviousYear) && !booking.getStartDate().isAfter(endOfPreviousYear))
+                .filter(booking -> !booking.getEndDate().isBefore(startOfPreviousYear))
+                .filter(booking -> !booking.getStartDate().isAfter(endOfPreviousYear))
                 .mapToLong(booking -> {
                     LocalDate startDateBooking = booking.getStartDate().isBefore(startOfPreviousYear) ? startOfPreviousYear : booking.getStartDate();
                     LocalDate endDateBooking = booking.getEndDate().isAfter(endOfPreviousYear) ? endOfPreviousYear : booking.getEndDate();
@@ -65,7 +68,9 @@ public class DiscountServiceImpl implements DiscountService {
                 })
                 .sum();
 
-        return totalNights > 10;
+        totalNights += bookedDays;
+
+        return totalNights >= 10;
     }
 
 }

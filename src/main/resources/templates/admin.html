@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
@@ -21,15 +22,12 @@
     </div>
 </div>
 <div class="content">
-    <h3>Create New Room</h3>
-    <form action="/rooms/created" method="post">
-        <label for="bedCapacity">Bed Capacity:</label><br>
-        <input type="text" id="bedCapacity" name="bedCapacity" value=""><br>
-        <label for="price">Price:</label><br>
-        <input type="text" id="price" name="price" value=""><br>
-        <input type="submit" value="Submit">
+    <form id="multiLineForm" action="/admin/save-email-template" method="get">
+        <h3>Edit Email Template:</h3>
+        <!--<label for="editableTextArea">Edit Email Template:</label>-->
+        <textarea name="text" id="editableTextArea" rows="8" cols="60" th:text="${htmlTemplateFromDB}"></textarea><br>
+        <button type="submit">Save</button>
     </form>
-
 </div>
 
 </body>

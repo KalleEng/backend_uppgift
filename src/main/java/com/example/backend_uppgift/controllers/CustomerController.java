@@ -4,11 +4,13 @@ import com.example.backend_uppgift.DTO.DetailedCustomerDTO;
 import com.example.backend_uppgift.Services.BookingService;
 import com.example.backend_uppgift.Services.CustomerService;
 import com.example.backend_uppgift.Services.DiscountService;
+import com.example.backend_uppgift.Services.Impl.EmailService;
 import com.example.backend_uppgift.Services.RoomService;
 import com.example.backend_uppgift.Utils.Blacklist;
 import com.example.backend_uppgift.models.Customer;
 import com.example.backend_uppgift.repositories.CustomerRepo;
 import com.example.backend_uppgift.repositories.ShipperRepo;
+import jakarta.mail.MessagingException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/customers")
@@ -30,13 +34,15 @@ public class CustomerController {
     private final Blacklist blacklistCheck;
     private final RoomService roomService;
     private final DiscountService discountService;
+    private final EmailService emailService;
 
-    public CustomerController(CustomerService customerService, BookingService bookingService, Blacklist blacklistCheck, RoomService roomService, CustomerRepo customerRepo, ShipperRepo shipperRepo, DiscountService discountService) {
+    public CustomerController(CustomerService customerService, BookingService bookingService, Blacklist blacklistCheck, RoomService roomService, CustomerRepo customerRepo, ShipperRepo shipperRepo, DiscountService discountService, EmailService emailService) {
         this.customerService = customerService;
         this.bookingService = bookingService;
         this.blacklistCheck = blacklistCheck;
         this.roomService = roomService;
         this.discountService = discountService;
+        this.emailService = emailService;
     }
 
     @RequestMapping("/test")
@@ -141,14 +147,12 @@ public class CustomerController {
                                  @RequestParam(required = false) Long roomId,
                                  @RequestParam Long customerId,
                                  @RequestParam(required = false, defaultValue = "1") int numberOfPeople,
-                                 Model model) throws IOException, InterruptedException {
+                                 Model model) throws IOException, InterruptedException, MessagingException {
 
-
-
-        double total = discountService.calculateTotal(startDate,endDate,roomService.getRoomById(roomId).getPrice(),customerId);
-
-
+        double total = discountService.calculateTotal(startDate, endDate, roomService.getRoomById(roomId).getPrice(), customerId);
         List<String> errorList = new ArrayList<>();
+        Map<String, Object> modelToEmailTemplate = new HashMap<>();
+
         if (startDate == null || endDate == null || roomId == null) {
             errorList.add("Fields can't be empty.");
             model.addAttribute("errorList", errorList);
@@ -167,6 +171,7 @@ public class CustomerController {
                     if (roomService.isAvailable(roomId, startDate, endDate, numberOfPeople)) {
                         if (blacklistCheck.isOk(customerService.findById(customerId).getEmail())) {
                             bookingService.createBooking(startDate, endDate, roomId, customerId, numberOfPeople, total);
+
                         } else {
                             errorList.add("User is blacklisted");
                         }
@@ -177,7 +182,19 @@ public class CustomerController {
             }
         }
         model.addAttribute("errorList", errorList);
-        return getCustomersFull(model);
+        if (!errorList.isEmpty()) {
+            return "getCustomersFull";
+        } else {
+            long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+            modelToEmailTemplate.put("customerName", customerService.findById(customerId).getName());
+            modelToEmailTemplate.put("customerEmail", customerService.findById(customerId).getEmail());
+            modelToEmailTemplate.put("startDate", startDate);
+            modelToEmailTemplate.put("endDate", endDate);
+            modelToEmailTemplate.put("numberOfBookedDays", daysBetween);
+            modelToEmailTemplate.put("numberOfPeople", numberOfPeople);
+            emailService.sendEmail(customerService.findById(customerId).getEmail(), modelToEmailTemplate);
+            return "redirect:/customers/all";
+        }
     }
 
 }
