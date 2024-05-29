@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h1>Tack för din order!</h1>
+    <p th:text="'Tjäna ' + ${customerName} + '!'" />
+    <p th:text="'Du har bokat ' + ${numberOfBookedDays} + ' nätter på vårt otroliga hotell.'" />
+    <p th:text="'Från: ' + ${startDate}" />
+    <p th:text="'Till: ' + ${endDate}" />
+    <p th:text="'Du har bokat för: ' + ${numberOfPeople} + ' personer'"/>
+</div>
+</body>
+</html>
