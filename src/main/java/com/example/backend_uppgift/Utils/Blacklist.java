@@ -1,6 +1,9 @@
 package com.example.backend_uppgift.Utils;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,7 +24,7 @@ public class Blacklist {
     public boolean isOk(String email) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(streamProvider.getDataStreamBlacklistCheck()))
+                .uri(URI.create(streamProvider.getDataStreamBlacklistCheck()+email))
                 .GET()
                 .build();
         HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
@@ -45,7 +48,9 @@ public class Blacklist {
         add(email, name, ok);
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     public boolean upsert(String email, String name, boolean ok) throws IOException, InterruptedException {
+        System.out.println(email);
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(streamProvider.getDataStreamBlacklist() + "/" + email))
@@ -62,6 +67,7 @@ public class Blacklist {
         return response.statusCode() < 300;
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     public boolean add(String email, String name, boolean ok) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()

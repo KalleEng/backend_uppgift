@@ -24,13 +24,7 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 public class ContractCustomerController {
 
-    /*
-    ContractCustomerRepo customerRepo;
 
-    public ContractCustomerController(ContractCustomerRepo customerRepo) {
-        this.customerRepo = customerRepo;
-    }
-     */
 
     private final ContractCustomerServiceImpl customerService;
 

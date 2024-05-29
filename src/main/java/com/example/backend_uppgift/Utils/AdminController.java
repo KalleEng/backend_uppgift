@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin")
@@ -20,10 +18,12 @@ public class AdminController {
 
     private final EmailService emailService;
     private final EmailRepo emailRepo;
+    private final Blacklist blacklist;
 
-    public AdminController(EmailService emailService, EmailRepo emailRepo) {
+    public AdminController(EmailService emailService, EmailRepo emailRepo, Blacklist blacklist) {
         this.emailService = emailService;
         this.emailRepo = emailRepo;
+        this.blacklist = blacklist;
     }
 
     @GetMapping("/save-email-template")
@@ -39,7 +39,12 @@ public class AdminController {
         model.addAttribute("htmlTemplateFromDB",emailBody);
         return "admin";
 
+    }
 
+    @GetMapping("/update-blacklisted-user")
+    public String updateBlacklistedUser(@RequestParam("email") String email,@RequestParam("name") String name,@RequestParam("isBlacklisted") boolean ok) throws IOException, InterruptedException {
+        blacklist.upsert(email,name,ok);
+        return "redirect:/admin/all";
     }
 
     @Getter

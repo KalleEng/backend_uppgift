@@ -15,15 +15,15 @@ public class StreamProvider {
     @Autowired
     IntegrationProperties properties;
 
-    public String getDataStreamContractCustomers()throws IOException {
+    public String getDataStreamContractCustomers() {
         return properties.getContractCustomerProperties().getUrl();
     }
 
-    public String getDataStreamShippers()throws IOException{
+    public String getDataStreamShippers(){
         return properties.getShipperProperties().getUrl();
     }
 
-    public String getDataStreamBlacklist() throws IOException{
+    public String getDataStreamBlacklist() {
         return properties.getBlacklistProperties().getUrl();
     }
 

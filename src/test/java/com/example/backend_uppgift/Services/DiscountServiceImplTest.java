@@ -34,7 +34,6 @@ public class DiscountServiceImplTest {
    void tenPlusNightsIsTrue(){
         boolean isTenPlusDays = discountService.discountForMoreThanTenNights(LocalDate.of(2024,5,1),
                 LocalDate.of(2024,5,10),1L);
-
         assertTrue(isTenPlusDays);
    }
 }

@@ -17,6 +17,7 @@ public class IntegrationPropertiesTests {
     public void testThatUrlActuallyGetUrl(){
         assertThat(integrationProperties.getContractCustomerProperties().getUrl()).isEqualTo("https://javaintegration.systementor.se/customers");
         assertThat(integrationProperties.getShipperProperties().getUrl()).isEqualTo("https://javaintegration.systementor.se/shippers");
-        assertThat(integrationProperties.getBlacklistProperties().getUrl()).isEqualTo("https://javabl.systementor.se/api/stefan/blacklistcheck/");
+        assertThat(integrationProperties.getBlacklistProperties().getUrl()).isEqualTo("https://javabl.systementor.se/api/stefan/blacklist");
+        assertThat(integrationProperties.getBlacklistProperties().getCheck()).isEqualTo("https://javabl.systementor.se/api/stefan/blacklistcheck/");
     }
 }
