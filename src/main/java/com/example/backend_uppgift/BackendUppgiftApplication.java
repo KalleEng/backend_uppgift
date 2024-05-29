@@ -1,10 +1,5 @@
 package com.example.backend_uppgift;
-import com.example.backend_uppgift.models.Booking;
-import com.example.backend_uppgift.models.Customer;
-import com.example.backend_uppgift.models.Room;
-import com.example.backend_uppgift.repositories.BookingRepo;
-import com.example.backend_uppgift.repositories.CustomerRepo;
-import com.example.backend_uppgift.repositories.RoomRepo;
+import com.example.backend_uppgift.Utils.Blacklist;
 import com.example.backend_uppgift.security.UserDataSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,13 +8,14 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 @SpringBootApplication
 public class BackendUppgiftApplication {
     @Autowired
     private UserDataSeeder userDataSeeder;
+    private Blacklist blacklist;
+
     public static void main(String[] args) {
         if (args.length == 0){
             SpringApplication.run(BackendUppgiftApplication.class, args);
@@ -68,4 +64,3 @@ public class BackendUppgiftApplication {
 */
 
 }
-

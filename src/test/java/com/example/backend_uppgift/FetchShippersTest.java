@@ -45,7 +45,7 @@ class FetchShippersTest {
     public void testFetchShippersMappingCorrectly()throws Exception{
 
         InputStream resourceStream = getClass().getClassLoader().getResourceAsStream("shipper.json");
-        when(streamProvider.getDataStreamShippers()).thenReturn(resourceStream);
+        when(streamProvider.getDataStreamShippers()).thenReturn(resourceStream.toString());
 
         List<Shipper> capturedShippers = sut.getShippers();
         assertEquals(2, capturedShippers.size());
