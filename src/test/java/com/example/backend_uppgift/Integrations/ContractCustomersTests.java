@@ -31,7 +31,7 @@ public class ContractCustomersTests {
     @Test
     void whenFetchContractCustomersShouldMapCorrectly() throws IOException {
         InputStream resourceStream = getClass().getClassLoader().getResourceAsStream("ContractCustomers.xml");
-        when(streamProvider.getDataStreamContractCustomers()).thenReturn(resourceStream);
+        when(streamProvider.getDataStreamContractCustomers()).thenReturn(resourceStream.toString());
 
         List<ContractCustomer> result = sut.getContractCustomers();
 

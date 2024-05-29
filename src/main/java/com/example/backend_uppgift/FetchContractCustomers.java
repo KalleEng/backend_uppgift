@@ -47,7 +47,7 @@ public class FetchContractCustomers implements CommandLineRunner {
         JacksonXmlModule module = new JacksonXmlModule();
         module.setDefaultUseWrapper(false);
         XmlMapper mapper = new XmlMapper(module);
-        InputStream stream = streamProvider.getDataStreamContractCustomers();
+        String stream = streamProvider.getDataStreamContractCustomers();
         AllCustomers customers = mapper.readValue(stream, AllCustomers.class);
         return customers.customers;
     }
