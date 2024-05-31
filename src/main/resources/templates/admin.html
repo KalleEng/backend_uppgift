@@ -21,24 +21,29 @@
         </form>
     </div>
 </div>
-<div class="content">
-    <form id="multiLineForm" action="/admin/save-email-template" method="get">
-        <h3>Edit Email Template:</h3>
-        <textarea name="text" id="editableTextArea" rows="8" cols="60" th:text="${htmlTemplateFromDB}"></textarea><br>
-        <button type="submit">Save</button>
-    </form>
+<div sec:authorize="hasAuthority('Admin')">
 
-    <form id="blacklistForm" action="/admin/update-blacklisted-user" method="get">
-        <h3>Update or add blacklisted user</h3>
-        <textarea name="email" id="blacklistedEmail" rows="2" cols="20"></textarea><br>
-        <textarea name="name" id="blacklistedName" rows="2" cols="20"></textarea><br>
-        <label>
-            <input type="checkbox" name="isBlacklisted" value="true">
-            Check box for Status: OK
-        </label><br>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="content">
+        <form id="multiLineForm" action="/admin/save-email-template" method="get">
+            <h3>Edit Email Template:</h3>
+            <textarea name="text" id="editableTextArea" rows="8" cols="60"
+                      th:text="${htmlTemplateFromDB}"></textarea><br>
+            <button type="submit">Save</button>
+        </form>
+
+        <form id="blacklistForm" action="/admin/update-blacklisted-user" method="get">
+            <h3>Update or add blacklisted user</h3>
+            <input type="text" name="email" id="blacklistedEmail" placeholder="Email"><br>
+            <input type="text" name="name" id="blacklistedName" placeholder="Name"><br>
+            <label>
+                <input type="checkbox" name="isBlacklisted" value="true">
+                Check box for Status: OK
+            </label><br>
+            <button type="submit">Submit</button>
+        </form>
+
+    </div>
 </div>
-
 </body>
 </html>
+

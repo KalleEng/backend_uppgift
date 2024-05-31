@@ -13,7 +13,6 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin")
-@PreAuthorize("hasAuthority('Admin')")
 public class AdminController {
 
     private final EmailService emailService;
@@ -27,6 +26,7 @@ public class AdminController {
     }
 
     @GetMapping("/save-email-template")
+    @PreAuthorize("hasAuthority('Admin')")
     public String saveEditedEmailTemplate(@RequestParam("text") String text) {
         emailRepo.updateEmailBodyById(1L, text);
         return "redirect:/admin/all";
@@ -42,7 +42,9 @@ public class AdminController {
     }
 
     @GetMapping("/update-blacklisted-user")
-    public String updateBlacklistedUser(@RequestParam("email") String email,@RequestParam("name") String name,@RequestParam("isBlacklisted") boolean ok) throws IOException, InterruptedException {
+    @PreAuthorize("hasAuthority('Admin')")
+    public String updateBlacklistedUser(@RequestParam("email") String email, @RequestParam("name") String name, @RequestParam(value = "isBlacklisted", defaultValue = "false") boolean ok) throws IOException, InterruptedException {
+        System.out.println("hej");
         blacklist.upsert(email,name,ok);
         return "redirect:/admin/all";
     }
