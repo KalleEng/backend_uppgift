@@ -1,9 +1,4 @@
 <allcustomers>
-    <link type="text/css" rel="stylesheet" id="dark-mode-custom-link"/>
-    <link type="text/css" rel="stylesheet" id="dark-mode-general-link"/>
-    <style lang="en" type="text/css" id="dark-mode-custom-style"/>
-    <style lang="en" type="text/css" id="dark-mode-native-style"/>
-    <style lang="en" type="text/css" id="dark-mode-native-sheet"/>
     <customers>
         <id>1</id>
         <companyName>Persson Kommanditbolag</companyName>

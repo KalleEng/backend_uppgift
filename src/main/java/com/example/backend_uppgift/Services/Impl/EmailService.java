@@ -20,7 +20,7 @@ import java.util.Map;
 @Service
 public class EmailService {
 
-    @Autowired
+    //@Autowired
     JavaMailSender javaMailSender;
     EmailRepo emailRepo;
     private final TemplateEngine templateEngine;

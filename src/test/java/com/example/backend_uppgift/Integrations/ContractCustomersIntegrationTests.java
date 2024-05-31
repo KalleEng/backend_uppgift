@@ -2,9 +2,11 @@ package com.example.backend_uppgift.Integrations;
 
 import com.example.backend_uppgift.FetchContractCustomers;
 import com.example.backend_uppgift.Services.ContractCustomerService;
+import com.example.backend_uppgift.Utils.RestHelper;
 import com.example.backend_uppgift.Utils.StreamProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -26,11 +28,14 @@ public class ContractCustomersIntegrationTests {
     @Autowired
     StreamProvider streamProvider;
 
+    @Mock
+    RestHelper restHelper;
+
     FetchContractCustomers sut;
 
     @BeforeEach
     void setUp() {
-        sut = new FetchContractCustomers(contractCustomerService, streamProvider);
+        sut = new FetchContractCustomers(contractCustomerService, streamProvider, restHelper);
     }
 
     @Test

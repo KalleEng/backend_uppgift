@@ -35,8 +35,10 @@ public class AdminController {
     @GetMapping("/all")
     public String getEmailBodyFromDatabase(Model model){
         EmailTemplate emailTemplate = emailRepo.findById(1L).orElse(null);
+        if (emailTemplate != null) {
         String emailBody = emailTemplate.getHtmlTemplate();
         model.addAttribute("htmlTemplateFromDB",emailBody);
+        }
         return "admin";
 
     }

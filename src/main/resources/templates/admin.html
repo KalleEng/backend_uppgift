@@ -24,14 +24,14 @@
 <div sec:authorize="hasAuthority('Admin')">
 
     <div class="content">
-        <form id="multiLineForm" action="/admin/save-email-template" method="get">
+        <form id="multiLineForm" th:action="@{/admin/save-email-template}" method="get">
             <h3>Edit Email Template:</h3>
             <textarea name="text" id="editableTextArea" rows="8" cols="60"
                       th:text="${htmlTemplateFromDB}"></textarea><br>
             <button type="submit">Save</button>
         </form>
 
-        <form id="blacklistForm" action="/admin/update-blacklisted-user" method="get">
+        <form id="blacklistForm" th:action="@{/admin/update-blacklisted-user}" method="get">
             <h3>Update or add blacklisted user</h3>
             <input type="text" name="email" id="blacklistedEmail" placeholder="Email"><br>
             <input type="text" name="name" id="blacklistedName" placeholder="Name"><br>

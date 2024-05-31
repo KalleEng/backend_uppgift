@@ -1,19 +1,43 @@
 package com.example.backend_uppgift.Services;
 
+import com.example.backend_uppgift.Services.Impl.CustomerServiceImpl;
 import com.example.backend_uppgift.Services.Impl.DiscountServiceImpl;
+import com.example.backend_uppgift.models.Booking;
+import com.example.backend_uppgift.models.Customer;
+import com.example.backend_uppgift.repositories.CustomerRepo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+
+//@SpringBootTest
 public class DiscountServiceImplTest {
-   @Autowired
-    DiscountServiceImpl discountService;
+    @Mock
+    private CustomerRepo customerRepo;
+    @Mock
+    private CustomerServiceImpl customerService = Mockito.mock(CustomerServiceImpl.class);
+
+    DiscountServiceImpl discountService = new DiscountServiceImpl(customerService);
+
+    private Customer customer;
+
+    @BeforeEach
+    void setUp() {
+        Customer customer = new Customer("Alex", "a.b@hotmail.com");
+        List<Booking> bookingList = new ArrayList<>();
+        customer.setBookingList(bookingList);
+
+        when(customerService.findById(1L)).thenReturn(customer);
+    }
 
     @Test
    void discountIsAppliedCorrectly(){

@@ -38,6 +38,8 @@ dependencies {
     testImplementation("org.mockito:mockito-core:4.2.0")
     testImplementation("org.mockito:mockito-junit-jupiter:4.2.0")
     testImplementation("com.h2database:h2")
+    testImplementation ("org.junit.jupiter:junit-jupiter:5.7.1")
+    testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
 
     implementation("org.springframework.boot:spring-boot-starter-validation:3.0.5")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
@@ -50,13 +52,18 @@ dependencies {
     implementation("org.modelmapper:modelmapper:3.0.0")
     implementation ("org.springframework.boot:spring-boot-starter-webflux")
     implementation ("org.springframework.boot:spring-boot-starter-mail:3.1.5")
-
-
-
-
-
 }
 
-tasks.withType<Test> {
+tasks.register<Test> ("unit tests"){
+    description = "Runs the unit tests."
     useJUnitPlatform()
+    exclude("**/Integrations/**")
+    group = "tests"
+}
+
+tasks.register<Test> ("integration tests") {
+    description = "Runs the integration tests."
+    useJUnitPlatform()
+    include("**/Integrations/**")
+    group = "tests"
 }
