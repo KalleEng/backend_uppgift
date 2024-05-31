@@ -20,9 +20,9 @@ public class StreamProvider {
         return url.openStream();
     }
 
-    public InputStream getDataStreamShippers()throws IOException{
-        URL url = new URL(properties.getShipperProperties().getUrl());
-        return url.openStream();
+    public String getDataStreamShippers()throws IOException{
+        return properties.getShipperProperties().getUrl();
+
     }
 
     public InputStream getDataStreamBlacklist() throws IOException{
