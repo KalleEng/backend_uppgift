@@ -1,4 +1,4 @@
-package com.example.backend_uppgift.Integrations;
+package com.example.backend_uppgift.Units;
 
 import com.example.backend_uppgift.FetchContractCustomers;
 import com.example.backend_uppgift.Services.ContractCustomerService;
@@ -6,17 +6,21 @@ import com.example.backend_uppgift.Utils.StreamProvider;
 import com.example.backend_uppgift.models.ContractCustomer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class ContractCustomersTests {
 
     private StreamProvider streamProvider = mock(StreamProvider.class);
@@ -31,7 +35,12 @@ public class ContractCustomersTests {
     @Test
     void whenFetchContractCustomersShouldMapCorrectly() throws IOException {
         InputStream resourceStream = getClass().getClassLoader().getResourceAsStream("ContractCustomers.xml");
-        when(streamProvider.getDataStreamContractCustomers()).thenReturn(resourceStream.toString());
+        if (resourceStream == null) {
+            throw new IllegalArgumentException("File not found! Check the file path and name.");
+        }
+
+        String xml = new Scanner(resourceStream, StandardCharsets.UTF_8).useDelimiter("\\A").next();
+        when(streamProvider.getDataStreamContractCustomers()).thenReturn(xml);
 
         List<ContractCustomer> result = sut.getContractCustomers();
 
