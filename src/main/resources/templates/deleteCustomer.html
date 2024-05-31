@@ -2,35 +2,36 @@
 <html lang="en"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="header">
-  <button onclick="location.href='/'">Home</button>
-  <button onclick="location.href='/customers/all'">Customers</button>
-  <button onclick="location.href='/bookings/all'">Bookings</button>
-  <button onclick="location.href='/rooms/all'">Rooms</button>
-  <button onclick="location.href='/contract-customers/all'">Contract Customers</button>
-  <div sec:authorize="isAuthenticated()">
-    <form th:action="@{/logout}" method="post">
-      <button type="submit">Logout</button>
-    </form>
-  </div>
+    <button onclick="location.href='/'">Home</button>
+    <button onclick="location.href='/customers/all'">Customers</button>
+    <button onclick="location.href='/bookings/all'">Bookings</button>
+    <button onclick="location.href='/rooms/all'">Rooms</button>
+    <button onclick="location.href='/contract-customers/all'">Contract Customers</button>
+    <button onclick="location.href='/admin/all'">Admin</button>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
 </div>
-
-<div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
-  <table>
-    <th th:text="${name}"></th>
-    <tbody>
-    <tr th:each="cus: ${allCustomers}">
-      <td th:text="'Name: ' + ${cus.name}"></td>
-      <td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
-    </tr>
-    </tbody>
-  </table>
+<div class="content">
+    <div class="allCustomers" th:unless="${#lists.isEmpty(allCustomers)}">
+        <table>
+            <th th:text="${name}"></th>
+            <tbody>
+            <tr th:each="cus: ${allCustomers}">
+                <td th:text="'Name: ' + ${cus.name}"></td>
+                <td><a th:href="@{/customers/delete/{id}(id=${cus.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
 </body>
 </html>

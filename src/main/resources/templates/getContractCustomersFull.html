@@ -12,6 +12,7 @@
     <button onclick="location.href='/bookings/all'">Bookings</button>
     <button onclick="location.href='/rooms/all'">Rooms</button>
     <button onclick="location.href='/contract-customers/all'">Contract Customers</button>
+    <button onclick="location.href='/admin/all'">Admin</button>
     <div sec:authorize="isAuthenticated()">
         <form th:action="@{/logout}" method="post">
             <button type="submit">Logout</button>
@@ -19,7 +20,6 @@
     </div>
 </div>
 <div class="content">
-
     <h3>All Customers</h3>
     <form th:action="@{/contract-customers/all}" method="get">
         <b>Search:</b>

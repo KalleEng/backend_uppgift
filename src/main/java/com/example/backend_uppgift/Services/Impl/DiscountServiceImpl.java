@@ -1,6 +1,8 @@
 package com.example.backend_uppgift.Services.Impl;
 
+import com.example.backend_uppgift.Services.CustomerService;
 import com.example.backend_uppgift.Services.DiscountService;
+import com.example.backend_uppgift.models.Booking;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -10,11 +12,18 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 public class DiscountServiceImpl implements DiscountService {
 
-    public double calculateTotal(LocalDate startDate, LocalDate endDate, double price){
+    CustomerService customerService;
+
+    public DiscountServiceImpl(CustomerService customerService){
+        this.customerService = customerService;
+    }
+
+    public double calculateTotal(LocalDate startDate, LocalDate endDate, double price, Long customerId){
         double total = 0.0;
 
         for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
@@ -26,12 +35,42 @@ public class DiscountServiceImpl implements DiscountService {
         }
         long amountOfBookedDays = startDate.until(endDate, ChronoUnit.DAYS);
 
+
         if (amountOfBookedDays>=2){
             total = total * (1 - 0.005);
+        }
+
+        if(discountForMoreThanTenNights(startDate,endDate,customerId)){
+            total = total*(1-0.02);
+            System.out.println("price discounted for 10+ nights within the previous year");
         }
 
         BigDecimal bd = BigDecimal.valueOf(total);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
+
+    public boolean discountForMoreThanTenNights(LocalDate startDate, LocalDate endDate, Long customerId) {
+        List<Booking> bookingList = customerService.findById(customerId).getBookingList();
+
+        long bookedDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+
+        LocalDate startOfPreviousYear = startDate.minusYears(1);
+        LocalDate endOfPreviousYear = startDate.minusYears(1).plusDays(365);
+
+        long totalNights = bookingList.stream()
+                .filter(booking -> !booking.getEndDate().isBefore(startOfPreviousYear))
+                .filter(booking -> !booking.getStartDate().isAfter(endOfPreviousYear))
+                .mapToLong(booking -> {
+                    LocalDate startDateBooking = booking.getStartDate().isBefore(startOfPreviousYear) ? startOfPreviousYear : booking.getStartDate();
+                    LocalDate endDateBooking = booking.getEndDate().isAfter(endOfPreviousYear) ? endOfPreviousYear : booking.getEndDate();
+                    return ChronoUnit.DAYS.between(startDateBooking, endDateBooking) + 1;
+                })
+                .sum();
+
+        totalNights += bookedDays;
+
+        return totalNights >= 10;
+    }
+
 }

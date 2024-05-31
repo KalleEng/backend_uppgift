@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class DiscountServiceImplTest {
@@ -17,14 +18,22 @@ public class DiscountServiceImplTest {
     @Test
    void discountIsAppliedCorrectly(){
        double sundayOneNight = discountService.calculateTotal(LocalDate.of(2024,05,19),
-               LocalDate.of(2024,05,20),100);
+               LocalDate.of(2024,05,20),100,1L);
        double twoNights = discountService.calculateTotal(LocalDate.of(2024,05,20),
-               LocalDate.of(2024,05,22),100);
+               LocalDate.of(2024,05,22),100,1L);
        double sundayTwoNights = discountService.calculateTotal(LocalDate.of(2024,05,19),
-               LocalDate.of(2024,05,21),100);
+               LocalDate.of(2024,05,21),100,1L);
 
        assertEquals(98,sundayOneNight);
        assertEquals(199,twoNights);
        assertEquals(197.01,sundayTwoNights);
+
+   }
+
+   @Test
+   void tenPlusNightsIsTrue(){
+        boolean isTenPlusDays = discountService.discountForMoreThanTenNights(LocalDate.of(2024,5,1),
+                LocalDate.of(2024,5,10),1L);
+        assertTrue(isTenPlusDays);
    }
 }

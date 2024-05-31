@@ -15,19 +15,20 @@ public class StreamProvider {
     @Autowired
     IntegrationProperties properties;
 
-    public InputStream getDataStreamContractCustomers()throws IOException {
-        URL url = new URL(properties.getContractCustomerProperties().getUrl());
-        return url.openStream();
+    public String getDataStreamContractCustomers() {
+        return properties.getContractCustomerProperties().getUrl();
     }
 
-    public String getDataStreamShippers()throws IOException{
+    public String getDataStreamShippers(){
         return properties.getShipperProperties().getUrl();
-
     }
 
-    public InputStream getDataStreamBlacklist() throws IOException{
-        URL url = new URL(properties.getBlacklistProperties().getUrl());
-        return url.openStream();
+    public String getDataStreamBlacklist() {
+        return properties.getBlacklistProperties().getUrl();
+    }
+
+    public String getDataStreamBlacklistCheck() throws IOException {
+        return properties.getBlacklistProperties().getCheck();
     }
 
     public String getRabbitHost(){

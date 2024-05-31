@@ -14,20 +14,23 @@
     <button onclick="location.href='/bookings/all'">Bookings</button>
     <button onclick="location.href='/rooms/all'">Rooms</button>
     <button onclick="location.href='/contract-customers/all'">Contract Customers</button>
+    <button onclick="location.href='/admin/all'">Admin</button>
     <form th:action="@{/logout}" method="post">
         <button type="submit">Logout</button>
     </form>
 </div>
-<div class="home">
+<div class="content">
     <h2>Välkommen till hotellet!</h2>
     <br>
     <div sec:authorize="!isAuthenticated()">
         <h4>Logga in för att komma åt våra tjänster.</h4>
     </div>
-
     <div sec:authorize="!isAuthenticated()">
         <form th:action="@{/login}" method="get">
             <button type="submit">Login</button>
+        </form>
+        <form th:action="@{/reset-password/show-form}" method="get">
+            <button type="submit">Forgot password?</button>
         </form>
     </div>
 </div>

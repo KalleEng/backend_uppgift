@@ -14,32 +14,35 @@
     <button onclick="location.href='/bookings/all'">Bookings</button>
     <button onclick="location.href='/rooms/all'">Rooms</button>
     <button onclick="location.href='/contract-customers/all'">Contract Customers</button>
+    <button onclick="location.href='/admin/all'">Admin</button>
     <div sec:authorize="isAuthenticated()">
         <form th:action="@{/logout}" method="post">
             <button type="submit">Logout</button>
         </form>
     </div>
 </div>
-<h2>Room Search</h2>
-<div th:if="${not #lists.isEmpty(errors)}">
-    <div style="color: red;">
-        <ul>
-            <li th:each="error : ${errors}" th:text="${error}"></li>
-        </ul>
+<div class="content">
+    <h2>Room Search</h2>
+    <div th:if="${not #lists.isEmpty(errors)}">
+        <div style="color: red;">
+            <ul>
+                <li th:each="error : ${errors}" th:text="${error}"></li>
+            </ul>
+        </div>
     </div>
+    <table>
+        <th:block th:if="${#lists.isEmpty(errors)}">
+            <tr th:each="rooms: ${availableRooms}">
+                <td th:text="${roomId}"></td>
+                <td th:text="${rooms.id}"></td>
+                <td th:text="${bedCap}"></td>
+                <td th:text="${rooms.bedCapacity}"></td>
+                <td th:text="${price}"></td>
+                <td th:text="${rooms.price}"></td>
+            </tr>
+        </th:block>
+    </table>
 </div>
-<table>
-    <th:block th:if="${#lists.isEmpty(errors)}">
-        <tr th:each="rooms: ${availableRooms}">
-            <td th:text="${roomId}"></td>
-            <td th:text="${rooms.id}"></td>
-            <td th:text="${bedCap}"></td>
-            <td th:text="${rooms.bedCapacity}"></td>
-            <td th:text="${price}"></td>
-            <td th:text="${rooms.price}"></td>
-        </tr>
-    </th:block>
-</table>
-
 </body>
 </html>
+

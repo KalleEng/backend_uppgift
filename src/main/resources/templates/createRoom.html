@@ -13,20 +13,24 @@
     <button onclick="location.href='/bookings/all'">Bookings</button>
     <button onclick="location.href='/rooms/all'">Rooms</button>
     <button onclick="location.href='/contract-customers/all'">Contract Customers</button>
+    <button onclick="location.href='/admin/all'">Admin</button>
     <div sec:authorize="isAuthenticated()">
         <form th:action="@{/logout}" method="post">
             <button type="submit">Logout</button>
         </form>
     </div>
 </div>
-<h3>Create New Room</h3>
-<form th:action="@{/rooms/created}" method="post">
-  <label for="bedCapacity">Bed Capacity:</label><br>
-  <input type="text" id = "bedCapacity" name="bedCapacity" value=""><br>
-    <label for="price">Price:</label><br>
-    <input type="text" id = "price" name="price" value=""><br>
-  <input type="submit" value="Submit">
-</form>
+<div class="content">
+    <h3>Create New Room</h3>
+    <form action="/rooms/created" method="post">
+        <label for="bedCapacity">Bed Capacity:</label><br>
+        <input type="text" id="bedCapacity" name="bedCapacity" value=""><br>
+        <label for="price">Price:</label><br>
+        <input type="text" id="price" name="price" value=""><br>
+        <input type="submit" value="Submit">
+    </form>
+
+</div>
 
 </body>
 </html>

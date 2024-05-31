@@ -64,6 +64,7 @@ class FetchShippersTest {
 
         assertEquals("Volvo", capturedShippers.get(1).getCompanyName());
         assertEquals("lars.aslund@hotmail.com", capturedShippers.get(1).getEmail());
+
     }
 
 }

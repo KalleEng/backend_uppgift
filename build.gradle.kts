@@ -1,3 +1,5 @@
+import java.util.regex.Pattern.compile
+
 plugins {
     java
     id("org.springframework.boot") version "3.2.5"
@@ -35,6 +37,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito:mockito-core:4.2.0")
     testImplementation("org.mockito:mockito-junit-jupiter:4.2.0")
+    testImplementation("com.h2database:h2")
 
     implementation("org.springframework.boot:spring-boot-starter-validation:3.0.5")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
@@ -46,6 +49,11 @@ dependencies {
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
     implementation("org.modelmapper:modelmapper:3.0.0")
     implementation ("org.springframework.boot:spring-boot-starter-webflux")
+    implementation ("org.springframework.boot:spring-boot-starter-mail:3.1.5")
+
+
+
+
 
 }
 

@@ -1,11 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<p>Just for admin</p>
+<div class="header">
+    <button onclick="location.href='/'">Home</button>
+    <button onclick="location.href='/customers/all'">Customers</button>
+    <button onclick="location.href='/bookings/all'">Bookings</button>
+    <button onclick="location.href='/rooms/all'">Rooms</button>
+    <button onclick="location.href='/contract-customers/all'">Contract Customers</button>
+    <button onclick="location.href='/admin/all'">Admin</button>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+<div sec:authorize="hasAuthority('Admin')">
 
+    <div class="content">
+        <form id="multiLineForm" action="/admin/save-email-template" method="get">
+            <h3>Edit Email Template:</h3>
+            <textarea name="text" id="editableTextArea" rows="8" cols="60"
+                      th:text="${htmlTemplateFromDB}"></textarea><br>
+            <button type="submit">Save</button>
+        </form>
+
+        <form id="blacklistForm" action="/admin/update-blacklisted-user" method="get">
+            <h3>Update or add blacklisted user</h3>
+            <input type="text" name="email" id="blacklistedEmail" placeholder="Email"><br>
+            <input type="text" name="name" id="blacklistedName" placeholder="Name"><br>
+            <label>
+                <input type="checkbox" name="isBlacklisted" value="true">
+                Check box for Status: OK
+            </label><br>
+            <button type="submit">Submit</button>
+        </form>
+
+    </div>
+</div>
 </body>
 </html>
+

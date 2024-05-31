@@ -5,6 +5,7 @@ import com.example.backend_uppgift.Services.RoomService;
 import com.example.backend_uppgift.models.Customer;
 import com.example.backend_uppgift.models.Room;
 import com.example.backend_uppgift.repositories.RoomRepo;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/rooms")
+@PreAuthorize("isAuthenticated()")
 public class RoomController {
     private final RoomService roomService;
 
